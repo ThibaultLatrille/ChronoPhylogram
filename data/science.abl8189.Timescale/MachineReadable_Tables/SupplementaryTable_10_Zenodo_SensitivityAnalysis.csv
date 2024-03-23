@@ -1,0 +1,593 @@
+Analysis,Model,Number of Trees,node,average,L95CI mean,U95CI mean,std_dev,mean min,mean max,L95CI min,U95CI max,L95CI median,U95CI median
+10% Missingness,IRM,316,Afroinsectiphilia,66.86,57.46,78.62,1.70,63.24,75.12,53.26,87.57,57.49,78.37
+Accelerated,IRM,1,Afroinsectiphilia,67.52,58.00,79.19,,,,,,,
+all_Benton_All6_Extended,ARM,316,Afroinsectiphilia,69.14,63.72,75.52,1.70,62.51,76.06,56.94,84.88,63.96,75.54
+all_Benton_All6_Extended_NoDNA,IRM,316,Afroinsectiphilia,64.14,34.85,89.92,0.08,63.64,64.80,31.64,92.88,34.92,89.95
+all_Benton_Rodentia_Extended,ARM,316,Afroinsectiphilia,68.19,62.87,74.64,1.67,62.69,74.16,56.19,80.06,62.91,74.76
+all_Benton_Rodentia_Extended,IRM,316,Afroinsectiphilia,68.41,56.83,82.65,1.81,64.06,76.23,53.10,90.27,56.86,82.83
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Afroinsectiphilia,63.92,35.72,94.34,0.22,63.20,65.62,25.11,107.65,35.85,94.09
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Afroinsectiphilia,63.90,35.91,94.00,0.14,63.51,65.55,31.81,98.68,35.85,94.06
+Benton,IRM,316,Afroinsectiphilia,66.08,56.15,79.01,1.44,62.43,72.11,52.10,85.36,56.21,79.09
+Benton,ARM,316,Afroinsectiphilia,67.45,62.63,73.12,1.59,62.36,72.41,56.37,76.95,62.77,73.36
+Benton,Averaged IRM & ARM,1,Afroinsectiphilia,66.76,59.39,76.07,,,,,,,
+Benton_All6_Extended,IRM,316,Afroinsectiphilia,69.82,57.71,83.86,1.65,65.47,77.00,52.84,91.22,57.75,84.29
+Benton_All6_Extended_NoDNA,ARM,316,Afroinsectiphilia,64.15,34.88,89.95,0.13,63.72,64.86,31.49,102.80,34.92,89.82
+Cladistic,ARM,316,Afroinsectiphilia,67.66,63.02,72.89,1.36,62.17,71.83,55.73,77.50,63.31,72.81
+Conserved,IRM,1,Afroinsectiphilia,68.29,56.02,97.05,,,,,,,
+Meredith,IRM,316,Afroinsectiphilia,65.87,56.16,78.52,1.41,62.39,72.52,51.99,85.78,56.20,78.60
+Neutral,IRM,1,Afroinsectiphilia,68.56,58.91,69.57,,,,,,,
+Neutral 241 species,IRM,1,Afroinsectiphilia,66.30,56.18,78.96,,,,,,,
+No DNA,ARM,316,Afroinsectiphilia,62.42,38.79,86.74,0.06,62.16,62.64,37.60,87.95,38.78,86.77
+One Stratigraphic Bound,IRM,316,Afroinsectiphilia,64.20,55.12,75.20,1.19,60.93,69.97,52.07,83.05,55.20,75.15
+Root,IRM,1,Afroinsectiphilia,66.18,57.99,79.32,,,,,,,
+Root Calibration Only,ARM,316,Afroinsectiphilia,71.26,51.55,89.61,4.64,57.71,82.07,31.43,97.99,51.65,89.97
+10% Missingness,IRM,316,Afroinsectivora,64.09,54.32,76.34,1.84,57.94,68.92,44.03,80.04,54.46,76.57
+Accelerated,IRM,1,Afroinsectivora,NA,NA,NA,,,,,,,
+all_Benton_All6_Extended,ARM,316,Afroinsectivora,67.53,61.99,72.25,2.08,53.08,73.38,23.42,84.24,62.60,73.12
+all_Benton_All6_Extended_NoDNA,IRM,316,Afroinsectivora,51.51,26.11,73.21,0.06,51.29,51.88,25.45,73.90,26.12,73.22
+all_Benton_Rodentia_Extended,ARM,316,Afroinsectivora,66.64,61.22,73.14,2.04,53.12,72.05,23.78,77.82,61.62,73.27
+all_Benton_Rodentia_Extended,IRM,316,Afroinsectivora,65.40,53.53,79.93,2.03,52.78,70.96,26.27,86.10,53.62,80.10
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Afroinsectivora,51.45,25.25,71.53,0.09,51.01,52.13,24.46,72.69,25.22,71.52
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Afroinsectivora,51.46,25.29,71.54,0.23,51.11,55.04,23.41,73.66,25.26,71.55
+Benton,IRM,316,Afroinsectivora,63.16,52.85,76.42,1.73,51.89,67.13,22.42,81.49,53.10,76.75
+Benton,ARM,316,Afroinsectivora,65.93,61.01,71.71,2.00,53.04,70.91,22.73,75.59,61.43,72.00
+Benton,Averaged IRM & ARM,1,Afroinsectivora,64.55,56.93,74.07,,,,,,,
+Benton_All6_Extended,IRM,316,Afroinsectivora,66.77,54.30,81.04,1.94,53.20,71.81,26.32,87.37,54.44,81.40
+Benton_All6_Extended_NoDNA,ARM,316,Afroinsectivora,51.52,26.14,73.21,0.09,51.14,52.12,24.51,74.29,26.15,73.20
+Cladistic,ARM,316,Afroinsectivora,66.11,61.35,71.42,1.81,52.03,69.89,25.45,75.54,61.94,71.48
+Conserved,IRM,1,Afroinsectivora,NA,NA,NA,,,,,,,
+Meredith,IRM,316,Afroinsectivora,62.96,52.83,75.96,1.73,51.95,67.29,24.04,82.80,53.11,76.40
+Neutral,IRM,1,Afroinsectivora,NA,NA,NA,,,,,,,
+Neutral 241 species,IRM,1,Afroinsectivora,NA,NA,NA,,,,,,,
+No DNA,ARM,316,Afroinsectivora,51.08,24.60,68.51,0.08,50.60,51.72,23.39,70.78,24.62,68.50
+One Stratigraphic Bound,IRM,316,Afroinsectivora,61.29,51.97,72.78,1.51,50.57,64.84,23.17,77.65,52.38,72.94
+Root,IRM,1,Afroinsectivora,NA,NA,NA,,,,,,,
+Root Calibration Only,ARM,316,Afroinsectivora,69.45,50.03,87.61,4.97,48.10,81.14,10.18,96.18,50.39,88.09
+Body Size,IRM,316,Afroinsectivora ,62.58,48.98,77.06,1.84,54.97,70.37,31.91,89.16,49.22,76.96
+10% Missingness,IRM,316,Afrosoricida,54.54,39.98,66.64,2.08,48.14,60.63,32.32,76.45,40.21,66.44
+Accelerated,IRM,1,Afrosoricida,55.73,39.45,67.75,,,,,,,
+all_Benton_All6_Extended,ARM,316,Afrosoricida,60.86,54.89,72.22,2.94,34.15,66.77,5.68,86.21,55.76,68.98
+all_Benton_All6_Extended_NoDNA,IRM,316,Afrosoricida,36.06,8.54,65.12,0.07,35.86,36.61,7.31,66.34,8.50,65.11
+all_Benton_Rodentia_Extended,ARM,316,Afrosoricida,60.17,54.19,66.77,2.92,34.42,65.74,7.54,72.54,54.90,66.83
+all_Benton_Rodentia_Extended,IRM,316,Afrosoricida,55.07,38.44,69.13,2.54,34.27,59.46,4.04,76.87,38.49,68.72
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Afrosoricida,36.31,9.41,63.89,0.09,35.97,36.96,7.94,65.56,9.43,63.93
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Afrosoricida,36.32,9.38,63.87,0.15,36.02,38.52,7.78,65.70,9.43,63.89
+Benton,IRM,316,Afrosoricida,53.14,37.99,65.92,2.38,33.95,56.79,5.97,69.07,38.14,66.24
+Benton,ARM,316,Afrosoricida,59.65,54.11,65.66,2.90,34.55,64.43,6.24,69.68,54.93,66.11
+Benton,Averaged IRM & ARM,1,Afrosoricida,56.40,46.05,65.79,,,,,,,
+Benton_All6_Extended,IRM,316,Afrosoricida,56.13,39.80,71.17,2.53,34.44,60.55,3.32,76.45,39.97,71.41
+Benton_All6_Extended_NoDNA,ARM,316,Afrosoricida,36.07,8.53,65.09,0.09,35.75,36.54,7.27,66.11,8.53,65.08
+Cladistic,ARM,316,Afrosoricida,59.75,54.32,65.61,2.85,33.07,64.49,2.46,69.38,54.98,66.03
+Conserved,IRM,1,Afrosoricida,58.39,40.97,86.52,,,,,,,
+Meredith,IRM,316,Afrosoricida,53.03,38.13,65.77,2.42,34.06,56.71,6.43,68.93,38.35,66.15
+Neutral,IRM,1,Afrosoricida,57.20,37.83,68.23,,,,,,,
+Neutral 241 species,IRM,1,Afrosoricida,56.30,42.98,67.11,,,,,,,
+No DNA,ARM,316,Afrosoricida,36.39,9.49,62.54,0.10,36.03,37.45,8.17,64.28,9.47,62.49
+One Stratigraphic Bound,IRM,316,Afrosoricida,51.58,36.76,63.80,2.41,32.80,55.36,6.55,66.46,36.77,63.76
+Root,IRM,1,Afrosoricida,56.39,40.90,68.08,,,,,,,
+Root Calibration Only,ARM,316,Afrosoricida,62.36,44.43,79.40,5.43,23.62,73.52,0.00,89.95,44.80,80.11
+Body Size,IRM,316,Afrosoricida ,54.25,38.93,67.78,2.03,37.68,62.57,3.59,81.95,38.94,67.20
+10% Missingness,IRM,316,Afrotheria,73.35,63.67,83.13,1.82,66.70,81.22,61.63,96.72,63.61,82.97
+Accelerated,IRM,1,Afrotheria,74.96,64.11,83.43,,,,,,,
+all_Benton_All6_Extended,ARM,316,Afrotheria,73.38,67.57,90.41,1.64,70.26,80.88,65.08,121.87,67.44,81.74
+all_Benton_All6_Extended_NoDNA,IRM,316,Afrotheria,79.95,60.59,113.65,0.24,77.48,81.30,59.99,121.21,60.60,113.59
+all_Benton_Rodentia_Extended,ARM,316,Afrotheria,72.27,66.41,79.03,1.48,68.90,78.37,64.04,87.61,66.06,78.87
+all_Benton_Rodentia_Extended,IRM,316,Afrotheria,76.41,64.99,88.78,2.07,70.55,83.92,62.75,98.59,64.77,88.69
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Afrotheria,81.95,60.10,115.79,0.80,80.39,88.51,59.31,151.60,60.03,115.32
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Afrotheria,81.80,60.11,115.44,0.41,77.02,84.46,59.58,130.75,60.05,115.26
+Benton,IRM,316,Afrotheria,74.46,63.88,85.32,1.83,69.34,82.37,62.23,97.02,63.76,85.03
+Benton,ARM,316,Afrotheria,71.40,65.98,77.24,1.34,67.39,77.27,63.42,85.60,65.59,76.90
+Benton,Averaged IRM & ARM,1,Afrotheria,72.93,64.93,81.28,,,,,,,
+Benton_All6_Extended,IRM,316,Afrotheria,77.58,66.45,90.38,2.08,72.25,85.27,63.77,100.41,66.25,90.35
+Benton_All6_Extended_NoDNA,ARM,316,Afrotheria,79.94,60.66,113.61,0.37,78.03,82.90,60.05,124.07,60.60,113.53
+Cladistic,ARM,316,Afrotheria,71.67,66.55,77.21,1.19,68.23,79.04,63.66,88.78,66.58,76.86
+Conserved,IRM,1,Afrotheria,74.04,63.25,102.69,,,,,,,
+Meredith,IRM,316,Afrotheria,74.13,63.85,84.63,1.72,69.05,80.37,62.34,93.28,63.75,84.51
+Neutral,IRM,1,Afrotheria,75.29,63.07,66.43,,,,,,,
+Neutral 241 species,IRM,1,Afrotheria,73.59,63.24,84.92,,,,,,,
+No DNA,ARM,316,Afrotheria,78.12,59.67,103.07,0.16,77.07,78.50,59.27,103.99,59.67,103.10
+One Stratigraphic Bound,IRM,316,Afrotheria,72.15,63.43,81.86,1.53,68.34,79.95,61.27,94.30,63.35,81.48
+Root,IRM,1,Afrotheria,72.96,63.57,82.01,,,,,,,
+Root Calibration Only,ARM,316,Afrotheria,75.93,55.24,94.98,4.58,61.76,86.53,33.30,104.91,55.34,95.06
+Body Size,IRM,316,Afrotheria ,67.16,53.64,81.63,2.29,59.92,76.88,44.59,95.64,53.77,81.24
+10% Missingness,IRM,316,Atlantogenata,91.67,77.21,107.06,3.49,82.56,108.25,72.21,126.92,76.78,106.39
+Accelerated,IRM,1,Atlantogenata,93.17,80.36,109.59,,,,,,,
+all_Benton_All6_Extended,ARM,316,Atlantogenata,96.93,85.87,108.81,3.04,87.80,107.41,80.66,123.44,85.55,107.92
+all_Benton_All6_Extended_NoDNA,IRM,316,Atlantogenata,94.34,66.37,127.11,0.44,88.96,96.28,65.02,130.30,66.35,127.01
+all_Benton_Rodentia_Extended,ARM,316,Atlantogenata,94.08,82.72,106.51,2.95,83.94,105.19,76.74,122.18,82.56,105.97
+all_Benton_Rodentia_Extended,IRM,316,Atlantogenata,100.02,82.92,118.44,2.84,93.58,109.82,78.94,135.29,82.57,118.36
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Atlantogenata,96.06,64.95,127.28,1.02,94.04,105.38,60.96,154.03,64.89,127.05
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Atlantogenata,95.84,64.89,127.05,0.55,91.42,99.73,64.14,131.72,64.85,126.95
+Benton,IRM,316,Atlantogenata,96.07,79.80,113.87,3.04,90.13,107.75,74.46,126.32,79.49,113.57
+Benton,ARM,316,Atlantogenata,91.72,81.25,102.52,2.77,81.54,102.45,74.67,119.13,80.98,101.86
+Benton,Averaged IRM & ARM,1,Atlantogenata,93.90,80.52,108.19,,,,,,,
+Benton_All6_Extended,IRM,316,Atlantogenata,102.10,84.87,120.45,2.69,96.91,111.15,80.56,129.25,84.48,120.43
+Benton_All6_Extended_NoDNA,ARM,316,Atlantogenata,94.33,66.41,127.01,0.67,91.19,101.04,64.98,133.60,66.31,126.92
+Cladistic,ARM,316,Atlantogenata,92.90,82.18,104.08,2.98,84.84,104.72,76.91,122.39,81.86,103.07
+Conserved,IRM,1,Atlantogenata,90.26,74.46,117.23,,,,,,,
+Meredith,IRM,316,Atlantogenata,94.63,80.09,110.08,2.12,89.42,101.41,75.18,116.23,79.90,110.21
+Neutral,IRM,1,Atlantogenata,94.73,79.70,112.40,,,,,,,
+Neutral 241 species,IRM,1,Atlantogenata,94.31,77.70,111.26,,,,,,,
+No DNA,ARM,316,Atlantogenata,90.39,63.78,121.18,0.37,87.46,91.09,63.16,122.32,63.78,121.19
+One Stratigraphic Bound,IRM,316,Atlantogenata,92.22,77.40,108.58,3.10,87.19,105.65,73.13,125.06,77.06,107.99
+Root,IRM,1,Atlantogenata,91.71,75.06,107.89,,,,,,,
+Root Calibration Only,ARM,316,Atlantogenata,104.16,78.74,125.27,5.38,86.09,115.12,47.69,134.68,79.67,125.68
+Body Size,IRM,316,Atlantogenata ,86.89,72.89,101.83,3.53,81.35,105.01,69.35,125.87,72.55,100.92
+10% Missingness,IRM,316,Boreoeutheria,95.07,84.26,106.94,4.04,86.15,113.38,78.39,128.50,83.71,106.38
+Accelerated,IRM,1,Boreoeutheria,97.14,87.01,109.25,,,,,,,
+all_Benton_All6_Extended,ARM,316,Boreoeutheria,99.85,92.17,92.49,4.24,92.04,117.89,86.06,129.09,91.42,104.30
+all_Benton_All6_Extended_NoDNA,IRM,316,Boreoeutheria,108.74,79.66,133.30,0.59,100.95,111.39,74.45,135.44,79.69,133.31
+all_Benton_Rodentia_Extended,ARM,316,Boreoeutheria,93.96,86.36,102.08,3.69,85.47,109.82,80.45,122.94,85.69,101.16
+all_Benton_Rodentia_Extended,IRM,316,Boreoeutheria,106.99,94.37,120.57,4.15,98.99,122.67,88.13,134.59,93.48,120.08
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Boreoeutheria,108.35,78.71,133.35,0.99,105.12,116.57,72.58,155.85,78.68,133.26
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Boreoeutheria,108.15,78.57,133.28,0.60,102.09,111.87,75.08,137.39,78.60,133.25
+Benton,IRM,316,Boreoeutheria,102.04,89.24,115.96,4.54,94.11,120.22,83.14,133.02,88.43,115.31
+Benton,ARM,316,Boreoeutheria,89.53,83.73,95.88,2.97,81.18,104.38,77.39,117.45,83.31,94.82
+Benton,Averaged IRM & ARM,1,Boreoeutheria,95.79,86.48,105.92,,,,,,,
+Benton_All6_Extended,IRM,316,Boreoeutheria,110.03,97.65,123.22,4.17,102.08,124.85,91.40,136.46,96.85,122.92
+Benton_All6_Extended_NoDNA,ARM,316,Boreoeutheria,108.74,79.70,133.23,0.89,103.40,118.58,74.75,135.16,79.72,133.27
+Cladistic,ARM,316,Boreoeutheria,90.76,83.18,99.10,4.35,84.07,113.49,78.39,127.48,82.50,97.81
+Conserved,IRM,1,Boreoeutheria,93.45,82.06,107.60,,,,,,,
+Meredith,IRM,316,Boreoeutheria,100.73,89.43,112.55,3.51,92.76,113.27,83.03,123.11,88.83,112.47
+Neutral,IRM,1,Boreoeutheria,99.64,88.79,115.48,,,,,,,
+Neutral 241 species,IRM,1,Boreoeutheria,99.26,88.12,111.85,,,,,,,
+No DNA,ARM,316,Boreoeutheria,101.50,74.03,129.70,0.62,96.61,102.89,66.40,131.42,74.17,129.77
+One Stratigraphic Bound,IRM,316,Boreoeutheria,97.28,86.09,109.71,4.65,89.62,117.01,80.30,130.52,85.43,108.71
+Root,IRM,1,Boreoeutheria,98.07,85.17,109.94,,,,,,,
+Root Calibration Only,ARM,316,Boreoeutheria,114.10,87.52,135.27,5.97,93.79,126.15,53.16,146.12,88.80,135.33
+Body Size,IRM,316,Boreoeutheria ,92.41,83.23,102.47,4.21,86.68,112.85,78.93,127.03,82.45,101.56
+10% Missingness,IRM,316,Carnivora,55.27,45.24,64.92,1.87,48.19,59.26,39.57,66.59,44.99,65.13
+Accelerated,IRM,1,Carnivora,55.05,44.41,64.90,,,,,,,
+all_Benton_All6_Extended,ARM,316,Carnivora,53.86,47.03,64.65,1.49,49.70,59.27,43.73,76.28,46.83,61.07
+all_Benton_All6_Extended_NoDNA,IRM,316,Carnivora,56.50,43.80,66.77,0.03,56.10,56.57,43.14,66.93,43.80,66.77
+all_Benton_Rodentia_Extended,ARM,316,Carnivora,51.83,45.83,57.73,1.26,47.68,55.95,42.83,62.99,45.74,57.76
+all_Benton_Rodentia_Extended,IRM,316,Carnivora,55.53,45.71,65.49,1.57,48.42,59.64,39.95,66.96,45.45,65.74
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Carnivora,56.29,43.74,66.59,0.02,56.23,56.36,43.58,66.76,43.73,66.59
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Carnivora,56.29,43.74,66.59,0.02,56.02,56.32,43.57,66.72,43.74,66.59
+Benton,IRM,316,Carnivora,55.66,45.54,65.29,1.41,48.77,59.28,39.91,66.63,45.28,65.34
+Benton,ARM,316,Carnivora,51.47,45.67,57.19,1.22,47.64,55.38,42.85,61.53,45.58,57.18
+Benton,Averaged IRM & ARM,1,Carnivora,53.56,45.61,61.24,,,,,,,
+Benton_All6_Extended,IRM,316,Carnivora,56.46,46.64,66.24,1.58,49.21,60.25,40.25,67.19,46.40,66.32
+Benton_All6_Extended_NoDNA,ARM,316,Carnivora,56.50,43.80,66.76,0.04,55.85,56.66,43.62,66.92,43.80,66.76
+Cladistic,ARM,316,Carnivora,51.82,46.16,57.69,1.16,48.64,56.50,43.35,64.65,46.04,57.71
+Conserved,IRM,1,Carnivora,54.62,44.71,63.88,,,,,,,
+Meredith,IRM,316,Carnivora,55.56,45.46,65.22,1.41,48.68,59.23,39.84,66.61,45.12,65.22
+Neutral,IRM,1,Carnivora,55.42,45.64,64.45,,,,,,,
+Neutral 241 species,IRM,1,Carnivora,54.99,46.13,64.01,,,,,,,
+No DNA,ARM,316,Carnivora,56.36,43.81,66.58,0.03,56.30,56.70,43.22,66.73,43.81,66.58
+One Stratigraphic Bound,IRM,316,Carnivora,52.42,43.38,61.38,1.08,45.84,55.17,39.36,63.86,43.26,61.41
+Root,IRM,1,Carnivora,55.55,45.42,64.89,,,,,,,
+Root Calibration Only,ARM,316,Carnivora,58.46,41.63,74.60,4.19,46.05,72.35,25.11,87.63,41.80,74.53
+10% Missingness,IRM,316,Cetartiodactyla,64.63,61.58,66.94,0.24,63.37,65.30,59.50,67.28,61.57,66.94
+Accelerated,IRM,1,Cetartiodactyla,64.79,62.01,66.98,,,,,,,
+all_Benton_All6_Extended,ARM,316,Cetartiodactyla,70.04,66.26,71.92,1.34,66.28,73.94,62.90,76.36,66.09,72.93
+all_Benton_All6_Extended_NoDNA,IRM,316,Cetartiodactyla,70.77,62.97,76.30,0.02,70.58,70.85,61.85,76.46,62.97,76.30
+all_Benton_Rodentia_Extended,ARM,316,Cetartiodactyla,65.36,63.29,67.15,0.38,64.02,66.71,61.61,68.77,63.28,67.11
+all_Benton_Rodentia_Extended,IRM,316,Cetartiodactyla,65.02,62.13,67.16,0.18,64.44,65.51,60.90,67.43,62.12,67.15
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Cetartiodactyla,63.71,58.82,66.94,0.02,63.42,63.76,58.29,67.05,58.82,66.94
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Cetartiodactyla,63.72,58.85,66.94,0.13,63.69,65.98,58.70,67.17,58.83,66.94
+Benton,IRM,316,Cetartiodactyla,64.80,61.88,67.01,0.18,64.30,65.30,61.03,67.32,61.87,67.00
+Benton,ARM,316,Cetartiodactyla,64.84,62.75,66.76,0.48,63.25,66.48,61.11,68.35,62.73,66.73
+Benton,Averaged IRM & ARM,1,Cetartiodactyla,64.82,62.32,66.88,,,,,,,
+Benton_All6_Extended,IRM,316,Cetartiodactyla,71.60,66.29,76.02,0.53,70.01,73.25,63.93,76.71,66.31,76.01
+Benton_All6_Extended_NoDNA,ARM,316,Cetartiodactyla,70.77,62.97,76.29,0.03,70.60,70.99,62.74,76.47,62.97,76.29
+Cladistic,ARM,316,Cetartiodactyla,65.72,61.21,70.53,1.77,62.61,73.14,58.98,80.57,60.95,70.09
+Conserved,IRM,1,Cetartiodactyla,64.59,61.43,66.98,,,,,,,
+Meredith,IRM,316,Cetartiodactyla,64.79,61.87,67.01,0.18,64.28,65.26,61.01,67.28,61.85,67.00
+Neutral,IRM,1,Cetartiodactyla,64.89,61.90,67.07,,,,,,,
+Neutral 241 species,IRM,1,Cetartiodactyla,61.76,58.33,64.88,,,,,,,
+No DNA,ARM,316,Cetartiodactyla,63.57,58.68,66.89,0.02,63.49,63.72,58.50,67.02,58.68,66.88
+One Stratigraphic Bound,IRM,316,Cetartiodactyla,61.07,59.33,62.40,0.08,60.84,61.32,58.81,62.62,59.32,62.40
+Root,IRM,1,Cetartiodactyla,64.78,61.92,67.02,,,,,,,
+Root Calibration Only,ARM,316,Cetartiodactyla,74.70,55.98,91.30,4.45,61.58,85.55,33.93,106.27,56.50,91.47
+10% Missingness,IRM,316,Chiroptera,63.81,59.32,67.22,0.40,62.44,65.15,57.17,67.88,59.20,67.20
+Accelerated,IRM,1,Chiroptera,63.82,59.19,67.09,,,,,,,
+all_Benton_All6_Extended,ARM,316,Chiroptera,65.74,63.19,75.54,0.34,64.48,69.02,61.34,105.58,63.19,68.32
+all_Benton_All6_Extended_NoDNA,IRM,316,Chiroptera,62.33,55.52,67.11,0.01,62.21,62.42,54.97,67.23,55.52,67.11
+all_Benton_Rodentia_Extended,ARM,316,Chiroptera,65.17,62.11,67.63,0.46,62.61,66.56,59.22,69.48,62.08,67.63
+all_Benton_Rodentia_Extended,IRM,316,Chiroptera,64.22,59.78,67.46,0.37,63.28,65.34,57.87,67.98,59.67,67.44
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Chiroptera,62.36,55.89,67.07,0.02,62.14,62.41,55.75,67.18,55.89,67.07
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Chiroptera,62.36,55.88,67.06,0.03,62.34,62.95,55.60,67.27,55.88,67.06
+Benton,IRM,316,Chiroptera,63.91,59.49,67.27,0.36,63.12,65.15,58.06,67.82,59.37,67.24
+Benton,ARM,316,Chiroptera,64.86,61.86,67.26,0.54,61.62,66.35,58.56,69.23,61.87,67.25
+Benton,Averaged IRM & ARM,1,Chiroptera,64.38,60.68,67.26,,,,,,,
+Benton_All6_Extended,IRM,316,Chiroptera,64.49,60.18,67.54,0.33,63.61,65.48,58.30,68.14,60.08,67.52
+Benton_All6_Extended_NoDNA,ARM,316,Chiroptera,62.33,55.51,67.11,0.01,62.29,62.44,55.34,67.22,55.52,67.11
+Cladistic,ARM,316,Chiroptera,66.28,60.12,72.41,2.32,58.68,79.32,51.30,89.50,59.76,71.89
+Conserved,IRM,1,Chiroptera,63.64,58.74,67.21,,,,,,,
+Meredith,IRM,316,Chiroptera,63.90,59.47,67.26,0.37,62.88,65.05,57.59,67.79,59.37,67.24
+Neutral,IRM,1,Chiroptera,63.97,59.48,67.45,,,,,,,
+Neutral 241 species,IRM,1,Chiroptera,63.90,59.07,67.38,,,,,,,
+No DNA,ARM,316,Chiroptera,62.30,56.04,67.02,0.03,62.25,62.75,55.90,67.19,56.04,67.02
+One Stratigraphic Bound,IRM,316,Chiroptera,63.35,58.51,66.99,0.50,62.09,64.91,56.68,67.71,58.36,66.93
+Root,IRM,1,Chiroptera,64.15,59.99,67.33,,,,,,,
+Root Calibration Only,ARM,316,Chiroptera,79.96,60.26,97.19,4.51,66.04,92.74,36.48,109.13,61.06,97.46
+Body Size,IRM,316,Chiroptera ,63.12,58.05,67.00,0.66,61.62,65.09,55.90,67.79,57.77,66.94
+10% Missingness,IRM,316,Euarchonta,77.29,71.58,83.29,2.32,74.11,94.83,67.26,107.17,71.46,82.19
+Accelerated,IRM,1,Euarchonta,77.69,72.21,83.75,,,,,,,
+all_Benton_All6_Extended,ARM,316,Euarchonta,85.86,81.19,91.19,2.31,78.39,97.09,72.73,106.49,80.85,90.60
+all_Benton_All6_Extended_NoDNA,IRM,316,Euarchonta,94.17,67.83,123.74,0.59,87.13,97.05,64.78,130.06,67.79,123.62
+all_Benton_Rodentia_Extended,ARM,316,Euarchonta,81.18,76.02,86.69,2.20,71.80,90.20,68.07,98.36,75.78,86.21
+all_Benton_Rodentia_Extended,IRM,316,Euarchonta,90.20,79.16,101.78,2.26,76.66,103.07,68.43,115.99,79.32,101.65
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Euarchonta,93.49,65.70,122.97,1.41,91.54,107.88,62.78,152.39,65.27,122.38
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Euarchonta,93.24,65.49,122.55,0.76,90.03,100.30,64.19,130.85,65.23,122.26
+Benton,IRM,316,Euarchonta,79.37,72.05,87.96,2.67,75.60,96.62,68.33,109.50,71.80,87.18
+Benton,ARM,316,Euarchonta,76.68,74.17,78.89,1.16,70.47,86.67,67.15,92.51,74.12,78.51
+Benton,Averaged IRM & ARM,1,Euarchonta,78.02,73.11,83.42,,,,,,,
+Benton_All6_Extended,IRM,316,Euarchonta,93.22,82.60,104.47,2.38,83.38,106.75,70.31,119.05,82.38,104.29
+Benton_All6_Extended_NoDNA,ARM,316,Euarchonta,94.16,67.93,123.66,0.92,87.48,103.14,65.39,133.32,67.89,123.51
+Cladistic,ARM,316,Euarchonta,76.77,73.98,79.19,1.45,71.47,88.84,68.01,95.55,73.93,78.68
+Conserved,IRM,1,Euarchonta,77.83,72.00,85.62,,,,,,,
+Meredith,IRM,316,Euarchonta,79.25,72.07,87.58,2.49,75.58,95.29,68.29,106.24,71.87,87.16
+Neutral,IRM,1,Euarchonta,78.53,68.17,92.35,,,,,,,
+Neutral 241 species,IRM,1,Euarchonta,79.43,73.39,88.64,,,,,,,
+No DNA,ARM,316,Euarchonta,81.61,65.38,102.38,0.20,80.29,82.03,65.04,103.11,65.38,102.41
+One Stratigraphic Bound,IRM,316,Euarchonta,78.77,71.04,86.84,2.30,74.86,94.03,67.39,106.27,70.82,86.06
+Root,IRM,1,Euarchonta,77.40,72.44,82.59,,,,,,,
+Root Calibration Only,ARM,316,Euarchonta,100.20,76.61,119.52,5.37,80.36,113.56,46.49,129.08,77.61,119.92
+Body Size,IRM,316,Euarchonta ,76.63,71.62,81.32,1.72,72.67,89.00,67.17,97.87,71.44,80.45
+10% Missingness,IRM,316,Euarchontoglires,79.50,73.52,86.12,2.99,75.59,96.93,70.99,109.21,73.11,84.84
+Accelerated,IRM,1,Euarchontoglires,80.17,73.85,86.55,,,,,,,
+all_Benton_All6_Extended,ARM,316,Euarchontoglires,87.43,82.50,89.66,2.94,82.55,97.79,78.58,105.18,81.95,89.80
+all_Benton_All6_Extended_NoDNA,IRM,316,Euarchontoglires,102.46,75.30,128.29,0.57,95.18,104.77,71.82,134.23,75.22,128.21
+all_Benton_Rodentia_Extended,ARM,316,Euarchontoglires,82.72,77.32,88.49,2.74,77.29,92.70,72.75,101.45,76.79,87.75
+all_Benton_Rodentia_Extended,IRM,316,Euarchontoglires,93.44,83.07,104.50,3.23,86.51,105.12,78.14,118.17,82.49,103.95
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Euarchontoglires,102.14,75.17,128.52,1.12,99.62,112.96,72.49,155.09,75.15,128.35
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Euarchontoglires,101.93,75.07,128.41,0.63,97.26,107.04,73.33,136.59,75.05,128.28
+Benton,IRM,316,Euarchontoglires,83.31,75.40,92.56,4.22,77.11,99.42,71.54,112.46,74.66,91.58
+Benton,ARM,316,Euarchontoglires,78.07,75.33,80.56,1.67,75.39,87.25,72.56,93.12,75.06,79.91
+Benton,Averaged IRM & ARM,1,Euarchontoglires,80.69,75.36,86.56,,,,,,,
+Benton_All6_Extended,IRM,316,Euarchontoglires,96.38,85.94,107.48,3.49,90.13,108.93,81.19,121.15,85.41,106.89
+Benton_All6_Extended_NoDNA,ARM,316,Euarchontoglires,102.45,75.36,128.17,0.85,98.15,111.65,72.93,133.61,75.23,128.16
+Cladistic,ARM,316,Euarchontoglires,78.25,75.13,81.05,2.15,75.04,90.42,72.17,97.43,74.82,80.20
+Conserved,IRM,1,Euarchontoglires,79.78,73.95,87.86,,,,,,,
+Meredith,IRM,316,Euarchontoglires,83.09,75.43,91.96,3.89,77.10,97.33,71.95,107.97,74.68,91.20
+Neutral,IRM,1,Euarchontoglires,80.89,70.13,93.67,,,,,,,
+Neutral 241 species,IRM,1,Euarchontoglires,82.06,75.81,90.84,,,,,,,
+No DNA,ARM,316,Euarchontoglires,92.16,69.43,119.06,0.41,89.03,93.05,66.03,120.61,69.50,119.06
+One Stratigraphic Bound,IRM,316,Euarchontoglires,82.54,74.71,91.26,3.75,76.86,97.35,70.36,110.47,74.20,90.18
+Root,IRM,1,Euarchontoglires,79.72,74.04,85.56,,,,,,,
+Root Calibration Only,ARM,316,Euarchontoglires,101.83,77.89,121.35,5.35,84.23,114.91,47.01,130.64,79.03,121.60
+Body Size,IRM,316,Euarchontoglires ,78.87,73.66,84.00,2.79,75.12,92.29,71.15,104.01,73.14,82.64
+10% Missingness,IRM,316,Eulipotyphla,78.74,69.38,88.94,2.70,71.70,97.33,62.87,112.04,69.46,88.68
+Accelerated,IRM,1,Eulipotyphla,81.64,70.69,91.23,,,,,,,
+all_Benton_All6_Extended,ARM,316,Eulipotyphla,78.21,72.84,83.46,2.60,69.44,91.08,64.36,102.90,72.92,83.14
+all_Benton_All6_Extended_NoDNA,IRM,316,Eulipotyphla,87.45,63.59,119.61,0.37,83.25,89.35,62.85,128.22,63.53,119.52
+all_Benton_Rodentia_Extended,ARM,316,Eulipotyphla,73.94,69.63,78.60,2.10,66.68,84.03,62.63,94.07,69.73,78.33
+all_Benton_Rodentia_Extended,IRM,316,Eulipotyphla,84.11,72.23,95.95,2.71,74.68,98.04,63.18,112.89,72.03,95.43
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Eulipotyphla,89.40,63.05,120.75,1.12,87.91,99.61,61.87,153.90,63.00,120.36
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Eulipotyphla,89.15,63.01,120.38,0.80,77.69,93.47,62.22,130.77,62.98,120.29
+Benton,IRM,316,Eulipotyphla,82.49,71.11,94.52,2.73,73.13,96.42,62.17,111.39,71.32,94.27
+Benton,ARM,316,Eulipotyphla,72.26,68.72,76.00,1.86,65.43,82.05,62.29,92.30,68.93,75.79
+Benton,Averaged IRM & ARM,1,Eulipotyphla,77.37,69.91,85.26,,,,,,,
+Benton_All6_Extended,IRM,316,Eulipotyphla,85.77,73.35,97.79,2.74,76.54,100.52,64.45,114.03,73.13,97.32
+Benton_All6_Extended_NoDNA,ARM,316,Eulipotyphla,87.46,63.60,119.53,0.57,84.31,92.82,62.35,127.26,63.57,119.42
+Cladistic,ARM,316,Eulipotyphla,71.30,64.92,77.72,2.85,58.60,85.62,41.55,103.00,65.31,77.16
+Conserved,IRM,1,Eulipotyphla,77.11,68.92,86.80,,,,,,,
+Meredith,IRM,316,Eulipotyphla,81.90,71.10,93.18,2.39,72.92,93.26,61.98,105.66,71.14,92.92
+Neutral,IRM,1,Eulipotyphla,81.58,72.55,90.77,,,,,,,
+Neutral 241 species,IRM,1,Eulipotyphla,82.66,73.20,93.02,,,,,,,
+No DNA,ARM,316,Eulipotyphla,84.67,62.54,110.01,0.35,80.97,85.34,61.51,110.88,62.54,110.02
+One Stratigraphic Bound,IRM,316,Eulipotyphla,78.55,69.80,87.89,2.64,70.63,91.77,62.03,106.41,69.80,87.33
+Root,IRM,1,Eulipotyphla,80.55,71.02,91.86,,,,,,,
+Root Calibration Only,ARM,316,Eulipotyphla,88.48,67.03,106.81,5.61,64.20,101.62,41.05,118.86,68.00,107.30
+Body Size,IRM,316,Eulipotyphla ,76.43,68.77,84.57,2.31,69.80,88.68,61.80,101.21,68.81,84.05
+10% Missingness,IRM,316,Ferae,74.85,67.32,82.64,1.31,69.72,77.76,62.96,84.45,67.58,82.97
+Accelerated,IRM,1,Ferae,76.61,69.47,83.87,,,,,,,
+all_Benton_All6_Extended,ARM,316,Ferae,77.80,73.35,83.61,1.50,72.54,82.10,65.09,90.88,73.37,83.36
+all_Benton_All6_Extended_NoDNA,IRM,316,Ferae,70.34,63.18,82.06,0.03,70.08,70.55,63.05,82.66,63.18,82.06
+all_Benton_Rodentia_Extended,ARM,316,Ferae,73.12,69.49,76.98,1.34,67.50,78.00,64.01,83.83,69.75,76.93
+all_Benton_Rodentia_Extended,IRM,316,Ferae,75.98,67.42,84.17,1.44,69.13,79.14,62.94,84.79,67.53,84.26
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Ferae,70.22,62.94,82.46,0.10,69.95,71.11,62.77,83.65,62.94,82.45
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Ferae,70.20,62.93,82.44,0.14,67.83,70.48,62.63,82.67,62.93,82.44
+Benton,IRM,316,Ferae,75.65,67.28,83.75,1.09,71.17,77.81,63.17,84.60,67.43,83.95
+Benton,ARM,316,Ferae,71.59,68.50,74.91,1.23,66.62,75.46,63.52,80.38,68.73,74.72
+Benton,Averaged IRM & ARM,1,Ferae,73.62,67.89,79.33,,,,,,,
+Benton_All6_Extended,IRM,316,Ferae,78.47,69.59,84.72,1.30,72.86,80.47,64.18,85.29,69.65,84.77
+Benton_All6_Extended_NoDNA,ARM,316,Ferae,70.34,63.18,82.06,0.06,70.16,70.93,63.01,82.72,63.18,82.06
+Cladistic,ARM,316,Ferae,72.10,67.18,77.40,1.73,65.55,79.06,58.17,88.31,67.24,76.90
+Conserved,IRM,1,Ferae,73.26,65.73,82.86,,,,,,,
+Meredith,IRM,316,Ferae,75.43,67.11,83.65,1.04,70.92,77.98,63.12,84.56,67.32,83.88
+Neutral,IRM,1,Ferae,77.51,71.00,84.00,,,,,,,
+Neutral 241 species,IRM,1,Ferae,77.27,69.77,84.52,,,,,,,
+No DNA,ARM,316,Ferae,70.88,63.02,82.92,0.10,70.59,71.44,62.76,83.31,63.02,82.92
+One Stratigraphic Bound,IRM,316,Ferae,69.28,64.75,72.59,0.34,68.09,69.88,63.97,72.81,64.71,72.60
+Root,IRM,1,Ferae,76.41,68.59,84.06,,,,,,,
+Root Calibration Only,ARM,316,Ferae,87.87,66.87,105.52,5.06,72.28,101.03,40.38,117.78,67.59,106.05
+Body Size,IRM,316,Ferae ,73.47,65.52,81.30,1.43,68.28,78.12,62.70,84.67,65.59,81.28
+10% Missingness,IRM,316,Ferae + Perissodactyla,78.66,70.81,86.66,1.94,73.18,83.45,64.90,92.25,70.75,86.69
+Accelerated,IRM,1,Ferae + Perissodactyla,81.48,74.08,88.29,,,,,,,
+all_Benton_All6_Extended,ARM,316,Ferae + Perissodactyla,81.76,77.10,87.12,1.94,76.53,88.34,72.70,94.29,76.97,86.88
+all_Benton_All6_Extended_NoDNA,IRM,316,Ferae + Perissodactyla,78.22,63.89,104.01,0.20,76.26,79.27,63.61,110.01,63.89,103.92
+all_Benton_Rodentia_Extended,ARM,316,Ferae + Perissodactyla,76.75,72.95,80.82,1.47,71.93,82.84,69.44,88.71,72.84,80.56
+all_Benton_Rodentia_Extended,IRM,316,Ferae + Perissodactyla,81.36,71.51,90.44,2.00,74.56,87.22,66.07,98.48,71.43,89.87
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Ferae + Perissodactyla,77.75,63.07,105.40,0.76,76.78,84.53,62.72,149.61,63.04,104.70
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Ferae + Perissodactyla,77.60,63.04,104.78,0.38,72.36,79.49,62.55,116.66,63.02,104.57
+Benton,IRM,316,Ferae + Perissodactyla,80.66,71.50,89.36,1.81,74.92,85.75,66.57,96.69,71.40,89.05
+Benton,ARM,316,Ferae + Perissodactyla,74.82,71.68,78.27,1.29,70.20,78.96,68.22,84.98,71.59,78.14
+Benton,Averaged IRM & ARM,1,Ferae + Perissodactyla,77.74,71.59,83.81,,,,,,,
+Benton_All6_Extended,IRM,316,Ferae + Perissodactyla,84.64,75.01,93.16,1.70,78.80,89.58,69.82,101.55,74.71,92.49
+Benton_All6_Extended_NoDNA,ARM,316,Ferae + Perissodactyla,78.21,63.91,103.97,0.31,76.56,80.27,63.54,114.02,63.90,103.81
+Cladistic,ARM,316,Ferae + Perissodactyla,75.51,70.36,81.12,2.30,70.68,84.32,67.84,94.22,69.99,80.47
+Conserved,IRM,1,Ferae + Perissodactyla,77.49,70.02,86.61,,,,,,,
+Meredith,IRM,316,Ferae + Perissodactyla,80.33,71.38,88.84,1.57,74.82,85.10,65.86,94.17,71.38,88.58
+Neutral,IRM,1,Ferae + Perissodactyla,82.73,75.61,90.99,,,,,,,
+Neutral 241 species,IRM,1,Ferae + Perissodactyla,82.84,73.60,92.75,,,,,,,
+No DNA,ARM,316,Ferae + Perissodactyla,75.72,63.25,91.79,0.16,74.32,76.26,62.76,92.45,63.26,91.82
+One Stratigraphic Bound,IRM,316,Ferae + Perissodactyla,74.64,68.29,81.47,1.49,71.76,79.82,65.72,89.77,68.22,81.08
+Root,IRM,1,Ferae + Perissodactyla,81.63,72.12,90.22,,,,,,,
+Root Calibration Only,ARM,316,Ferae + Perissodactyla,92.84,70.90,111.08,4.94,76.14,105.73,42.62,121.64,72.07,111.46
+10% Missingness,IRM,316,Fereuungulata,80.34,72.27,88.50,2.46,74.20,88.79,69.02,99.80,72.00,88.25
+Accelerated,IRM,1,Fereuungulata,83.46,76.22,90.66,,,,,,,
+all_Benton_All6_Extended,ARM,316,Fereuungulata,83.51,78.63,88.38,2.54,77.70,93.46,73.75,101.07,78.27,87.79
+all_Benton_All6_Extended_NoDNA,IRM,316,Fereuungulata,87.03,67.63,116.69,0.38,82.96,89.12,66.07,128.18,67.60,116.54
+all_Benton_Rodentia_Extended,ARM,316,Fereuungulata,78.37,74.32,82.71,1.98,74.85,86.96,71.71,94.62,74.04,82.16
+all_Benton_Rodentia_Extended,IRM,316,Fereuungulata,84.34,74.19,93.83,2.78,77.43,94.94,70.14,107.62,73.78,93.08
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Fereuungulata,85.39,64.48,115.76,1.07,83.75,95.02,63.94,152.00,64.44,115.24
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Fereuungulata,85.16,64.46,115.36,0.53,79.36,88.83,63.95,130.75,64.44,115.17
+Benton,IRM,316,Fereuungulata,83.52,74.04,92.60,2.65,76.13,93.33,69.81,105.22,73.54,92.02
+Benton,ARM,316,Fereuungulata,76.25,72.92,79.89,1.70,72.64,83.31,70.47,89.80,72.71,79.51
+Benton,Averaged IRM & ARM,1,Fereuungulata,79.89,73.48,86.25,,,,,,,
+Benton_All6_Extended,IRM,316,Fereuungulata,87.84,78.64,96.77,2.55,82.40,97.67,72.02,108.96,78.54,95.91
+Benton_All6_Extended_NoDNA,ARM,316,Fereuungulata,87.03,67.66,116.59,0.60,83.86,91.52,66.46,124.06,67.64,116.42
+Cladistic,ARM,316,Fereuungulata,77.00,71.64,82.85,2.87,71.29,90.01,68.50,99.50,71.20,82.04
+Conserved,IRM,1,Fereuungulata,79.04,72.01,88.71,,,,,,,
+Meredith,IRM,316,Fereuungulata,83.13,73.92,91.91,2.29,76.04,90.92,69.72,100.48,73.58,91.59
+Neutral,IRM,1,Fereuungulata,84.65,77.60,93.14,,,,,,,
+Neutral 241 species,IRM,1,Fereuungulata,84.85,75.74,95.46,,,,,,,
+No DNA,ARM,316,Fereuungulata,81.37,64.32,102.17,0.28,78.44,81.94,63.85,102.91,64.32,102.19
+One Stratigraphic Bound,IRM,316,Fereuungulata,77.66,70.75,85.17,2.54,73.22,87.92,68.36,99.08,70.46,84.60
+Root,IRM,1,Fereuungulata,83.43,73.13,92.02,,,,,,,
+Root Calibration Only,ARM,316,Fereuungulata,95.03,72.65,113.59,5.08,77.97,108.07,43.48,123.39,73.57,113.75
+Body Size,IRM,316,Fereuungulata ,77.74,69.86,85.90,2.24,72.97,86.09,65.40,96.29,69.75,85.64
+10% Missingness,IRM,316,Glires,75.76,70.02,81.97,1.81,71.08,83.87,63.88,97.03,70.01,81.03
+Accelerated,IRM,1,Glires,76.26,71.07,82.15,,,,,,,
+all_Benton_All6_Extended,ARM,316,Glires,83.05,78.71,78.59,1.72,78.37,88.87,73.81,95.17,78.58,85.92
+all_Benton_All6_Extended_NoDNA,IRM,316,Glires,87.85,66.50,119.35,0.37,83.63,89.75,65.22,128.21,66.49,119.24
+all_Benton_Rodentia_Extended,ARM,316,Glires,78.87,74.04,84.00,1.74,75.05,84.55,71.01,91.33,73.83,83.82
+all_Benton_Rodentia_Extended,IRM,316,Glires,87.27,77.82,97.73,1.73,83.17,93.28,75.19,106.29,77.70,97.40
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Glires,88.32,63.55,119.37,1.02,86.95,99.62,60.36,149.31,63.49,118.89
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Glires,88.15,63.54,119.02,0.50,85.96,92.97,62.33,130.85,63.51,118.89
+Benton,IRM,316,Glires,78.17,70.77,86.74,2.48,74.45,87.54,68.68,100.83,70.58,86.36
+Benton,ARM,316,Glires,74.56,72.21,76.71,0.90,70.97,79.76,68.74,84.98,72.21,76.40
+Benton,Averaged IRM & ARM,1,Glires,76.36,71.49,81.72,,,,,,,
+Benton_All6_Extended,IRM,316,Glires,89.93,79.98,100.72,1.99,86.45,96.55,76.72,109.77,79.83,100.41
+Benton_All6_Extended_NoDNA,ARM,316,Glires,87.83,66.46,119.14,0.58,84.58,93.01,64.65,125.92,66.45,119.03
+Body Size,IRM,316,Glires,77.74,69.86,85.90,2.24,72.97,86.09,65.40,96.29,69.75,85.64
+Cladistic,ARM,316,Glires,74.59,71.96,76.96,1.20,71.29,82.63,68.82,89.31,71.88,76.57
+Conserved,IRM,1,Glires,75.68,69.87,86.80,,,,,,,
+Meredith,IRM,316,Glires,78.01,70.79,86.32,2.27,74.07,86.19,68.78,97.63,70.59,86.00
+Neutral,IRM,1,Glires,76.71,67.07,89.16,,,,,,,
+Neutral 241 species,IRM,1,Glires,77.79,71.85,85.85,,,,,,,
+No DNA,ARM,316,Glires,74.79,59.15,98.37,0.14,73.70,75.19,58.70,99.02,59.15,98.43
+One Stratigraphic Bound,IRM,316,Glires,77.21,69.74,85.46,2.30,73.49,86.08,67.17,99.09,69.52,84.83
+Root,IRM,1,Glires,75.83,70.53,81.50,,,,,,,
+Root Calibration Only,ARM,316,Glires,97.09,74.12,116.08,5.12,81.68,109.80,44.96,126.23,74.90,116.51
+10% Missingness,IRM,316,Lagomorpha,57.19,53.58,61.37,0.20,56.69,58.11,53.43,61.75,53.57,61.36
+Accelerated,IRM,1,Lagomorpha,57.22,53.54,61.28,,,,,,,
+all_Benton_All6_Extended,ARM,316,Lagomorpha,55.47,52.06,71.05,1.05,53.95,66.00,51.05,106.16,52.04,60.11
+all_Benton_All6_Extended_NoDNA,IRM,316,Lagomorpha,64.87,53.89,75.08,0.02,64.83,64.92,53.74,75.19,53.89,75.08
+all_Benton_Rodentia_Extended,ARM,316,Lagomorpha,55.43,53.18,58.65,0.43,54.65,57.85,53.03,61.76,53.16,58.51
+all_Benton_Rodentia_Extended,IRM,316,Lagomorpha,57.56,53.70,61.55,0.08,57.25,57.94,53.59,61.73,53.69,61.54
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Lagomorpha,57.71,53.73,61.62,0.01,57.61,57.73,53.67,61.65,53.73,61.62
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Lagomorpha,57.71,53.73,61.62,0.01,57.61,57.73,53.68,61.67,53.73,61.62
+Benton,IRM,316,Lagomorpha,57.31,53.61,61.43,0.17,56.81,58.07,53.48,61.71,53.61,61.43
+Benton,ARM,316,Lagomorpha,54.81,53.12,57.21,0.37,54.15,57.93,52.93,61.75,53.11,57.04
+Benton,Averaged IRM & ARM,1,Lagomorpha,56.06,53.36,59.32,,,,,,,
+Benton_All6_Extended,IRM,316,Lagomorpha,62.24,53.13,72.66,0.58,60.68,65.72,52.77,75.25,53.12,72.68
+Benton_All6_Extended_NoDNA,ARM,316,Lagomorpha,64.87,53.92,75.05,0.04,64.78,65.36,53.76,75.29,53.89,75.08
+Cladistic,ARM,316,Lagomorpha,54.59,53.05,56.83,0.35,54.10,57.73,52.89,61.62,53.04,56.63
+Conserved,IRM,1,Lagomorpha,57.06,53.54,61.29,,,,,,,
+Meredith,IRM,316,Lagomorpha,57.30,53.61,61.43,0.16,56.83,58.04,53.48,61.74,53.61,61.43
+Neutral,IRM,1,Lagomorpha,57.17,53.55,61.37,,,,,,,
+Neutral 241 species,IRM,1,Lagomorpha,57.11,53.57,61.34,,,,,,,
+No DNA,ARM,316,Lagomorpha,57.73,53.75,61.62,0.01,57.71,57.76,53.69,61.67,53.75,61.62
+One Stratigraphic Bound,IRM,316,Lagomorpha,57.12,53.56,61.26,0.15,56.68,57.83,53.44,61.68,53.56,61.25
+Root,IRM,1,Lagomorpha,57.33,53.63,61.48,,,,,,,
+Root Calibration Only,ARM,316,Lagomorpha,52.23,33.74,70.78,3.93,41.79,70.88,0.00,98.42,34.32,70.55
+Body Size,IRM,316,Lagomorpha ,56.66,53.42,60.86,0.22,56.16,58.04,53.25,61.69,53.41,60.85
+10% Missingness,IRM,316,Laurasiatheria,86.74,77.49,96.41,3.55,79.38,102.00,72.32,116.33,76.97,95.85
+Accelerated,IRM,1,Laurasiatheria,89.72,81.34,97.65,,,,,,,
+all_Benton_All6_Extended,ARM,316,Laurasiatheria,88.59,82.92,94.77,3.61,81.33,103.46,76.90,112.21,82.36,93.62
+all_Benton_All6_Extended_NoDNA,IRM,316,Laurasiatheria,102.71,74.42,128.45,0.55,95.66,105.01,72.33,134.24,74.32,128.34
+all_Benton_Rodentia_Extended,ARM,316,Laurasiatheria,83.12,78.09,88.47,3.02,77.99,95.37,73.81,105.08,77.59,87.46
+all_Benton_Rodentia_Extended,IRM,316,Laurasiatheria,94.59,83.21,106.07,3.98,86.85,108.62,76.59,121.61,82.68,105.15
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Laurasiatheria,102.20,73.13,128.95,1.11,99.66,112.41,68.42,157.14,73.14,128.78
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Laurasiatheria,101.97,73.00,128.79,0.65,97.25,106.75,68.96,136.68,72.98,128.70
+Benton,IRM,316,Laurasiatheria,92.53,81.60,103.87,3.97,85.32,107.38,75.36,120.56,81.00,103.01
+Benton,ARM,316,Laurasiatheria,80.34,76.33,84.72,2.55,75.80,92.14,72.76,101.33,76.00,83.82
+Benton,Averaged IRM & ARM,1,Laurasiatheria,86.43,78.97,94.29,,,,,,,
+Benton_All6_Extended,IRM,316,Laurasiatheria,97.51,86.94,108.53,3.89,90.84,111.33,79.98,123.39,86.42,107.70
+Benton_All6_Extended_NoDNA,ARM,316,Laurasiatheria,102.70,74.52,128.36,0.83,98.38,111.28,72.19,133.61,74.40,128.32
+Cladistic,ARM,316,Laurasiatheria,81.15,75.18,87.63,3.76,74.66,99.93,70.58,111.08,74.66,86.45
+Conserved,IRM,1,Laurasiatheria,84.86,76.78,94.96,,,,,,,
+Meredith,IRM,316,Laurasiatheria,91.69,81.59,102.00,3.27,84.30,102.60,75.27,112.81,81.10,101.57
+Neutral,IRM,1,Laurasiatheria,90.78,83.05,100.37,,,,,,,
+Neutral 241 species,IRM,1,Laurasiatheria,91.28,82.36,100.75,,,,,,,
+No DNA,ARM,316,Laurasiatheria,95.85,70.72,122.94,0.61,89.54,96.81,66.17,124.66,70.84,122.97
+One Stratigraphic Bound,IRM,316,Laurasiatheria,87.45,78.55,97.21,4.03,80.47,103.37,73.31,117.44,77.94,96.01
+Root,IRM,1,Laurasiatheria,89.46,79.14,93.56,,,,,,,
+Root Calibration Only,ARM,316,Laurasiatheria,101.13,77.43,120.55,5.51,83.05,113.73,46.37,129.23,78.38,120.58
+Body Size,IRM,316,Laurasiatheria ,84.19,76.12,92.70,3.49,78.74,101.02,71.27,112.85,75.52,91.99
+10% Missingness,IRM,316,Paenungulata,62.90,58.70,68.52,0.65,61.16,65.63,58.36,72.34,58.68,68.45
+Accelerated,IRM,1,Paenungulata,63.30,58.69,69.54,,,,,,,
+all_Benton_All6_Extended,ARM,316,Paenungulata,61.83,58.58,66.82,0.58,60.82,64.59,58.19,69.93,58.53,66.84
+all_Benton_All6_Extended_NoDNA,IRM,316,Paenungulata,66.22,59.76,72.44,0.01,66.08,66.25,59.67,72.52,59.76,72.44
+all_Benton_Rodentia_Extended,ARM,316,Paenungulata,61.44,58.34,66.05,0.44,60.35,63.26,57.92,69.29,58.31,66.00
+all_Benton_Rodentia_Extended,IRM,316,Paenungulata,63.65,58.81,69.51,0.75,61.96,66.56,58.53,72.39,58.77,69.50
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Paenungulata,66.15,59.59,72.45,0.03,65.86,66.25,59.45,72.52,59.59,72.46
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Paenungulata,66.15,59.59,72.45,0.01,66.09,66.20,59.52,72.53,59.59,72.45
+Benton,IRM,316,Paenungulata,62.92,58.73,68.42,0.58,61.56,65.28,58.47,71.83,58.71,68.32
+Benton,ARM,316,Paenungulata,61.14,58.35,65.07,0.37,60.29,62.72,57.89,67.92,58.33,65.02
+Benton,Averaged IRM & ARM,1,Paenungulata,62.03,58.54,66.75,,,,,,,
+Benton_All6_Extended,IRM,316,Paenungulata,64.13,58.93,69.68,0.72,62.55,66.79,58.67,72.37,58.89,69.68
+Benton_All6_Extended_NoDNA,ARM,316,Paenungulata,66.22,59.76,72.44,0.02,66.09,66.31,59.60,72.53,59.76,72.44
+Cladistic,ARM,316,Paenungulata,61.17,58.48,64.85,0.35,60.52,63.18,58.07,68.70,58.48,64.71
+Conserved,IRM,1,Paenungulata,62.10,58.39,67.72,,,,,,,
+Meredith,IRM,316,Paenungulata,62.86,58.72,68.32,0.57,61.40,65.13,58.42,71.83,58.71,68.28
+Neutral,IRM,1,Paenungulata,63.54,58.91,69.57,,,,,,,
+Neutral 241 species,IRM,1,Paenungulata,63.05,58.49,69.67,,,,,,,
+No DNA,ARM,316,Paenungulata,65.95,59.43,72.42,0.04,65.82,66.46,59.20,72.50,59.43,72.41
+One Stratigraphic Bound,IRM,316,Paenungulata,61.54,58.95,64.72,0.36,60.53,62.70,58.80,66.03,58.94,64.76
+Root,IRM,1,Paenungulata,62.50,58.65,67.70,,,,,,,
+Root Calibration Only,ARM,316,Paenungulata,61.70,43.74,78.84,4.26,48.46,71.33,26.80,87.89,43.91,79.11
+10% Missingness,IRM,316,Perissodactyla,59.66,56.75,61.83,0.18,59.16,60.18,56.22,61.93,56.74,61.83
+Accelerated,IRM,1,Perissodactyla,59.77,56.84,61.85,,,,,,,
+all_Benton_All6_Extended,ARM,316,Perissodactyla,64.04,59.63,68.06,1.19,60.78,68.43,56.88,72.56,59.50,67.92
+all_Benton_All6_Extended_NoDNA,IRM,316,Perissodactyla,65.73,57.26,74.93,0.01,65.67,65.79,56.95,75.09,57.26,74.94
+all_Benton_Rodentia_Extended,ARM,316,Perissodactyla,60.37,58.37,61.88,0.35,58.98,61.16,56.54,62.07,58.40,61.88
+all_Benton_Rodentia_Extended,IRM,316,Perissodactyla,59.57,56.71,61.81,0.16,59.05,60.15,56.25,61.92,56.69,61.81
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Perissodactyla,59.38,56.33,61.77,0.01,59.28,59.40,56.26,61.80,56.33,61.77
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Perissodactyla,59.38,56.33,61.77,0.01,59.32,59.39,56.27,61.86,56.33,61.77
+Benton,IRM,316,Perissodactyla,59.69,56.78,61.84,0.14,59.23,60.19,56.31,61.94,56.77,61.83
+Benton,ARM,316,Perissodactyla,60.27,58.24,61.84,0.35,58.88,61.14,56.50,62.06,58.26,61.84
+Benton,Averaged IRM & ARM,1,Perissodactyla,59.98,57.51,61.84,,,,,,,
+Benton_All6_Extended,IRM,316,Perissodactyla,64.11,56.82,71.56,0.94,61.30,66.78,55.68,74.77,56.69,71.62
+Benton_All6_Extended_NoDNA,ARM,316,Perissodactyla,65.73,57.25,74.92,0.02,65.66,65.83,56.97,75.09,57.26,74.93
+Cladistic,ARM,316,Perissodactyla,60.08,58.04,61.80,0.38,58.99,61.14,56.47,62.04,58.05,61.80
+Conserved,IRM,1,Perissodactyla,59.57,56.65,61.80,,,,,,,
+Meredith,IRM,316,Perissodactyla,59.69,56.78,61.83,0.14,59.25,60.12,56.34,61.92,56.77,61.84
+Neutral,IRM,1,Perissodactyla,59.77,57.00,61.82,,,,,,,
+Neutral 241 species,IRM,1,Perissodactyla,59.55,56.63,61.82,,,,,,,
+No DNA,ARM,316,Perissodactyla,59.40,56.36,61.77,0.00,59.38,59.43,56.32,61.81,56.36,61.77
+One Stratigraphic Bound,IRM,316,Perissodactyla,58.03,56.30,59.32,0.07,57.83,58.26,56.12,59.38,56.29,59.32
+Root,IRM,1,Perissodactyla,59.68,56.72,61.82,,,,,,,
+Root Calibration Only,ARM,316,Perissodactyla,68.96,50.15,86.51,4.49,56.85,80.14,31.59,98.93,50.56,86.96
+10% Missingness,IRM,316,Placentalia (root),99.85,87.16,113.75,4.63,89.19,121.56,80.16,135.35,86.51,113.13
+Accelerated,IRM,1,Placentalia (root),101.48,90.15,115.98,,,,,,,
+all_Benton_All6_Extended,ARM,316,Placentalia (root),105.51,95.85,115.94,4.70,94.47,126.06,87.72,136.51,95.04,114.82
+all_Benton_All6_Extended_NoDNA,IRM,316,Placentalia (root),112.00,80.74,136.50,0.62,103.88,114.87,74.47,138.47,80.76,136.50
+all_Benton_Rodentia_Extended,ARM,316,Placentalia (root),100.73,90.87,111.43,4.35,88.61,120.70,82.42,134.06,90.17,110.44
+all_Benton_Rodentia_Extended,IRM,316,Placentalia (root),112.21,98.03,127.74,4.41,102.86,129.28,90.42,140.71,96.91,127.72
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Placentalia (root),111.63,79.76,136.44,0.95,108.03,118.48,72.60,156.55,79.85,136.41
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Placentalia (root),111.44,79.73,136.48,0.60,104.66,114.60,76.36,139.12,79.82,136.50
+Benton,IRM,316,Placentalia (root),107.01,92.52,122.95,4.85,98.34,127.36,85.49,139.40,91.59,122.50
+Benton,ARM,316,Placentalia (root),96.86,88.36,106.05,3.88,84.88,116.96,79.49,131.73,87.85,105.09
+Benton,Averaged IRM & ARM,1,Placentalia (root),101.94,90.44,114.50,,,,,,,
+Benton_All6_Extended,IRM,316,Placentalia (root),115.08,101.25,130.02,4.30,106.59,130.81,94.09,142.24,100.50,130.40
+Benton_All6_Extended_NoDNA,ARM,316,Placentalia (root),111.99,80.75,136.43,0.92,106.12,122.34,75.02,139.55,80.71,136.43
+Body Size,IRM,316,Placentalia (root),96.29,85.35,108.20,4.96,89.39,123.02,80.54,135.67,84.47,106.97
+Cladistic,ARM,316,Placentalia (root),98.24,88.84,108.39,4.85,88.62,123.34,81.99,135.30,88.05,106.77
+Conserved,IRM,1,Placentalia (root),98.21,83.48,107.60,,,,,,,
+Meredith,IRM,316,Placentalia (root),105.25,93.06,117.81,3.47,97.07,117.83,85.85,128.37,92.53,117.73
+Neutral,IRM,1,Placentalia (root),104.45,91.46,119.68,,,,,,,
+Neutral 241 species,IRM,1,Placentalia (root),103.80,90.70,118.45,,,,,,,
+No DNA,ARM,316,Placentalia (root),105.36,74.98,134.04,0.69,99.71,107.03,66.52,136.17,75.13,134.05
+One Stratigraphic Bound,IRM,316,Placentalia (root),102.24,89.04,116.90,5.03,94.20,124.75,83.02,136.97,88.22,116.05
+Root,IRM,1,Placentalia (root),102.73,88.99,115.01,,,,,,,
+Root Calibration Only,ARM,316,Placentalia (root),116.83,89.73,137.83,6.03,96.07,128.76,54.45,149.17,90.61,137.96
+10% Missingness,IRM,316,Primates,62.65,57.68,66.41,0.34,60.75,63.56,55.91,66.64,57.68,66.42
+Accelerated,IRM,1,Primates,62.57,57.57,66.34,,,,,,,
+all_Benton_All6_Extended,ARM,316,Primates,73.94,70.81,76.51,1.06,65.55,74.97,58.97,77.47,71.25,76.59
+all_Benton_All6_Extended_NoDNA,IRM,316,Primates,65.48,56.08,74.99,0.05,64.87,65.74,55.84,75.13,56.09,75.00
+all_Benton_Rodentia_Extended,ARM,316,Primates,65.63,63.55,67.33,0.37,62.14,66.05,57.59,67.76,63.71,67.37
+all_Benton_Rodentia_Extended,IRM,316,Primates,63.14,57.86,66.61,0.22,62.02,63.59,56.69,66.76,57.87,66.62
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Primates,60.97,56.02,65.97,0.02,60.78,61.01,55.94,66.05,56.02,65.97
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Primates,60.97,56.02,65.98,0.03,60.92,61.38,55.96,66.09,56.02,65.98
+Benton,IRM,316,Primates,62.46,57.47,66.36,0.31,60.73,63.01,55.88,66.51,57.50,66.37
+Benton,ARM,316,Primates,65.42,63.38,67.10,0.69,60.40,66.05,55.89,67.72,63.71,67.17
+Benton,Averaged IRM & ARM,1,Primates,63.94,60.42,66.73,,,,,,,
+Benton_All6_Extended,IRM,316,Primates,70.41,62.64,76.07,0.53,67.55,71.45,58.21,76.36,62.80,76.09
+Benton_All6_Extended_NoDNA,ARM,316,Primates,65.48,56.07,74.98,0.09,64.70,66.42,55.82,75.15,56.08,74.99
+Cladistic,ARM,316,Primates,65.41,63.45,67.04,0.60,61.37,66.03,57.09,67.65,63.70,67.07
+Conserved,IRM,1,Primates,62.79,58.09,66.44,,,,,,,
+Meredith,IRM,316,Primates,62.46,57.47,66.36,0.32,60.81,63.01,55.92,66.52,57.50,66.38
+Neutral,IRM,1,Primates,62.64,57.83,66.40,,,,,,,
+Neutral 241 species,IRM,1,Primates,63.48,58.87,66.59,,,,,,,
+No DNA,ARM,316,Primates,60.94,56.01,65.93,0.01,60.91,60.98,55.95,66.03,56.00,65.93
+One Stratigraphic Bound,IRM,316,Primates,59.51,56.43,61.80,0.10,59.04,60.32,56.13,61.88,56.42,61.80
+Root,IRM,1,Primates,62.52,57.49,66.44,,,,,,,
+Root Calibration Only,ARM,316,Primates,88.47,67.12,106.66,5.72,55.17,101.89,34.39,117.21,67.92,107.57
+Body Size,IRM,316,Primates ,62.66,57.70,66.40,0.51,60.13,63.72,55.79,66.65,57.73,66.44
+10% Missingness,IRM,316,Primatomorpha,73.79,69.83,76.47,0.48,70.67,74.64,65.91,76.66,70.07,76.48
+Accelerated,IRM,1,Primatomorpha,74.00,70.31,76.52,,,,,,,
+all_Benton_All6_Extended,ARM,316,Primatomorpha,83.50,79.24,87.90,1.73,76.16,91.16,70.58,98.22,79.13,87.44
+all_Benton_All6_Extended_NoDNA,IRM,316,Primatomorpha,87.15,62.64,118.28,0.64,80.39,90.51,60.30,128.07,62.57,118.04
+all_Benton_Rodentia_Extended,ARM,316,Primatomorpha,78.72,73.97,83.83,1.81,69.70,85.81,66.17,93.34,73.96,83.65
+all_Benton_Rodentia_Extended,IRM,316,Primatomorpha,85.64,73.82,97.37,1.90,72.91,92.10,64.89,105.41,74.71,97.28
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Primatomorpha,86.01,61.71,118.02,1.70,84.24,103.49,60.20,151.45,61.55,117.40
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Primatomorpha,85.74,61.64,117.61,0.90,82.82,94.46,60.09,130.77,61.56,117.36
+Benton,IRM,316,Primatomorpha,73.49,69.11,76.45,0.42,71.57,74.47,66.30,76.63,69.19,76.46
+Benton,ARM,316,Primatomorpha,74.54,72.39,76.27,0.72,68.62,75.53,65.43,76.88,72.58,76.32
+Benton,Averaged IRM & ARM,1,Primatomorpha,74.01,70.75,76.36,,,,,,,
+Benton_All6_Extended,IRM,316,Primatomorpha,88.78,78.09,99.96,1.56,79.24,95.72,66.57,109.73,78.30,99.77
+Benton_All6_Extended_NoDNA,ARM,316,Primatomorpha,87.13,62.74,118.21,0.97,79.46,95.22,60.49,133.12,62.65,117.87
+Cladistic,ARM,316,Primatomorpha,74.51,72.25,76.30,0.58,69.47,75.53,66.27,76.86,72.31,76.32
+Conserved,IRM,1,Primatomorpha,73.96,70.34,76.46,,,,,,,
+Meredith,IRM,316,Primatomorpha,73.48,69.10,76.45,0.42,71.51,74.44,66.29,76.62,69.18,76.45
+Neutral,IRM,1,Primatomorpha,73.54,69.37,76.56,,,,,,,
+Neutral 241 species,IRM,1,Primatomorpha,74.17,70.55,76.60,,,,,,,
+No DNA,ARM,316,Primatomorpha,70.75,65.49,75.82,0.03,70.57,70.81,65.44,75.88,65.49,75.82
+One Stratigraphic Bound,IRM,316,Primatomorpha,73.24,68.19,76.44,0.48,70.76,74.29,65.62,76.64,68.21,76.45
+Root,IRM,1,Primatomorpha,73.98,70.53,81.50,,,,,,,
+Root Calibration Only,ARM,316,Primatomorpha,97.77,74.67,116.78,5.59,71.21,112.01,45.36,127.92,75.60,117.36
+Body Size,IRM,316,Primatomorpha ,73.44,69.49,76.34,0.49,70.18,74.48,65.36,76.61,69.70,76.35
+10% Missingness,IRM,316,Rodentia,65.13,62.71,66.84,0.11,64.73,65.45,61.93,67.00,62.69,66.84
+Accelerated,IRM,1,Rodentia,65.40,63.21,66.97,,,,,,,
+all_Benton_All6_Extended,ARM,316,Rodentia,70.02,66.77,73.36,1.27,67.47,74.19,64.97,81.99,66.52,73.22
+all_Benton_All6_Extended_NoDNA,IRM,316,Rodentia,71.22,63.53,76.24,0.02,71.15,71.27,63.22,76.36,63.54,76.24
+all_Benton_Rodentia_Extended,ARM,316,Rodentia,69.05,65.18,73.37,1.30,66.67,73.82,62.83,76.49,65.04,73.26
+all_Benton_Rodentia_Extended,IRM,316,Rodentia,73.20,68.27,76.59,0.28,72.60,74.39,67.11,77.29,68.23,76.56
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Rodentia,70.68,62.18,76.18,0.12,68.97,71.06,59.29,76.37,62.20,76.18
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Rodentia,70.70,62.21,76.18,0.06,70.59,71.58,61.86,76.44,62.20,76.17
+Benton,IRM,316,Rodentia,65.22,62.88,66.89,0.10,64.89,65.49,62.11,67.04,62.87,66.88
+Benton,ARM,316,Rodentia,65.36,63.52,66.76,0.26,64.63,66.02,62.34,67.42,63.52,66.74
+Benton,Averaged IRM & ARM,1,Rodentia,65.29,63.20,66.82,,,,,,,
+Benton_All6_Extended,IRM,316,Rodentia,73.44,69.05,76.57,0.25,72.86,74.25,67.92,77.14,69.05,76.57
+Benton_All6_Extended_NoDNA,ARM,316,Rodentia,71.21,63.54,76.25,0.07,70.16,71.48,62.65,76.57,63.54,76.25
+Cladistic,ARM,316,Rodentia,65.03,62.72,66.74,0.36,63.47,66.03,60.40,67.45,62.72,66.72
+Conserved,IRM,1,Rodentia,65.41,63.11,66.98,,,,,,,
+Meredith,IRM,316,Rodentia,65.22,62.88,66.88,0.09,64.88,65.49,62.12,67.04,62.88,66.88
+Neutral,IRM,1,Rodentia,65.57,61.37,68.76,,,,,,,
+Neutral 241 species,IRM,1,Rodentia,65.73,64.08,67.05,,,,,,,
+No DNA,ARM,316,Rodentia,62.96,58.25,66.48,0.02,62.91,63.20,58.06,66.56,58.25,66.48
+One Stratigraphic Bound,IRM,316,Rodentia,64.89,62.30,66.73,0.15,64.43,65.33,61.14,66.96,62.27,66.73
+Root,IRM,1,Rodentia,65.15,62.60,66.90,,,,,,,
+Root Calibration Only,ARM,316,Rodentia,83.43,63.13,101.02,4.63,69.77,94.40,39.03,110.08,63.75,101.45
+Body Size,IRM,316,Rodentia ,64.51,61.05,66.76,0.19,63.75,65.09,59.30,66.96,61.02,66.76
+10% Missingness,IRM,316,Scrotifera,81.86,73.53,90.27,2.91,74.53,91.28,69.80,103.62,72.96,89.80
+Accelerated,IRM,1,Scrotifera,85.01,77.80,91.99,,,,,,,
+all_Benton_All6_Extended,ARM,316,Scrotifera,84.84,79.76,90.07,2.88,78.40,95.04,74.44,102.95,79.37,89.44
+all_Benton_All6_Extended_NoDNA,IRM,316,Scrotifera,94.77,70.38,123.09,0.49,89.02,97.19,68.10,128.24,70.36,123.01
+all_Benton_Rodentia_Extended,ARM,316,Scrotifera,79.61,75.32,84.20,2.30,75.44,88.47,72.28,96.48,74.88,83.50
+all_Benton_Rodentia_Extended,IRM,316,Scrotifera,86.81,76.34,96.75,3.29,79.13,97.73,71.43,110.28,75.95,95.97
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Scrotifera,93.52,67.02,122.83,1.23,91.68,104.45,65.60,153.72,66.94,122.40
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Scrotifera,93.26,66.92,122.51,0.63,87.60,97.86,65.49,130.79,66.89,122.40
+Benton,IRM,316,Scrotifera,85.91,76.07,95.43,3.16,77.73,96.01,71.04,108.18,75.54,94.83
+Benton,ARM,316,Scrotifera,77.33,73.83,81.15,1.96,73.36,84.75,71.15,92.05,73.55,80.66
+Benton,Averaged IRM & ARM,1,Scrotifera,81.62,74.95,88.29,,,,,,,
+Benton_All6_Extended,IRM,316,Scrotifera,90.29,80.81,99.68,3.08,83.40,100.43,73.27,111.89,80.56,98.80
+Benton_All6_Extended_NoDNA,ARM,316,Scrotifera,94.77,70.39,122.98,0.74,91.01,101.42,68.88,133.31,70.34,122.85
+Cladistic,ARM,316,Scrotifera,78.09,72.57,84.10,3.12,72.02,92.09,69.12,101.76,72.16,83.23
+Conserved,IRM,1,Scrotifera,80.34,73.00,89.79,,,,,,,
+Meredith,IRM,316,Scrotifera,85.46,75.95,94.57,2.74,77.64,93.45,70.94,103.22,75.49,94.26
+Neutral,IRM,1,Scrotifera,86.28,79.03,95.16,,,,,,,
+Neutral 241 species,IRM,1,Scrotifera,86.68,78.23,97.40,,,,,,,
+No DNA,ARM,316,Scrotifera,88.05,65.59,112.17,0.43,83.37,88.80,65.03,113.00,65.59,112.22
+One Stratigraphic Bound,IRM,316,Scrotifera,80.20,72.75,88.21,3.14,74.17,91.05,69.57,101.94,72.21,87.52
+Root,IRM,1,Scrotifera,84.94,74.28,93.56,,,,,,,
+Root Calibration Only,ARM,316,Scrotifera,96.68,73.94,115.48,5.17,80.54,109.72,44.44,125.17,74.90,115.50
+Body Size,IRM,316,Scrotifera ,79.63,71.72,87.85,2.58,73.86,89.16,67.88,100.56,71.36,87.33
+10% Missingness,IRM,316,Xenarthra,58.66,48.85,66.35,0.44,57.42,61.44,47.75,67.15,48.78,66.35
+Accelerated,IRM,1,Xenarthra,58.69,48.80,66.27,,,,,,,
+all_Benton_All6_Extended,ARM,316,Xenarthra,60.88,51.43,67.11,0.76,57.64,63.06,48.60,67.69,51.35,67.11
+all_Benton_All6_Extended_NoDNA,IRM,316,Xenarthra,58.47,48.45,66.45,0.02,58.14,58.53,48.34,66.55,48.45,66.45
+all_Benton_Rodentia_Extended,ARM,316,Xenarthra,60.22,50.69,66.95,0.72,57.04,62.26,47.97,67.60,50.55,66.96
+all_Benton_Rodentia_Extended,IRM,316,Xenarthra,58.77,48.91,66.54,0.42,57.74,60.27,48.16,67.00,48.81,66.52
+all_Benton_Rodentia_Extended_NoDNA,ARM,316,Xenarthra,58.40,48.45,66.41,0.05,57.54,58.45,48.08,66.56,48.45,66.41
+all_Benton_Rodentia_Extended_NoDNA,IRM,316,Xenarthra,58.40,48.45,66.41,0.02,58.32,58.74,48.28,66.53,48.45,66.41
+Benton,IRM,316,Xenarthra,58.69,48.88,66.36,0.38,57.60,60.34,48.30,66.77,48.81,66.35
+Benton,ARM,316,Xenarthra,60.11,50.63,66.83,0.74,56.40,62.18,47.62,67.56,50.51,66.84
+Benton,Averaged IRM & ARM,1,Xenarthra,59.40,49.75,66.60,,,,,,,
+Benton_All6_Extended,IRM,316,Xenarthra,59.11,49.07,66.66,0.44,57.87,60.77,48.22,67.16,48.99,66.64
+Benton_All6_Extended_NoDNA,ARM,316,Xenarthra,58.48,48.45,66.45,0.02,58.42,58.62,48.34,66.55,48.45,66.45
+Cladistic,ARM,316,Xenarthra,63.31,49.75,75.52,1.68,54.36,71.50,36.10,85.15,50.33,75.33
+Conserved,IRM,1,Xenarthra,59.02,49.19,66.41,,,,,,,
+Meredith,IRM,316,Xenarthra,58.62,48.82,66.34,0.36,57.76,60.32,48.16,66.83,48.76,66.33
+Neutral,IRM,1,Xenarthra,58.94,48.59,66.43,,,,,,,
+Neutral 241 species,IRM,1,Xenarthra,57.73,48.11,66.15,,,,,,,
+No DNA,ARM,316,Xenarthra,58.42,48.50,66.41,0.02,58.35,58.49,48.38,66.55,48.50,66.41
+One Stratigraphic Bound,IRM,316,Xenarthra,58.30,48.70,66.33,0.38,57.30,59.93,47.60,66.75,48.63,66.32
+Root,IRM,1,Xenarthra,57.94,48.39,66.20,,,,,,,
+Root Calibration Only,ARM,316,Xenarthra,68.49,47.09,89.28,4.69,49.92,80.70,28.41,101.63,47.59,89.42
+Body Size,IRM,316,Xenarthra ,56.76,47.79,65.40,0.67,55.19,59.81,47.21,66.64,47.65,65.36

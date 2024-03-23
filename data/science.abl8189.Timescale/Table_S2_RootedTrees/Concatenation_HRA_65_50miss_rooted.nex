@@ -1,0 +1,167 @@
+#NEXUS
+begin taxa;
+	dimensions ntax=65;
+	taxlabels
+	Ailuropoda_melanoleuca
+	Artibeus_jamaicensis
+	Balaenoptera_bonaerensis
+	Bos_taurus
+	Callicebus_donacophilus
+	Camelus_dromedarius
+	Canis_lupus_familiaris
+	Castor_canadensis
+	Catagonus_wagneri
+	Cebus_capucinus
+	Ceratotherium_simum
+	Choloepus_hoffmanni
+	Chrysochloris_asiatica
+	Colobus_angolensis
+	Condylura_cristata
+	Cricetomys_gambianus
+	Dasypus_novemcinctus
+	Dipodomys_ordii
+	Elephantulus_edwardii
+	Equus_caballus
+	Erinaceus_europaeus
+	Eubalaena_japonica
+	Felis_catus
+	Galeopterus_variegatus
+	Giraffa_tippelskirchi
+	Glis_glis
+	Heterohyrax_brucei
+	Hippopotamus_amphibius
+	Hipposideros_armiger
+	Homo_sapiens
+	Hystrix_cristata
+	Jaculus_jaculus
+	Kogia_breviceps
+	Loxodonta_africana
+	Manis_pentadactyla
+	Microgale_talazaci
+	Moschus_moschiferus
+	Mus_musculus
+	Mustela_putorius
+	Myotis_myotis
+	Noctilio_leporinus
+	Ochotona_princeps
+	Octodon_degus
+	Odobenus_rosmarus
+	Orycteropus_afer
+	Oryctolagus_cuniculus
+	Otolemur_garnettii
+	Papio_anubis
+	Phocoena_phocoena
+	Propithecus_coquereli
+	Pteronotus_parnellii
+	Pteropus_vampyrus
+	Rhinolophus_sinicus
+	Solenodon_paradoxus
+	Sorex_araneus
+	Spermophilus_dauricus
+	Sus_scrofa
+	Tadarida_brasiliensis
+	Tamandua_tetradactyla
+	Tapirus_indicus
+	Tragulus_javanicus
+	Trichechus_manatus
+	Tupaia_chinensis
+	Tupaia_tana
+	Vicugna_pacos
+;
+end;
+
+begin trees;
+	tree MajRule = [&U] (((((((((((Homo_sapiens:100.0,(Colobus_angolensis:100.0,Papio_anubis:100.0)[&label=100]:100.0)[&label=100]:100.0,(Cebus_capucinus:100.0,Callicebus_donacophilus:100.0)[&label=100]:100.0)[&label=100]:100.0,(Propithecus_coquereli:100.0,Otolemur_garnettii:100.0)[&label=100]:100.0)[&label=100]:100.0,Galeopterus_variegatus:100.0)[&label=100]:100.0,(Tupaia_tana:100.0,Tupaia_chinensis:100.0)[&label=100]:100.0)[&label=100]:100.0,((Ochotona_princeps:100.0,Oryctolagus_cuniculus:100.0)[&label=100]:100.0,(((Octodon_degus:100.0,Hystrix_cristata:100.0)[&label=100]:100.0,(((Mus_musculus:100.0,Cricetomys_gambianus:100.0)[&label=100]:100.0,Jaculus_jaculus:100.0)[&label=100]:100.0,(Dipodomys_ordii:100.0,Castor_canadensis:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,(Spermophilus_dauricus:100.0,Glis_glis:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,((((((Ceratotherium_simum:100.0,Tapirus_indicus:100.0)[&label=100]:100.0,Equus_caballus:100.0)[&label=100]:100.0,(Manis_pentadactyla:100.0,(((Ailuropoda_melanoleuca:100.0,(Odobenus_rosmarus:100.0,Mustela_putorius:100.0)[&label=100]:100.0)[&label=100]:100.0,Canis_lupus_familiaris:100.0)[&label=100]:100.0,Felis_catus:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,(((Sus_scrofa:100.0,Catagonus_wagneri:100.0)[&label=100]:100.0,(((Giraffa_tippelskirchi:100.0,(Bos_taurus:100.0,Moschus_moschiferus:100.0)[&label=100]:100.0)[&label=100]:100.0,Tragulus_javanicus:100.0)[&label=100]:100.0,(((Phocoena_phocoena:100.0,Kogia_breviceps:100.0)[&label=100]:100.0,(Balaenoptera_bonaerensis:100.0,Eubalaena_japonica:100.0)[&label=100]:100.0)[&label=100]:100.0,Hippopotamus_amphibius:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,(Camelus_dromedarius:100.0,Vicugna_pacos:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,(((Hipposideros_armiger:100.0,Rhinolophus_sinicus:100.0)[&label=100]:100.0,Pteropus_vampyrus:100.0)[&label=100]:100.0,((Noctilio_leporinus:100.0,(Pteronotus_parnellii:100.0,Artibeus_jamaicensis:100.0)[&label=100]:100.0)[&label=100]:100.0,(Myotis_myotis:100.0,Tadarida_brasiliensis:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,((Solenodon_paradoxus:100.0,(Erinaceus_europaeus:100.0,Sorex_araneus:100.0)[&label=100]:100.0)[&label=100]:100.0,Condylura_cristata:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,((Choloepus_hoffmanni:100.0,Tamandua_tetradactyla:100.0)[&label=100]:100.0,Dasypus_novemcinctus:100.0)[&label=100]:100.0)[&label=100]:100.0,((Microgale_talazaci:100.0,Chrysochloris_asiatica:100.0)[&label=100]:100.0,(Elephantulus_edwardii:100.0,Orycteropus_afer:100.0)[&label=100]:100.0)[&label=100]:100.0)[&label=100]:100.0,Trichechus_manatus:100.0)[&label=100]:100.0,Heterohyrax_brucei:100.0,Loxodonta_africana:100.0)[&label=0];
+end;
+
+begin figtree;
+	set appearance.backgroundColorAttribute="Default";
+	set appearance.backgroundColour=#ffffff;
+	set appearance.branchColorAttribute="User selection";
+	set appearance.branchColorGradient=false;
+	set appearance.branchLineWidth=1.0;
+	set appearance.branchMinLineWidth=0.0;
+	set appearance.branchWidthAttribute="Fixed";
+	set appearance.foregroundColour=#000000;
+	set appearance.hilightingGradient=false;
+	set appearance.selectionColour=#2d3680;
+	set branchLabels.colorAttribute="User selection";
+	set branchLabels.displayAttribute="Branch times";
+	set branchLabels.fontName="Adobe Devanagari";
+	set branchLabels.fontSize=8;
+	set branchLabels.fontStyle=0;
+	set branchLabels.isShown=false;
+	set branchLabels.significantDigits=4;
+	set layout.expansion=0;
+	set layout.layoutType="RECTILINEAR";
+	set layout.zoom=0;
+	set legend.attribute=null;
+	set legend.fontSize=10.0;
+	set legend.isShown=false;
+	set legend.significantDigits=4;
+	set nodeBars.barWidth=4.0;
+	set nodeBars.displayAttribute=null;
+	set nodeBars.isShown=false;
+	set nodeLabels.colorAttribute="User selection";
+	set nodeLabels.displayAttribute="Node ages";
+	set nodeLabels.fontName="Adobe Devanagari";
+	set nodeLabels.fontSize=8;
+	set nodeLabels.fontStyle=0;
+	set nodeLabels.isShown=false;
+	set nodeLabels.significantDigits=4;
+	set nodeShapeExternal.colourAttribute=null;
+	set nodeShapeExternal.isShown=false;
+	set nodeShapeExternal.minSize=10.0;
+	set nodeShapeExternal.scaleType=Width;
+	set nodeShapeExternal.shapeType=Circle;
+	set nodeShapeExternal.size=4.0;
+	set nodeShapeExternal.sizeAttribute=null;
+	set nodeShapeInternal.colourAttribute=null;
+	set nodeShapeInternal.isShown=false;
+	set nodeShapeInternal.minSize=10.0;
+	set nodeShapeInternal.scaleType=Width;
+	set nodeShapeInternal.shapeType=Circle;
+	set nodeShapeInternal.size=4.0;
+	set nodeShapeInternal.sizeAttribute=null;
+	set polarLayout.alignTipLabels=false;
+	set polarLayout.angularRange=0;
+	set polarLayout.rootAngle=0;
+	set polarLayout.rootLength=100;
+	set polarLayout.showRoot=true;
+	set radialLayout.spread=0.0;
+	set rectilinearLayout.alignTipLabels=false;
+	set rectilinearLayout.curvature=0;
+	set rectilinearLayout.rootLength=100;
+	set scale.offsetAge=0.0;
+	set scale.rootAge=1.0;
+	set scale.scaleFactor=1.0;
+	set scale.scaleRoot=false;
+	set scaleAxis.automaticScale=true;
+	set scaleAxis.fontSize=8.0;
+	set scaleAxis.isShown=false;
+	set scaleAxis.lineWidth=1.0;
+	set scaleAxis.majorTicks=1.0;
+	set scaleAxis.minorTicks=0.5;
+	set scaleAxis.origin=0.0;
+	set scaleAxis.reverseAxis=false;
+	set scaleAxis.showGrid=true;
+	set scaleBar.automaticScale=true;
+	set scaleBar.fontSize=10.0;
+	set scaleBar.isShown=true;
+	set scaleBar.lineWidth=1.0;
+	set scaleBar.scaleRange=0.0;
+	set tipLabels.colorAttribute="User selection";
+	set tipLabels.displayAttribute="Names";
+	set tipLabels.fontName="Adobe Devanagari";
+	set tipLabels.fontSize=8;
+	set tipLabels.fontStyle=0;
+	set tipLabels.isShown=true;
+	set tipLabels.significantDigits=4;
+	set trees.order=false;
+	set trees.orderType="increasing";
+	set trees.rooting=true;
+	set trees.rootingType="User Selection";
+	set trees.transform=false;
+	set trees.transformType="cladogram";
+end;
+

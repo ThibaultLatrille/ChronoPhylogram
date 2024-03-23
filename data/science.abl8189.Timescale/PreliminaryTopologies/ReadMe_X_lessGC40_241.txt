@@ -1,0 +1,1 @@
+This 30% consensus topology is from the AT-rich (low recombining) regions of the ChrX (<=40% GC content) for 241 species

@@ -1,0 +1,240 @@
+Hypothesis,Reference,Chromosome,Window,Start,End
+Chiroptera + Cetartiodactyla,Human,chr20,30000000,1091244,1091254
+Chiroptera + Cetartiodactyla,Human,chr5,180000000,3867644,3867657
+Chiroptera + Cetartiodactyla,Human,chr20,40000000,6197154,6197167
+Chiroptera + Cetartiodactyla,Human,chr2,70000000,7627350,7627366
+Chiroptera + Cetartiodactyla,Human,chr12,110000000,498972,498988
+Chiroptera + Cetartiodactyla,Human,chr11,90000000,4819229,4819249
+Chiroptera + Cetartiodactyla + Ferae,Human,chr10,80000000,5487518,5487528
+Chiroptera + Cetartiodactyla + Ferae,Human,chr10,110000000,5769451,5769462
+Chiroptera + Cetartiodactyla + Ferae,Human,chr1,120000000,9218057,9218070
+Chiroptera + Cetartiodactyla + Ferae,Human,chr13,100000000,9859580,9859596
+Chiroptera + Cetartiodactyla + Ferae,Human,chr13,100000000,5630311,5630336
+Chiroptera + Cetartiodactyla + Perissodactyla,Human,chr2,140000000,6391426,6391436
+Chiroptera + Cetartiodactyla + Perissodactyla,Human,chr10,120000000,2750604,2750615
+Chiroptera + Cetartiodactyla + Perissodactyla,Human,chr11,40000000,860281,860292
+Chiroptera + Cetartiodactyla + Perissodactyla,Human,chr7,30000000,8799288,8799306
+Chiroptera + Ferae,Human,chr15,60000000,1275672,1275682
+Chiroptera + Ferae,Human,chr7,140000000,2885881,2885891
+Chiroptera + Ferae,Human,chr14,30000000,5478219,5478231
+Chiroptera + Ferae,Human,chr14,40000000,7267010,7267022
+Chiroptera + Ferae,Human,chr15,70000000,662811,662823
+Chiroptera + Ferae,Human,chr16,60000000,9662902,9662914
+Chiroptera + Ferae,Human,chr8,110000000,8114071,8114085
+Chiroptera + Ferae,Human,chr2,80000000,2026426,2026440
+Chiroptera + Ferae,Human,chr12,50000000,3096040,3096058
+Chiroptera + Ferae,Human,chr6,120000000,1824677,1824705
+Chiroptera + Perissodactyla,Human,chr9,120000000,7371989,7371999
+Chiroptera + Perissodactyla,Human,chr21,20000000,9803063,9803073
+Chiroptera + Perissodactyla,Human,chr6,150000000,9061859,9061870
+Chiroptera + Perissodactyla,Human,chr20,10000000,2296115,2296126
+Chiroptera + Perissodactyla,Human,chr16,30000000,1455428,1455440
+Chiroptera + Perissodactyla,Human,chr16,60000000,7234992,7235004
+Chiroptera + Perissodactyla,Human,chr2,60000000,9062292,9062305
+Chiroptera + Perissodactyla,Human,chr10,20000000,5778719,5778732
+Chiroptera + Perissodactyla,Human,chr14,70000000,9615757,9615770
+Chiroptera + Perissodactyla,Human,chr2,180000000,9300857,9300871
+Chiroptera + Perissodactyla,Human,chr2,230000000,6869114,6869128
+Chiroptera + Perissodactyla,Human,chr17,80000000,2152391,2152405
+Chiroptera + Perissodactyla,Human,chr5,120000000,2844574,2844589
+Chiroptera + Perissodactyla,Human,chr9,120000000,4551973,4551989
+Chiroptera + Perissodactyla,Human,chr9,70000000,9712340,9712357
+Chiroptera + Perissodactyla,Human,chr8,100000000,6006172,6006192
+Chiroptera + Perissodactyla,Human,chr4,60000000,7282328,7282350
+Chiroptera + Perissodactyla + Ferae,Human,chr2,80000000,2175705,2175715
+Chiroptera + Perissodactyla + Ferae,Human,chr5,20000000,1990651,1990661
+Chiroptera + Perissodactyla + Ferae,Human,chr4,190000000,9005954,9005965
+Chiroptera + Perissodactyla + Ferae,Human,chr13,80000000,5819053,5819064
+Chiroptera + Perissodactyla + Ferae,Human,chr1,60000000,566478,566490
+Chiroptera + Perissodactyla + Ferae,Human,chr2,150000000,7367110,7367122
+Chiroptera + Perissodactyla + Ferae,Human,chr16,20000000,5974176,5974188
+Chiroptera + Perissodactyla + Ferae,Human,chr4,150000000,4532452,4532465
+Chiroptera + Perissodactyla + Ferae,Human,chr6,100000000,522964,522978
+Chiroptera + Perissodactyla + Ferae,Human,chr10,110000000,1771807,1771821
+Chiroptera + Perissodactyla + Ferae,Human,chr6,90000000,9342036,9342056
+Ferae + Cetartiodactyla,Human,chr7,120000000,6674735,6674745
+Ferae + Cetartiodactyla,Human,chr10,100000000,2051815,2051825
+Ferae + Cetartiodactyla,Human,chr10,100000000,4209410,4209420
+Ferae + Cetartiodactyla,Human,chr10,120000000,6381173,6381183
+Ferae + Cetartiodactyla,Human,chr18,50000000,5254710,5254720
+Ferae + Cetartiodactyla,Human,chr6,120000000,4381834,4381845
+Ferae + Cetartiodactyla,Human,chr1,80000000,25509,25521
+Ferae + Cetartiodactyla,Human,chr13,60000000,3045918,3045930
+Ferae + Cetartiodactyla,Human,chr18,60000000,4249674,4249688
+Ferae + Cetartiodactyla,Human,chr3,20000000,8285602,8285617
+Ferae + Cetartiodactyla,Human,chr14,70000000,3283764,3283780
+Ferae + Cetartiodactyla,Human,chr16,20000000,2951751,2951768
+Ferae + Cetartiodactyla,Human,chr1,120000000,7329553,7329572
+Ferae + Cetartiodactyla,Human,chr5,150000000,9808266,9808285
+Ferae + Cetartiodactyla,Human,chr2,80000000,2928336,2928358
+Ferae + Cetartiodactyla,Human,chr9,10000000,4145378,4145400
+Ferae + Cetartiodactyla,Human,chr5,60000000,5916765,5916789
+Ferae + Perissodactyla,Human,chr1,70000000,560551,560561
+Ferae + Perissodactyla,Human,chr1,90000000,6207284,6207296
+Ferae + Perissodactyla,Human,chr1,40000000,3613657,3613670
+Ferae + Perissodactyla,Human,chr1,30000000,4257747,4257762
+Ferae + Perissodactyla,Human,chr10,20000000,7467914,7467931
+Ferae + Perissodactyla,Human,chr11,20000000,9535637,9535647
+Ferae + Perissodactyla,Human,chr11,20000000,7874155,7874165
+Ferae + Perissodactyla,Human,chr11,50000000,7579430,7579440
+Ferae + Perissodactyla,Human,chr11,120000000,3725279,3725296
+Ferae + Perissodactyla,Human,chr12,30000000,7967895,7967905
+Ferae + Perissodactyla,Human,chr13,110000000,4693946,4693956
+Ferae + Perissodactyla,Human,chr13,80000000,2294659,2294670
+Ferae + Perissodactyla,Human,chr13,60000000,9582514,9582526
+Ferae + Perissodactyla,Human,chr14,80000000,3794615,3794638
+Ferae + Perissodactyla,Human,chr16,50000000,6808470,6808480
+Ferae + Perissodactyla,Human,chr16,80000000,3703743,3703753
+Ferae + Perissodactyla,Human,chr18,30000000,6386521,6386531
+Ferae + Perissodactyla,Human,chr2,40000000,6956297,6956307
+Ferae + Perissodactyla,Human,chr2,150000000,3942793,3942804
+Ferae + Perissodactyla,Human,chr2,190000000,2103871,2103882
+Ferae + Perissodactyla,Human,chr2,230000000,2140864,2140876
+Ferae + Perissodactyla,Human,chr2,50000000,5898976,5898989
+Ferae + Perissodactyla,Human,chr2,200000000,9327385,9327398
+Ferae + Perissodactyla,Human,chr2,180000000,4284240,4284254
+Ferae + Perissodactyla,Human,chr20,10000000,7013296,7013307
+Ferae + Perissodactyla,Human,chr20,40000000,7840214,7840225
+Ferae + Perissodactyla,Human,chr20,20000000,9412052,9412068
+Ferae + Perissodactyla,Human,chr20,50000000,535973,535990
+Ferae + Perissodactyla,Human,chr3,110000000,7107843,7107853
+Ferae + Perissodactyla,Human,chr3,70000000,1008736,1008748
+Ferae + Perissodactyla,Human,chr3,160000000,7470055,7470078
+Ferae + Perissodactyla,Human,chr3,140000000,3644203,3644230
+Ferae + Perissodactyla,Human,chr4,20000000,9652264,9652274
+Ferae + Perissodactyla,Human,chr5,110000000,2835808,2835820
+Ferae + Perissodactyla,Human,chr5,150000000,3139495,3139509
+Ferae + Perissodactyla,Human,chr5,180000000,6594138,6594153
+Ferae + Perissodactyla,Human,chr6,160000000,2498919,2498932
+Ferae + Perissodactyla,Human,chr7,130000000,1923216,1923234
+Ferae + Perissodactyla,Human,chr8,60000000,5314550,5314560
+Ferae + Perissodactyla,Human,chr8,40000000,5592696,5592707
+Ferae + Perissodactyla,Human,chr8,130000000,622267,622282
+Ferae + Perissodactyla,Human,chrX,130000000,4713541,4713555
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr5,90000000,4559218,4559228
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr5,140000000,2483950,2483960
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr7,30000000,1366208,1366218
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr17,10000000,2064784,2064794
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr17,10000000,3840628,3840638
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr17,20000000,3568938,3568948
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr20,10000000,6698465,6698475
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr12,60000000,9829553,9829565
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr18,20000000,3042112,3042124
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr15,70000000,2777743,2777756
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr3,110000000,7947342,7947356
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr12,110000000,5587263,5587277
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr14,40000000,616197,616211
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr17,50000000,6713969,6713983
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr18,30000000,4125502,4125517
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr12,60000000,4523973,4523989
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr10,130000000,6333171,6333188
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr7,120000000,6542789,6542809
+Ferae + Perissodactyla + Cetartiodactyla,Human,chr10,120000000,4687520,4687544
+Perissodactyla + Cetartiodactyla,Human,chr2,70000000,292297,292307
+Perissodactyla + Cetartiodactyla,Human,chr3,60000000,6251377,6251387
+Perissodactyla + Cetartiodactyla,Human,chr3,70000000,5594825,5594835
+Perissodactyla + Cetartiodactyla,Human,chr5,100000000,4562835,4562845
+Perissodactyla + Cetartiodactyla,Human,chr6,60000000,1265874,1265884
+Perissodactyla + Cetartiodactyla,Human,chr13,80000000,7928864,7928874
+Perissodactyla + Cetartiodactyla,Human,chr18,60000000,3197371,3197381
+Perissodactyla + Cetartiodactyla,Human,chr20,20000000,9252021,9252031
+Perissodactyla + Cetartiodactyla,Human,chr2,220000000,8587418,8587429
+Perissodactyla + Cetartiodactyla,Human,chr5,100000000,163045,163056
+Perissodactyla + Cetartiodactyla,Human,chr6,30000000,2321541,2321552
+Perissodactyla + Cetartiodactyla,Human,chr10,30000000,7111679,7111690
+Perissodactyla + Cetartiodactyla,Human,chr19,40000000,1815498,1815509
+Perissodactyla + Cetartiodactyla,Human,chr10,10000000,8435163,8435175
+Perissodactyla + Cetartiodactyla,Human,chr14,90000000,6858991,6859003
+Perissodactyla + Cetartiodactyla,Human,chr18,10000000,2796350,2796362
+Perissodactyla + Cetartiodactyla,Human,chr20,10000000,5923437,5923449
+Perissodactyla + Cetartiodactyla,Human,chr12,80000000,7190714,7190727
+Perissodactyla + Cetartiodactyla,Human,chr15,70000000,7747465,7747478
+Perissodactyla + Cetartiodactyla,Human,chr2,140000000,6136184,6136198
+Perissodactyla + Cetartiodactyla,Human,chr17,60000000,6615352,6615366
+Perissodactyla + Cetartiodactyla,Human,chr1,100000000,9580206,9580221
+Perissodactyla + Cetartiodactyla,Human,chr1,40000000,4160247,4160263
+Perissodactyla + Cetartiodactyla,Human,chr6,60000000,887061,887077
+Perissodactyla + Cetartiodactyla,Human,chr12,100000000,8898866,8898882
+Perissodactyla + Cetartiodactyla,Human,chr16,10000000,3243747,3243765
+Scrotifera,Human,chr10,20000000,9793359,9793370
+Scrotifera,Human,chr10,110000000,2233955,2233967
+Scrotifera,Human,chr10,120000000,1233868,1233883
+Scrotifera,Human,chr12,80000000,1335311,1335323
+Scrotifera,Human,chr12,110000000,2475110,2475124
+Scrotifera,Human,chr12,130000000,357803,357814
+Scrotifera,Human,chr14,40000000,4965296,4965334
+Scrotifera,Human,chr14,70000000,4742285,4742306
+Scrotifera,Human,chr14,80000000,9373773,9373783
+Scrotifera,Human,chr14,80000000,8362599,8362612
+Scrotifera,Human,chr17,60000000,9735191,9735204
+Scrotifera,Human,chr18,40000000,9972458,9972471
+Scrotifera,Human,chr18,60000000,6197277,6197293
+Scrotifera,Human,chr2,20000000,9700571,9700583
+Scrotifera,Human,chr2,40000000,3524607,3524617
+Scrotifera,Human,chr2,100000000,9583129,9583140
+Scrotifera,Human,chr2,110000000,2932816,2932829
+Scrotifera,Human,chr2,120000000,6776384,6776394
+Scrotifera,Human,chr2,150000000,9676847,9676861
+Scrotifera,Human,chr2,160000000,7305584,7305594
+Scrotifera,Human,chr2,180000000,3567912,3567926
+Scrotifera,Human,chr2,190000000,1850219,1850230
+Scrotifera,Human,chr2,230000000,1824653,1824664
+Scrotifera,Human,chr3,70000000,1679316,1679326
+Scrotifera,Human,chr3,70000000,6746912,6746925
+Scrotifera,Human,chr3,120000000,4718289,4718303
+Scrotifera,Human,chr3,130000000,3946950,3946965
+Scrotifera,Human,chr3,170000000,9088841,9088857
+Scrotifera,Human,chr4,30000000,3937193,3937214
+Scrotifera,Human,chr4,60000000,5111722,5111737
+Scrotifera,Human,chr4,90000000,952091,952102
+Scrotifera,Human,chr4,150000000,7530559,7530569
+Scrotifera,Human,chr4,190000000,1703159,1703183
+Scrotifera,Human,chr5,40000000,2045181,2045193
+Scrotifera,Human,chr5,70000000,1663779,1663798
+Scrotifera,Human,chr5,100000000,677227,677240
+Scrotifera,Human,chr5,110000000,7951242,7951265
+Scrotifera,Human,chr5,130000000,7762238,7762248
+Scrotifera,Human,chr6,50000000,4023132,4023143
+Scrotifera,Human,chr6,50000000,2538073,2538086
+Scrotifera,Human,chr6,60000000,1152106,1152119
+Scrotifera,Human,chr6,100000000,63508,63522
+Scrotifera,Human,chr6,120000000,9328903,9328915
+Scrotifera,Human,chr6,140000000,9906107,9906123
+Scrotifera,Human,chr7,30000000,7873081,7873093
+Scrotifera,Human,chr7,90000000,870881,870900
+Scrotifera,Human,chr7,110000000,8367586,8367596
+Scrotifera,Human,chr8,80000000,6783282,6783292
+Scrotifera,Human,chr8,110000000,7505181,7505194
+Scrotifera,Human,chr9,20000000,4330937,4330947
+Scrotifera,Human,chr9,110000000,6889214,6889234
+Scrotifera,Human,chr9,120000000,6137497,6137507
+Scrotifera,Human,chr9,120000000,4573709,4573720
+Scrotifera,Human,chr9,130000000,961661,961673
+Euarchonta,Dog,chr29,10000000-20000000,1628320,1628340
+Euarchonta,Dog,chr33,20000000-30000000,5289926,5289937
+Euarchonta,Dog,chrX,80000000-90000000,1133041,1133057
+Euarchonta,Dog,chr2,30000000-40000000,7489734,7489755
+Euarchonta,Dog,chr6,30000000-40000000,3071133,3071154
+Euarchonta,Dog,chr8,40000000-50000000,5733621,5733636
+Euarchonta,Dog,chr10,0-10000000,8000914,8000931
+Euarchonta,Dog,chr15,60000000-64190966,1866483,1866504
+Euarchonta,Dog,chr26,10000000-20000000,4951780,4951791
+Euarchonta,Dog,chr6,50000000-60000000,1918005,1918015
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+Euarchonta,Dog,chr29,10000000-20000000,1628340,20
+Euarchonta,Dog,chr33,20000000-30000000,5289937,11
+Euarchonta,Dog,chrX,80000000-90000000,1133057,16
+Euarchonta,Dog,chr2,30000000-40000000,7489755,21
+Euarchonta,Dog,chr6,30000000-40000000,3071154,21
+Euarchonta,Dog,chr8,40000000-50000000,5733636,15
+Euarchonta,Dog,chr10,0-10000000,8000931,17
+Euarchonta,Dog,chr15,60000000-64190966,1866504,21
+Euarchonta,Dog,chr26,10000000-20000000,4951791,11
+Euarchonta,Dog,chr6,50000000-60000000,1918015,17

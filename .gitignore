@@ -1,0 +1,15 @@
+.idea/
+__pycache__/
+.DS_Store
+.snakemake
+*.py[cod]
+*$py.class
+*.pdf
+.env
+.venv
+utils/
+RevBayes/
+data_processed/
+/data/science.abn2937.phyloP/
+
+

@@ -1,0 +1,22 @@
+,Coalescence,,,,,,,Concatenation,,,,,,,,,
+,HRA_65,DRA_65,RRA_65,Conserved_HRA_65,Accelerated_HRA_65,Neutral_HRA_65,Neutral_HRA_241,HRA_65,DRA_65,RRA_65,Conserved_HRA_65,Accelerated_HRA_65,Neutral_HRA_65,Neutral_HRA_241,SlidingWindows_X,SlidingWindows_Autosomes,Rare Genomic Changes
+Laurasiatheria,,,,,,,,,,,,,,,,,
+Scrotifera,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X
+Fereunguulata,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X
+Zooamata,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X
+,,,,,,,,,,,,,,,,,
+Scandentia,,,,,,,,,,,,,,,,,
+Euarchonta,X,X,X,,X,X,X,X,X,X,X,X,X,X,X,X,X
+Sundatheria (Scandentia + Dermoptera),,,,,,,,,,,,,,,,,
+Scandentia + Glires,,,,X,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+Rodentia,,,,,,,,,,,,,,,,,
+"Sciurimorpha (Myomorpha, Hystricomorpha)",X,X,X,X,X,X,X,X,X,,X,X,,,,X,/
+"Hystricomorpha (Sciurimorpha, Myomorpha)",,,,,,,,,,,,,,,,,/
+"Myomorpha (Sciurimorpha, Hystricomorpha)",,,,,,,,,,X,,,X,X,X,,/
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,

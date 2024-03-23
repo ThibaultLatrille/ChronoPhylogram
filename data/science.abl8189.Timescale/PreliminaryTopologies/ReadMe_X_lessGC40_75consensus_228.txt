@@ -1,0 +1,1 @@
+This 75% consensus tree is from the AT-rich (low recombining) regions of the ChrX (<=40% GC content) for 228 species
