@@ -22,28 +22,28 @@ for executable in ["nodetraits", "readnodetraits"]:
 
 
 def data_dS(dataset):
-    dico_dS = {"PrimateDiv": "science.abn7829.primates/science.abn7829_data_s3.nw.tree"}
-    dico_dS["PrimateDivNeu"] = dico_dS["PrimateDiv"].replace("nw.tree","scaled.nw.tree")
+    dico_dS = {"PrimatePhylo": "science.abn7829.primates/science.abn7829_data_s3.nw.tree"}
+    dico_dS["PrimatePhyloNeu"] = dico_dS["PrimatePhylo"].replace("nw.tree","scaled.nw.tree")
     timescale = "science.abl8189.Timescale"
-    dico_dS["MammalC30"] = f"{timescale}/PreliminaryTopologies/X_lessGC40_241.tree"
-    dico_dS["MammalC75"] = f"{timescale}/PreliminaryTopologies/200Mammals_X_lessGC40_75consensus.tr"
-    dico_dS["MammalDiv"] = f"{timescale}/Table_S2_RootedTrees/Concatenation_HRA_neutral_241_10miss_rooted.tree"
-    dico_dS["MammalTime"] = dico_dS["PrimateTime"] = "mammals_timetree.nwk"
+    dico_dS["MammalP30"] = f"{timescale}/PreliminaryTopologies/X_lessGC40_241.tree"
+    dico_dS["MammalP75"] = f"{timescale}/PreliminaryTopologies/200Mammals_X_lessGC40_75consensus.tr"
+    dico_dS["MammalPhylo"] = f"{timescale}/Table_S2_RootedTrees/Concatenation_HRA_neutral_241_10miss_rooted.tree"
+    dico_dS["MammalChrono"] = dico_dS["PrimateChrono"] = "mammals_timetree.nwk"
     return dico_dS[dataset]
 
 
 rule all:
-    input: expand(f"{FOLDER}/results/{{dataset}}.pdf", dataset=datasets)
+    input: expand(f"{FOLDER}/results/simu_{{dataset}}.pdf", dataset=datasets)
 
 
 rule scale_trees:
     input:
         script=f"{FOLDER}/scripts/scale_tree.py",
-        tree_1=lambda wildcards: f"{FOLDER}/data/{data_dS(wildcards.dataset + 'Div')}",
-        tree_2=lambda wildcards: f"{FOLDER}/data/{data_dS(wildcards.dataset + 'Time')}"
+        tree_1=lambda wildcards: f"{FOLDER}/data/{data_dS(wildcards.dataset + 'Phylo')}",
+        tree_2=lambda wildcards: f"{FOLDER}/data/{data_dS(wildcards.dataset + 'Chrono')}"
     output:
-        tree_1=f"{FOLDER}/data_processed/{{dataset}}.scaled.Div.tree",
-        tree_2=f"{FOLDER}/data_processed/{{dataset}}.scaled.Time.tree"
+        tree_1=f"{FOLDER}/data_processed/{{dataset}}.scaled.Phylo.tree",
+        tree_2=f"{FOLDER}/data_processed/{{dataset}}.scaled.Chrono.tree"
     shell:
         'python3 {input.script} --tree_1 {input.tree_1} --tree_2 {input.tree_2} --tree_output_1 {output.tree_1} --tree_output_2 {output.tree_2}'
 
@@ -76,15 +76,15 @@ rule run_inference:
     log:
         stdout=f"{FOLDER}/data_processed/inference/{{dataset}}_{{gram}}_{{sex}}_{{logT}}.log"
     shell:
-        '{input.exec} {params.until} --uniq_kappa --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
+        '{input.exec} {params.until} --uniq_kappa --keep_scale --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
         ' > {log.stdout}'
 
 rule merge_trace:
     input:
         script=f"{FOLDER}/scripts/merge_results_mammals.py",
         bayescode=expand(f"{FOLDER}/data_processed/inference/{{{{dataset}}}}_{{gram}}_{{sex}}_{{logT}}.run",
-            gram=["Div", "Time"],sex=sexes,logT=logTs)
+            gram=["Phylo", "Chrono"],sex=sexes,logT=logTs)
     output:
-        tsv=f"{FOLDER}/results/{{dataset}}.pdf"
+        tsv=f"{FOLDER}/results/simu_{{dataset}}.pdf"
     shell:
         'python3 {input.script} --bayescode {input.bayescode} --output {output.tsv}'
