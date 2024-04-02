@@ -37,11 +37,11 @@ for tag in ["population_size", "mutation_rate"]:
     print(f"{tag_sigma}: {config['core'][f'{tag_sigma}']}")
 SIMULATOR_PARAMS["core"] = " ".join(['--{0} {1}'.format(k,v) for k, v in config["core"].items()])
 SEED_POP_SIZE = 42
-SEED_MUT_RATE = 42
+SEED_MUT_RATE = 24
 
 rule all:
     input:
-        expand(f"{FOLDER}/results/{{simulator}}.pdf",simulator=config["simulators"])
+        expand(f"{FOLDER}/results/simu_{{simulator}}.pdf",simulator=config["simulators"])
 
 
 def variance_env(nbr_loci, a, mut_rate, pop_size, h2):
@@ -135,7 +135,7 @@ rule bayescode_inference:
         chain=lambda wildcards: f"{FOLDER}/data_simulated/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}",
         until=f"-u {config['bayes_until']}"
     shell:
-        '{input.exec} {params.until} --uniq_kappa --keep_scale --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
+        '{input.exec} {params.until} --uniq_kappa --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
 
 rule plot_trait_distance:
     input:
@@ -156,6 +156,6 @@ rule merge_simulated_trace:
             gram=["Phylo", "Chrono"],seed=SEEDS),
         tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/replicate_seed{{seed}}.d.tree",seed=SEEDS)
     output:
-        tsv=f"{FOLDER}/results/{{simulator}}.pdf"
+        tsv=f"{FOLDER}/results/simu_{{simulator}}.pdf"
     shell:
         'python3 {input.script} --bayescode {input.bayescode} --output {output.tsv}'

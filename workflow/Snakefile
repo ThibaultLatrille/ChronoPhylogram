@@ -33,7 +33,7 @@ def data_dS(dataset):
 
 
 rule all:
-    input: expand(f"{FOLDER}/results/simu_{{dataset}}.pdf", dataset=datasets)
+    input: expand(f"{FOLDER}/results/empirical_{{dataset}}.pdf", dataset=datasets)
 
 
 rule scale_trees:
@@ -85,6 +85,6 @@ rule merge_trace:
         bayescode=expand(f"{FOLDER}/data_processed/inference/{{{{dataset}}}}_{{gram}}_{{sex}}_{{logT}}.run",
             gram=["Phylo", "Chrono"],sex=sexes,logT=logTs)
     output:
-        tsv=f"{FOLDER}/results/simu_{{dataset}}.pdf"
+        tsv=f"{FOLDER}/results/empirical_{{dataset}}.pdf"
     shell:
         'python3 {input.script} --bayescode {input.bayescode} --output {output.tsv}'

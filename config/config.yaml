@@ -1,7 +1,7 @@
 nb_genes: 1
 min_seed: 0
 max_seed: 98745641
-nb_seeds: 2
+nb_seeds: 20
 tree: "trees/mammal.tre.annotated"
 bayes_inference: true
 bayes_burn_in: 1000

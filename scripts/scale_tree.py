@@ -15,8 +15,8 @@ def main(tree_1, tree_2, tree_output_1, tree_output_2):
     t_2 = parse_tree(tree_2)
     intersection = list(set(t_1.get_leaf_names()).intersection(set(t_2.get_leaf_names())))
     print(f"Intersection between tree_1 and tree_2 has {len(intersection)} leaves")
-    pruned_1 = prune_tree(t_1, intersection)
-    pruned_2 = prune_tree(t_2, intersection)
+    pruned_1 = scale_tree(prune_tree(t_1, intersection))
+    pruned_2 = scale_tree(prune_tree(t_2, intersection))
     assert len(pruned_1.get_leaf_names()) == len(
         pruned_2.get_leaf_names()), "Pruned trees do not have the same number of leaves"
     pruned_1.write(outfile=tree_output_1, format=1)
