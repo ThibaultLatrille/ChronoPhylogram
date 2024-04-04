@@ -1,4 +1,7 @@
+import os
 import argparse
+import numpy as np
+import matplotlib.pyplot as plt
 from libraries import *
 
 
@@ -6,21 +9,48 @@ def parse_tree(tree_path: str) -> Tree:
     return rename_tree(prune_tree(open_tree(tree_path, format_ete3=1)))
 
 
+def plot_tree(x_tree, y_tree, x_label, y_label, ax):
+    distances_x, distances_y = [], []
+    for node_x, node_y in zip(x_tree.traverse(), y_tree.traverse()):
+        assert node_x.name == node_y.name, "Different leaf names"
+        distances_x.append(node_y.dist)
+        distances_y.append(node_x.dist)
+    ax.scatter(distances_x, distances_y)
+    # regression line and r-squared
+    m, b = np.polyfit(distances_x, distances_y, 1)
+    r2 = np.corrcoef(distances_x, distances_y)[0, 1] ** 2
+    ax.plot(distances_x, m * np.array(distances_x) + b, color="red", label=f"y = {m:.2f}x + {b:.2f} (R² = {r2:.2f})")
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    ax.set_title("Distance between the two trees")
+    ax.legend()
+
+
 def main(tree_1, tree_2, tree_output_1, tree_output_2):
     """
     Scale the tree_1 and tree_2 to have the same species and the same scale
     :return:
     """
+    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+    x_label = os.path.basename(tree_2).replace(".tree", "")
+    y_label = os.path.basename(tree_1).replace(".tree", "")
+
     t_1 = parse_tree(tree_1)
     t_2 = parse_tree(tree_2)
     intersection = list(set(t_1.get_leaf_names()).intersection(set(t_2.get_leaf_names())))
     print(f"Intersection between tree_1 and tree_2 has {len(intersection)} leaves")
-    pruned_1 = scale_tree(prune_tree(t_1, intersection))
-    pruned_2 = scale_tree(prune_tree(t_2, intersection))
-    assert len(pruned_1.get_leaf_names()) == len(
-        pruned_2.get_leaf_names()), "Pruned trees do not have the same number of leaves"
-    pruned_1.write(outfile=tree_output_1, format=1)
-    pruned_2.write(outfile=tree_output_2, format=1)
+    t_1 = prune_tree(t_1, intersection)
+    t_2 = prune_tree(t_2, intersection)
+    plot_tree(t_1, t_2, x_label, y_label, axes[0])
+
+    t_1 = scale_tree(t_1)
+    t_2 = scale_tree(t_2)
+    plot_tree(t_1, t_2, "Scaled " + x_label, "Scaled " + y_label, axes[1])
+    assert len(t_1.get_leaf_names()) == len(t_2.get_leaf_names())
+    t_1.write(outfile=tree_output_1, format=1)
+    t_2.write(outfile=tree_output_2, format=1)
+    # Plot the distance between the two trees as a scatter plot
+    plt.savefig(tree_output_1 + ".pdf")
 
 
 if __name__ == '__main__':

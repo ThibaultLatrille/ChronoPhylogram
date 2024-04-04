@@ -33,13 +33,9 @@ def main(bayescode_list: str, output: str):
     fig, axes = plt.subplots(2, 1, figsize=(16, 9))
     ax = axes[0]
     df_out.sort_values(by=["seed", "gram"], inplace=True)
-    color_palette = {}
-    for dataset, gram in zip(df_out["dataset"], df_out["gram"]):
-        color_palette[dataset] = sns.color_palette("tab10")[0 if gram == "Chrono" else 1]
-    sns.violinplot(x="dataset", y="lnprob", data=df_out, density_norm='width', palette=color_palette, ax=ax)
-    # Add legend for the colors
-    ax.plot([], [], color=sns.color_palette("tab10")[0], label="Chronogram")
-    ax.plot([], [], color=sns.color_palette("tab10")[1], label="Phylogram")
+    palette = {"Chrono": sns.color_palette("tab10")[0], "Phylo": sns.color_palette("tab10")[1]}
+    sns.violinplot(data=df_out, x="seed", y="lnprob", hue="gram", split=True, inner="quart", fill=True,
+                   density_norm='width', palette=palette, ax=ax)
     ax.legend()
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 
@@ -51,7 +47,6 @@ def main(bayescode_list: str, output: str):
         diff = phylo - chrono
         sns.kdeplot(diff, label=dataset, ax=ax)
     ax.set_xlabel("lnprob(Phylo) - lnprob(Chrono)")
-    # Vertical line at 0
     ax.axvline(0, color='black', linestyle='--')
     ax.legend(fontsize=6)
     plt.tight_layout()

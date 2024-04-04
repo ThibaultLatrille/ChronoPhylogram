@@ -38,10 +38,17 @@ for tag in ["population_size", "mutation_rate"]:
 SIMULATOR_PARAMS["core"] = " ".join(['--{0} {1}'.format(k,v) for k, v in config["core"].items()])
 SEED_POP_SIZE = 42
 SEED_MUT_RATE = 24
+GRAMS = ["Phylo", "Chrono"]
+
+wildcard_constraints:
+    simulator=r"[a-zA-Z_]+",gram=r"[a-zA-Z]+"
 
 rule all:
     input:
-        expand(f"{FOLDER}/results/simu_{{simulator}}.pdf",simulator=config["simulators"])
+        expand(f"{FOLDER}/results/simu_{{simulator}}.pdf",simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/plot_ancestral_{{gram}}_{{simulator}}.pdf",gram=GRAMS,simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/plot_distance_{{gram}}_{{simulator}}.pdf",gram=GRAMS,simulator=config["simulators"]),
+        f"{FOLDER}/results/plot_div_comparison.pdf"
 
 
 def variance_env(nbr_loci, a, mut_rate, pop_size, h2):
@@ -102,6 +109,15 @@ rule distance_tree:
     shell:
         'python3 {input.script} --neutral_tree {input.nhx} --tree {output.tree} '
 
+rule plot_div_comparison:
+    input:
+        scripts=f"{FOLDER}/scripts/plot_div_comparison.py",
+        distance_tree=expand(f"{FOLDER}/data_simulated/{{simulator}}/replicate_seed{{seed}}.d.tree",
+            seed=SEEDS,simulator=config["simulators"]),
+    output:
+        pdf=f"{FOLDER}/results/plot_div_comparison.pdf"
+    shell:
+        'python3 {input.scripts} --distance_tree {input.distance_tree} --output {output.pdf}'
 
 rule neutral_tree:
     input:
@@ -111,7 +127,6 @@ rule neutral_tree:
         tree=f"{FOLDER}/data_simulated/neutral_tree.tree"
     shell:
         'python3 {input.script} --neutral_tree {input.nhx} --tree {output.tree} '
-
 
 rule scale_tree:
     input:
@@ -123,6 +138,16 @@ rule scale_tree:
         tree_2=f"{FOLDER}/data_simulated/Chrono_scaled.tree"
     shell:
         'python3 {input.script} --tree_1 {input.tree_1} --tree_2 {input.tree_2} --tree_output_1 {output.tree_1} --tree_output_2 {output.tree_2}'
+
+rule plot_trait_distance:
+    input:
+        scripts=f"{FOLDER}/scripts/plot_trait_distance.py",
+        distance_tree=f"{FOLDER}/data_simulated/{{gram}}_scaled.tree",
+        simu_tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz", seed=SEEDS)
+    output:
+        run=f"{FOLDER}/results/plot_distance_{{gram}}_{{simulator}}.pdf"
+    shell:
+        'python3 {input.scripts} --distance_tree {input.distance_tree} --simu_tree {input.simu_tree} --output {output.run}'
 
 rule bayescode_inference:
     input:
@@ -137,24 +162,34 @@ rule bayescode_inference:
     shell:
         '{input.exec} {params.until} --uniq_kappa --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
 
-rule plot_trait_distance:
+rule bayescode_read:
     input:
-        scripts=f"{FOLDER}/scripts/plot_trait_distance.py",
-        distance_tree=f"{FOLDER}/data_simulated/{{gram}}_scaled.tree",
-        simu_tree=rules.run_simulations.output.nhx
+        exec=exec_dico['readnodetraits'],
+        run=rules.bayescode_inference.output.run
     output:
-        run=f"{FOLDER}/data_simulated/{{simulator}}/plot_{{gram}}_seed{{seed}}.pdf"
+        tree=f"{FOLDER}/data_simulated/{{simulator}}/inference_{{gram}}_seed{{seed}}.Phenotype_mean.nhx"
+    params:
+        chain=rules.bayescode_inference.params.chain,
+        until=rules.bayescode_inference.params.until,
+        burnin=f"-b {config['bayes_burn_in']}"
     shell:
-        'python3 {input.scripts} --distance_tree {input.distance_tree} --simu_tree {input.simu_tree} --output {output.run}'
+        '{input.exec} {params.until} {params.burnin} --newick {params.chain}'
+
+rule plot_ancestral_traits:
+    input:
+        script=f"{FOLDER}/scripts/plot_ancestral_traits.py",
+        inference_tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}.Phenotype_mean.nhx", seed=SEEDS),
+        simu_tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz", seed=SEEDS),
+    output:
+        pdf=f"{FOLDER}/results/plot_ancestral_{{gram}}_{{simulator}}.pdf"
+    shell:
+        'python3 {input.script} --inference_tree {input.inference_tree} --simu_tree {input.simu_tree} --output {output.pdf}'
 
 rule merge_simulated_trace:
     input:
         script=f"{FOLDER}/scripts/merge_results_simulations.py",
         bayescode=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.run",
-            gram=["Phylo", "Chrono"],seed=SEEDS),
-        pdf=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/plot_{{gram}}_seed{{seed}}.pdf",
-            gram=["Phylo", "Chrono"],seed=SEEDS),
-        tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/replicate_seed{{seed}}.d.tree",seed=SEEDS)
+            gram=GRAMS,seed=SEEDS)
     output:
         tsv=f"{FOLDER}/results/simu_{{simulator}}.pdf"
     shell:

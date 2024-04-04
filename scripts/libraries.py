@@ -51,7 +51,8 @@ def name_internal_nodes(tree: Tree) -> Tree:
     return tree
 
 
-def scale_tree(tree: Tree) -> Tree:
+def scale_tree(input_tree: Tree) -> Tree:
+    tree = input_tree.copy()
     d_total = sum([node.dist for node in tree.traverse()])
     for node in tree.traverse():
         node.dist = node.dist / d_total
