@@ -24,6 +24,7 @@ for executable in executable_list:
 
 configfile: 'config/config.yaml'
 
+EXP = config["experiment_name"]
 ChronoGram = f"{FOLDER}/utils/simulator/{config['tree']}"
 SEEDS = [int(i) for i in np.linspace(config["min_seed"],config["max_seed"],config["nb_seeds"])]
 SIMULATOR_PARAMS = {s: " ".join(['--{0} {1}'.format(k,v) for k, v in d.items() if k != "model"]) for s, d in
@@ -45,10 +46,10 @@ wildcard_constraints:
 
 rule all:
     input:
-        expand(f"{FOLDER}/results/simu_{{simulator}}.pdf",simulator=config["simulators"]),
-        expand(f"{FOLDER}/results/plot_ancestral_{{gram}}_{{simulator}}.pdf",gram=GRAMS,simulator=config["simulators"]),
-        expand(f"{FOLDER}/results/plot_distance_{{gram}}_{{simulator}}.pdf",gram=GRAMS,simulator=config["simulators"]),
-        f"{FOLDER}/results/plot_div_comparison.pdf"
+        expand(f"{FOLDER}/results/{EXP}/simu_{{simulator}}.pdf",simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/{EXP}/plot_ancestral_{{gram}}_{{simulator}}.pdf",gram=GRAMS,simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/{EXP}/plot_distance_{{gram}}_{{simulator}}.pdf",gram=GRAMS,simulator=config["simulators"]),
+        f"{FOLDER}/results/{EXP}/plot_div_comparison.pdf"
 
 
 def variance_env(nbr_loci, a, mut_rate, pop_size, h2):
@@ -64,10 +65,10 @@ rule run_simulations:
         exec=lambda wildcards: f"{FOLDER}/utils/simulator/build/{config['simulators'][wildcards.simulator]['model']}",
         tree=ChronoGram
     output:
-        nhx=f"{FOLDER}/data_simulated/{{simulator}}/replicate_seed{{seed}}.nhx.gz"
+        nhx=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/replicate_seed{{seed}}.nhx.gz"
     params:
-        file=lambda wildcards: f"{FOLDER}/data_simulated/{wildcards.simulator}/replicate_seed{wildcards.seed}",
-        folder=lambda wildcards: f"{FOLDER}/data_simulated/{wildcards.simulator}",
+        file=lambda wildcards: f"{FOLDER}/data_simulated/{EXP}/{wildcards.simulator}/replicate_seed{wildcards.seed}",
+        folder=lambda wildcards: f"{FOLDER}/data_simulated/{EXP}/{wildcards.simulator}",
         simulator=lambda wildcards: "{0} {1}".format(SIMULATOR_PARAMS["core"],SIMULATOR_PARAMS[wildcards.simulator]),
         ve=lambda wildcards: variance_env(
             nbr_loci=config["simulators"][wildcards.simulator]["number_loci"],
@@ -83,9 +84,9 @@ rule run_neutral_simulation:
         exec=lambda wildcards: f"{FOLDER}/utils/simulator/build/neutral",
         tree=f"{FOLDER}/utils/simulator/{config['tree']}"
     output:
-        nhx=f"{FOLDER}/data_simulated/neutral_tree.nhx.gz"
+        nhx=f"{FOLDER}/data_simulated/{EXP}/neutral_tree.nhx.gz"
     params:
-        file=f"{FOLDER}/data_simulated/neutral_tree",
+        file=f"{FOLDER}/data_simulated/{EXP}/neutral_tree",
         folder=lambda wildcards: f"{FOLDER}/data_simulated",
         simulator=SIMULATOR_PARAMS["core"]
     shell:
@@ -96,7 +97,7 @@ rule simulation_traits:
         script=f"{FOLDER}/scripts/pre_processed_traits_simulations.py",
         nhx=rules.run_simulations.output.nhx
     output:
-        traits=f"{FOLDER}/data_simulated/{{simulator}}/replicate_{{gram}}_seed{{seed}}.traits.tsv"
+        traits=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/replicate_{{gram}}_seed{{seed}}.traits.tsv"
     shell:
         'python3 {input.script} --input {input.nhx} --traitsfile {output.traits}'
 
@@ -105,17 +106,17 @@ rule distance_tree:
         script=f"{FOLDER}/scripts/neutral_tree.py",
         nhx=rules.run_simulations.output.nhx
     output:
-        tree=f"{FOLDER}/data_simulated/{{simulator}}/replicate_seed{{seed}}.d.tree"
+        tree=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/replicate_seed{{seed}}.d.tree"
     shell:
         'python3 {input.script} --neutral_tree {input.nhx} --tree {output.tree} '
 
 rule plot_div_comparison:
     input:
         scripts=f"{FOLDER}/scripts/plot_div_comparison.py",
-        distance_tree=expand(f"{FOLDER}/data_simulated/{{simulator}}/replicate_seed{{seed}}.d.tree",
+        distance_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/replicate_seed{{seed}}.d.tree",
             seed=SEEDS,simulator=config["simulators"]),
     output:
-        pdf=f"{FOLDER}/results/plot_div_comparison.pdf"
+        pdf=f"{FOLDER}/results/{EXP}/plot_div_comparison.pdf"
     shell:
         'python3 {input.scripts} --distance_tree {input.distance_tree} --output {output.pdf}'
 
@@ -124,7 +125,7 @@ rule neutral_tree:
         script=f"{FOLDER}/scripts/neutral_tree.py",
         nhx=rules.run_neutral_simulation.output.nhx
     output:
-        tree=f"{FOLDER}/data_simulated/neutral_tree.tree"
+        tree=f"{FOLDER}/data_simulated/{EXP}/neutral_tree.tree"
     shell:
         'python3 {input.script} --neutral_tree {input.nhx} --tree {output.tree} '
 
@@ -134,30 +135,30 @@ rule scale_tree:
         tree_1=rules.neutral_tree.output.tree,
         tree_2=ChronoGram
     output:
-        tree_1=f"{FOLDER}/data_simulated/Phylo_scaled.tree",
-        tree_2=f"{FOLDER}/data_simulated/Chrono_scaled.tree"
+        tree_1=f"{FOLDER}/data_simulated/{EXP}/Phylo_scaled.tree",
+        tree_2=f"{FOLDER}/data_simulated/{EXP}/Chrono_scaled.tree"
     shell:
         'python3 {input.script} --tree_1 {input.tree_1} --tree_2 {input.tree_2} --tree_output_1 {output.tree_1} --tree_output_2 {output.tree_2}'
 
 rule plot_trait_distance:
     input:
         scripts=f"{FOLDER}/scripts/plot_trait_distance.py",
-        distance_tree=f"{FOLDER}/data_simulated/{{gram}}_scaled.tree",
-        simu_tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz", seed=SEEDS)
+        distance_tree=f"{FOLDER}/data_simulated/{EXP}/{{gram}}_scaled.tree",
+        simu_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz", seed=SEEDS)
     output:
-        run=f"{FOLDER}/results/plot_distance_{{gram}}_{{simulator}}.pdf"
+        run=f"{FOLDER}/results/{EXP}/plot_distance_{{gram}}_{{simulator}}.pdf"
     shell:
         'python3 {input.scripts} --distance_tree {input.distance_tree} --simu_tree {input.simu_tree} --output {output.run}'
 
 rule bayescode_inference:
     input:
         exec=exec_dico['nodetraits'],
-        tree=f"{FOLDER}/data_simulated/{{gram}}_scaled.tree",
+        tree=f"{FOLDER}/data_simulated/{EXP}/{{gram}}_scaled.tree",
         traits=rules.simulation_traits.output.traits
     output:
-        run=f"{FOLDER}/data_simulated/{{simulator}}/inference_{{gram}}_seed{{seed}}.run"
+        run=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.run"
     params:
-        chain=lambda wildcards: f"{FOLDER}/data_simulated/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}",
+        chain=lambda wildcards: f"{FOLDER}/data_simulated/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}",
         until=f"-u {config['bayes_until']}"
     shell:
         '{input.exec} {params.until} --uniq_kappa --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
@@ -167,30 +168,30 @@ rule bayescode_read:
         exec=exec_dico['readnodetraits'],
         run=rules.bayescode_inference.output.run
     output:
-        tree=f"{FOLDER}/data_simulated/{{simulator}}/inference_{{gram}}_seed{{seed}}.Phenotype_mean.nhx"
+        tree=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.Phenotype_mean.nhx"
     params:
         chain=rules.bayescode_inference.params.chain,
         until=rules.bayescode_inference.params.until,
         burnin=f"-b {config['bayes_burn_in']}"
     shell:
-        '{input.exec} {params.until} {params.burnin} --newick {params.chain}'
+        '{input.exec} {params.until} {params.burnin} --newick {params.chain}; gzip -f {params.chain}.trace; gzip -f {params.chain}.chain'
 
 rule plot_ancestral_traits:
     input:
         script=f"{FOLDER}/scripts/plot_ancestral_traits.py",
-        inference_tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}.Phenotype_mean.nhx", seed=SEEDS),
-        simu_tree=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz", seed=SEEDS),
+        inference_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}.Phenotype_mean.nhx", seed=SEEDS),
+        simu_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz", seed=SEEDS),
     output:
-        pdf=f"{FOLDER}/results/plot_ancestral_{{gram}}_{{simulator}}.pdf"
+        pdf=f"{FOLDER}/results/{EXP}/plot_ancestral_{{gram}}_{{simulator}}.pdf"
     shell:
         'python3 {input.script} --inference_tree {input.inference_tree} --simu_tree {input.simu_tree} --output {output.pdf}'
 
 rule merge_simulated_trace:
     input:
         script=f"{FOLDER}/scripts/merge_results_simulations.py",
-        bayescode=expand(f"{FOLDER}/data_simulated/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.run",
+        bayescode=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.run",
             gram=GRAMS,seed=SEEDS)
     output:
-        tsv=f"{FOLDER}/results/simu_{{simulator}}.pdf"
+        tsv=f"{FOLDER}/results/{EXP}/simu_{{simulator}}.pdf"
     shell:
         'python3 {input.script} --bayescode {input.bayescode} --output {output.tsv}'

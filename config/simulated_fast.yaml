@@ -1,4 +1,4 @@
-experiment_name: "default"
+experiment_name: "fast"
 nb_genes: 1
 min_seed: 0
 max_seed: 98745641
@@ -29,7 +29,7 @@ simulators:
     theta_optimum: 0.0
 core:
   mutation_mean_effect_size: 1.0
-  mutation_rate_per_loci_per_generation: 1.38e-6
+  mutation_rate_per_loci_per_generation: 2.8e-6
   mutation_rate_min: 1e-8
   mutation_rate_max: 1e-3
   population_size: 50

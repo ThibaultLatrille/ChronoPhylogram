@@ -17,7 +17,7 @@ def main(bayescode_list: str, output: str):
     plt.figure(figsize=(12, 8))
     for path in bayescode_list:
         name_split = os.path.basename(path).split(".")[0].split("_")
-        df = pd.read_csv(path.replace(".run", ".trace"), sep='\t')
+        df = pd.read_csv(path.replace(".run", ".trace.gz"), sep='\t')
 
         # Remove the first 50% of the rows
         plt.plot(df["lnprob"], label=name_split[1] + "_" + name_split[2])

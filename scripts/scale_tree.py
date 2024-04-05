@@ -15,7 +15,7 @@ def plot_tree(x_tree, y_tree, x_label, y_label, ax):
         assert node_x.name == node_y.name, "Different leaf names"
         distances_x.append(node_y.dist)
         distances_y.append(node_x.dist)
-    ax.scatter(distances_x, distances_y)
+    ax.scatter(distances_x, distances_y, alpha=0.4)
     # regression line and r-squared
     m, b = np.polyfit(distances_x, distances_y, 1)
     r2 = np.corrcoef(distances_x, distances_y)[0, 1] ** 2

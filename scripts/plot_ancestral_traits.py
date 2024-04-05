@@ -23,7 +23,7 @@ def plot_ancestral_traits(input_inference_tree: str, input_simu_tree: str, ax):
     inference_nodes_max = np.array(inference_nodes_max)
     assert len(simu_nodes) == len(inference_nodes), "Different number of x and y values"
     # Scatter plot
-    ax.scatter(simu_nodes, inference_nodes)
+    ax.scatter(simu_nodes, inference_nodes, alpha=0.4)
     # Display the range of the inference nodes
     ax.errorbar(simu_nodes, inference_nodes,
                  yerr=[inference_nodes - inference_nodes_min, inference_nodes_max - inference_nodes],

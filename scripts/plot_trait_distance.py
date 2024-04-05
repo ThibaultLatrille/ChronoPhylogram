@@ -25,7 +25,7 @@ def main(input_distance_tree: str, input_simu_tree_list: list[str], output_path:
     assert len(x) == len(y), "Different number of x and y values"
     # Scatter plot
     plt.figure(figsize=(12, 8))
-    plt.scatter(x, y)
+    plt.scatter(x, y, alpha=0.4)
     # Display the range of the inference nodes
     plt.errorbar(x, y, xerr=x_std, yerr=y_std, fmt='o', color='black', alpha=0.5)
     # regression line and r-squared
