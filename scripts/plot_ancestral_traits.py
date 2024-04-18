@@ -9,7 +9,12 @@ def plot_ancestral_traits(input_inference_tree: str, input_simu_tree: str, ax):
     inference_tree = open_tree(input_inference_tree, format_ete3=1)
     simu_tree = open_tree(input_simu_tree, format_ete3=1)
     simu_nodes, inference_nodes_min, inference_nodes, inference_nodes_max = [], [], [], []
-    for simu_node, inference_node in zip(simu_tree.traverse(), inference_tree.traverse()):
+    dict_inference = {node.name: node for node in inference_tree.traverse()}
+    dict_simu = {node.name: node for node in simu_tree.traverse()}
+    intersection = set(dict_inference.keys()).intersection(dict_simu.keys())
+    for node_name in intersection:
+        simu_node = dict_simu[node_name]
+        inference_node = dict_inference[node_name]
         if simu_node.is_root() or inference_node.is_leaf():
             continue
         assert simu_node.name == inference_node.name, f"Taxon names do not match: {simu_node.name} != {inference_node.name}"

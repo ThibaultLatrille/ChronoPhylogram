@@ -11,10 +11,12 @@ def parse_tree(tree_path: str) -> Tree:
 
 def plot_tree(x_tree, y_tree, x_label, y_label, ax):
     distances_x, distances_y = [], []
-    for node_x, node_y in zip(x_tree.traverse(), y_tree.traverse()):
-        assert node_x.name == node_y.name, "Different leaf names"
-        distances_x.append(node_y.dist)
-        distances_y.append(node_x.dist)
+    dict_x = {node.name: node.dist for node in x_tree.traverse()}
+    dict_y = {node.name: node.dist for node in y_tree.traverse()}
+    intersection = set(dict_x.keys()).intersection(dict_y.keys())
+    for node_name in intersection:
+        distances_x.append(dict_x[node_name])
+        distances_y.append(dict_y[node_name])
     ax.scatter(distances_x, distances_y, alpha=0.4)
     # regression line and r-squared
     m, b = np.polyfit(distances_x, distances_y, 1)
@@ -38,7 +40,7 @@ def main(tree_1, tree_2, tree_output_1, tree_output_2):
     t_1 = parse_tree(tree_1)
     t_2 = parse_tree(tree_2)
     intersection = list(set(t_1.get_leaf_names()).intersection(set(t_2.get_leaf_names())))
-    print(f"Intersection between tree_1 and tree_2 has {len(intersection)} leaves")
+    print(f"Intersection between tree_1 ({len(t_1)}) and tree_2 ({len(t_2)}) has {len(intersection)} leaves")
     t_1 = prune_tree(t_1, intersection)
     t_2 = prune_tree(t_2, intersection)
     plot_tree(t_1, t_2, x_label, y_label, axes[0])
