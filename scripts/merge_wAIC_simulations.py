@@ -11,34 +11,39 @@ def replace_last(s: str, old: str, new: str) -> str:
     return new.join(li)
 
 
-def main(bayescode_list: str, output: str):
-    os.makedirs(os.path.dirname(output), exist_ok=True)
+def parse_bayescode_list(bayescode_list: list[str], branch=False) -> pd.DataFrame:
     list_df = []
-
-    plt.figure(figsize=(12, 8))
     for path in bayescode_list:
         name_split = os.path.basename(path).split(".")[0].split("_")
         df = pd.read_csv(path, sep='\t')
-        df = df[df["name"] == "wAIC"]
+        df = df[(df["name"] != "wAIC") if branch else (df["name"] == "wAIC")]
         for i, p in enumerate(["dataset", "gram", "seed"]):
             df[p] = name_split[i]
-        list_df.append(df[["name", "Exp", "gram", "seed"]])
+        list_df.append(df[["name", "Exp", "Var", "gram", "seed"]])
     df_out = pd.concat(list_df)
     df_out["dataset"] = df_out["gram"] + "_" + df_out["seed"]
+    df_out.sort_values(by=["seed", "gram"], inplace=True)
+    df_dict = defaultdict(list)
+    for seed, df_seed in df_out.groupby("seed"):
+        phylo = df_seed[df_seed["gram"] == "Phylo"]
+        chrono = df_seed[df_seed["gram"] == "Chrono"]
+        assert len(phylo) == len(chrono), f"Phylo and Chrono have different number of rows for seed {seed}"
+        delta_waic = chrono["Exp"] - phylo["Exp"]
+        if branch:
+            delta_waic -= chrono["Var"] - phylo["Var"]
+        df_dict["ΔwAIC"].extend(delta_waic)
+        df_dict["experiment"].extend([seed] * len(delta_waic))
+        df_dict["name"].extend(chrono["name"])
+    # Plot delta wAIC for each experiment
+    return pd.DataFrame(df_dict)
+
+
+def main(bayescode_list: list[str], output: str):
+    os.makedirs(os.path.dirname(output), exist_ok=True)
+
+    df = parse_bayescode_list(bayescode_list, branch=False)
     # Violin plot of the log-likelihood
     fig, ax = plt.subplots(1, 1, figsize=(8, 6))
-    df_out.sort_values(by=["seed", "gram"], inplace=True)
-
-    df_dict = defaultdict(list)
-    for dataset, df_seed in df_out.groupby("seed"):
-        phylo = df_seed[df_seed["gram"] == "Phylo"]["Exp"].values
-        chrono = df_seed[df_seed["gram"] == "Chrono"]["Exp"].values
-        assert len(phylo) == len(chrono) == 1
-        delta_waic = chrono - phylo
-        df_dict["ΔwAIC"].append(delta_waic[0])
-        df_dict["experiment"].append(dataset)
-    # Plot delta wAIC for each experiment
-    df = pd.DataFrame(df_dict)
     sns.violinplot(data=df, x="experiment", y="ΔwAIC", inner="quart", fill=True, ax=ax)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
     ax.set_xlabel("Experiment")

@@ -48,6 +48,7 @@ rule all:
     input:
         expand(f"{FOLDER}/results/{EXP}/simu_prob_{{simulator}}.pdf",simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/simu_wAIC_{{simulator}}.pdf",simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/{EXP}/branch_wAIC_{{simulator}}.pdf", simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_ancestral_{{gram}}_{{simulator}}.pdf",
             gram=GRAMS,simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_distance_{{gram}}_{{simulator}}.pdf",
@@ -222,3 +223,14 @@ rule merge_simulated_wAIC:
         tsv=f"{FOLDER}/results/{EXP}/simu_wAIC_{{simulator}}.pdf"
     shell:
         'python3 {input.script} --bayescode {input.bayescode} --output {output.tsv}'
+
+rule plot_branch_wAIC:
+    input:
+        script=f"{FOLDER}/scripts/plot_branch_wAIC.py",
+        tree_x=rules.scale_tree.output.tree_2,
+        tree_y=rules.scale_tree.output.tree_1,
+        bayescode=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.wAIC.tsv",gram=GRAMS,seed=SEEDS)
+    output:
+        tsv=f"{FOLDER}/results/{EXP}/branch_wAIC_{{simulator}}.pdf"
+    shell:
+        'python3 {input.script} --tree_x {input.tree_x} --tree_y {input.tree_y} --bayescode {input.bayescode} --output {output.tsv}'
