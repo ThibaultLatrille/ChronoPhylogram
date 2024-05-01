@@ -39,8 +39,10 @@ def main(tree_1, tree_2, tree_output_1, tree_output_2):
 
     t_1 = parse_tree(tree_1)
     t_2 = parse_tree(tree_2)
-    intersection = list(set(t_1.get_leaf_names()).intersection(set(t_2.get_leaf_names())))
-    print(f"Intersection between tree_1 ({len(t_1)}) and tree_2 ({len(t_2)}) has {len(intersection)} leaves")
+    intersection = None
+    if set(t_1.get_leaf_names()) != set(t_2.get_leaf_names()):
+        intersection = list(set(t_1.get_leaf_names()).intersection(set(t_2.get_leaf_names())))
+        print(f"Intersection between tree_1 ({len(t_1)}) and tree_2 ({len(t_2)}) has {len(intersection)} leaves")
     t_1 = prune_tree(t_1, intersection)
     t_2 = prune_tree(t_2, intersection)
     plot_tree(t_1, t_2, x_label, y_label, axes[0])

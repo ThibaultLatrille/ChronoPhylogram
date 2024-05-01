@@ -3,7 +3,7 @@ import numpy as np
 
 FOLDER = os.path.abspath('.')
 
-executable_list = ["nodetraits", "readnodetraits"]
+executable_list = ["nodetraits", "readnodetraits", "rb"]
 exec_dico = {}
 
 for executable in executable_list:
@@ -12,20 +12,22 @@ for executable in executable_list:
         exec_path = os.path.join(FOLDER,f'utils/{b}/bin/{executable}')
         if os.path.exists(exec_path):
             break
+    if executable == "rb":
+        exec_path = "/opt/homebrew/Caskroom/miniforge/base/envs/osx-64/bin/rb"
     if not os.path.exists(exec_path):
         # Find executable in the path using whereis. If not found, raise an error.
         split = os.popen(f'whereis {executable}').read().split()
         if len(split) > 1:
             exec_path = split[1].strip()
         else:
-            raise FileNotFoundError(f'{executable} not found. Please install BayesCode and add it to your path.')
+            pg = "RevBayes" if executable == 'rb' else "BayesCode"
+            raise FileNotFoundError(f'{executable} not found. Please install {pg} and add it to your path.')
     exec_dico[executable] = exec_path
     print(f"Found {executable} at {exec_path}")
 
 configfile: 'config/config.yaml'
 
 EXP = config["experiment_name"]
-ChronoGram = f"{FOLDER}/utils/simulator/{config['tree']}"
 SEEDS = [int(i) for i in np.linspace(config["min_seed"],config["max_seed"],config["nb_seeds"])]
 SIMULATOR_PARAMS = {s: " ".join(['--{0} {1}'.format(k,v) for k, v in d.items() if k != "model"]) for s, d in
                     config["simulators"].items()}
@@ -48,14 +50,15 @@ rule all:
     input:
         expand(f"{FOLDER}/results/{EXP}/simu_prob_{{simulator}}.pdf",simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/simu_wAIC_{{simulator}}.pdf",simulator=config["simulators"]),
-        expand(f"{FOLDER}/results/{EXP}/branch_wAIC_{{simulator}}.pdf", simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/{EXP}/branch_wAIC_{{simulator}}.pdf",simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_ancestral_{{gram}}_{{simulator}}.pdf",
             gram=GRAMS,simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_distance_{{gram}}_{{simulator}}.pdf",
             gram=GRAMS,simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_distance_reconstructed_{{gram}}_{{simulator}}.pdf",
             gram=GRAMS,simulator=config["simulators"]),
-        f"{FOLDER}/results/{EXP}/plot_div_comparison.pdf"
+        f"{FOLDER}/results/{EXP}/plot_div_comparison.pdf",
+        f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
 
 
 def variance_env(nbr_loci, a, mut_rate, pop_size, h2):
@@ -66,10 +69,19 @@ def variance_env(nbr_loci, a, mut_rate, pop_size, h2):
     return vG * (1 - h2) / h2
 
 
+rule prepare_chronogram:
+    input:
+        script=f"{FOLDER}/scripts/prepare_chronogram.py",
+        tree=f"{FOLDER}/{config['tree']}"
+    output:
+        tree=f"{FOLDER}/data_simulated/{EXP}/chronogram.tree"
+    shell:
+        'python3 {input.script} --input {input.tree} --output {output.tree}'
+
 rule run_simulations:
     input:
         exec=lambda wildcards: f"{FOLDER}/utils/simulator/build/{config['simulators'][wildcards.simulator]['model']}",
-        tree=ChronoGram
+        tree=rules.prepare_chronogram.output.tree
     output:
         nhx=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/replicate_seed{{seed}}.nhx.gz"
     params:
@@ -88,7 +100,7 @@ rule run_simulations:
 rule run_neutral_simulation:
     input:
         exec=lambda wildcards: f"{FOLDER}/utils/simulator/build/neutral",
-        tree=f"{FOLDER}/utils/simulator/{config['tree']}"
+        tree=rules.prepare_chronogram.output.tree
     output:
         nhx=f"{FOLDER}/data_simulated/{EXP}/neutral_tree.nhx.gz"
     params:
@@ -135,11 +147,20 @@ rule neutral_tree:
     shell:
         'python3 {input.script} --neutral_tree {input.nhx} --tree {output.tree} '
 
+rule reconstructed_chronogram:
+    input:
+        script=f"{FOLDER}/scripts/calib_pl.R",
+        tree=rules.neutral_tree.output.tree
+    output:
+        tree=f"{FOLDER}/data_simulated/{EXP}/reconstructed_chronogram.tree"
+    shell:
+        'Rscript {input.script} {input.tree} {output.tree}'
+
 rule scale_tree:
     input:
         script=f"{FOLDER}/scripts/scale_tree.py",
         tree_1=rules.neutral_tree.output.tree,
-        tree_2=ChronoGram
+        tree_2=rules.reconstructed_chronogram.output.tree
     output:
         tree_1=f"{FOLDER}/data_simulated/{EXP}/Phylo_scaled.tree",
         tree_2=f"{FOLDER}/data_simulated/{EXP}/Chrono_scaled.tree"
@@ -234,3 +255,51 @@ rule plot_branch_wAIC:
         tsv=f"{FOLDER}/results/{EXP}/branch_wAIC_{{simulator}}.pdf"
     shell:
         'python3 {input.script} --tree_x {input.tree_x} --tree_y {input.tree_y} --bayescode {input.bayescode} --output {output.tsv}'
+
+
+rule convert_to_RevBayes:
+    input:
+        script=f"{FOLDER}/scripts/convert_to_nexus.py",
+        tree=f"{FOLDER}/data_simulated/{EXP}/{{gram}}_scaled.tree",
+        traits=rules.simulation_traits.output.traits
+    output:
+        nexus_tree=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/tree.nex",
+        nexus_traits=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/traits.nex"
+    shell:
+        'python3 {input.script} --input_tree {input.tree} --input_traits {input.traits} --output_tree {output.nexus_tree} --output_traits {output.nexus_traits}'
+
+rule run_OU_RevBayes:
+    input:
+        exec=exec_dico['rb'],
+        rev_file=f"{FOLDER}/scripts/mcmc_{{rb}}_RJ.Rev",
+        tree=rules.convert_to_RevBayes.output.nexus_tree,
+        traits=rules.convert_to_RevBayes.output.nexus_traits
+    output:
+        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}_RJ.log"
+    params:
+        folder=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}"
+    shell:
+        'cd {params.folder} && {input.exec} {input.rev_file}'
+
+rule compress_RevBayes_log:
+    input:
+        log=rules.run_OU_RevBayes.output.log
+    output:
+        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}_RJ.log.gz"
+    params:
+        prefix=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}_RJ"
+    shell:
+        'for f in {params.prefix}*; do if [ ! -f $f.gz ]; then gzip $f; fi; done'
+
+
+rule gather_RevBayes_log:
+    input:
+        script=f"{FOLDER}/scripts/plot_simulations_RevBayes.py",
+        rb_log=expand(rules.compress_RevBayes_log.output.log,gram=GRAMS,seed=SEEDS,
+            simulator=config["simulators"],rb=["simple_OU"])
+    output:
+        plot=f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
+    params:
+        folder=f"{FOLDER}/data_RevBayes/{EXP}"
+    shell:
+        'python3 {input.script} --folder {params.folder} --output {output.plot}'

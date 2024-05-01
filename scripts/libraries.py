@@ -57,3 +57,8 @@ def scale_tree(input_tree: Tree) -> Tree:
     for node in tree.traverse():
         node.dist = node.dist / d_total
     return tree
+
+
+def replace_last(s: str, old: str, new: str) -> str:
+    li = s.rsplit(old, 1)
+    return new.join(li)

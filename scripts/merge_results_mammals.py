@@ -3,11 +3,7 @@ import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-
-def replace_last(s: str, old: str, new: str) -> str:
-    li = s.rsplit(old, 1)
-    return new.join(li)
+from libraries import replace_last
 
 
 def main(bayescode_list: str, output: str):

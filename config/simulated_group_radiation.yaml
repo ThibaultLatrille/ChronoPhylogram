@@ -1,9 +1,9 @@
-experiment_name: "fastx2"
+experiment_name: "group_radiation"
 nb_genes: 1
 min_seed: 0
 max_seed: 98745641
 nb_seeds: 25
-tree: "trees/mammal.tre.annotated"
+tree: "data/tree_l1_l4_mu02.tre"
 bayes_inference: true
 bayes_burn_in: 1000
 bayes_until: 2000
@@ -29,7 +29,7 @@ simulators:
     theta_optimum: 0.0
 core:
   mutation_mean_effect_size: 1.0
-  mutation_rate_per_loci_per_generation: 5.6e-6
+  mutation_rate_per_loci_per_generation: 1.4e-6
   mutation_rate_min: 1e-8
   mutation_rate_max: 1e-3
   population_size: 50
