@@ -1,9 +1,13 @@
 import argparse
 import os.path
-from collections import defaultdict
 import numpy as np
+from collections import defaultdict
 from libraries import *
 import matplotlib.pyplot as plt
+
+my_dpi = 96
+fontsize = 24
+fontsize_legend = 18
 
 
 def scatter_plot(data, ax: plt.Axes, title: str, x_label: str, y_label: str, average: bool = False):
@@ -25,13 +29,13 @@ def scatter_plot(data, ax: plt.Axes, title: str, x_label: str, y_label: str, ave
         ax.plot(x_lim, a * x_lim + b, color=ax.collections[-1].get_facecolor()[0], linestyle="--")
         r2_list.append(r2)
     ax.axhline(0, color="black", linestyle="--")
-    ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
+    ax.set_xlabel(x_label, fontsize=fontsize)
+    ax.set_ylabel(y_label, fontsize=fontsize)
     if average:
         title += f" (mean R² = {np.mean(r2_list):.2f})"
     else:
-        ax.legend()
-    ax.set_title(title)
+        ax.legend(fontsize=fontsize_legend)
+    ax.set_title(title, fontsize=fontsize)
 
 
 def main(input_distance_tree: str, input_annotated_tree_list: list[str], output_path: str):
@@ -58,7 +62,7 @@ def main(input_distance_tree: str, input_annotated_tree_list: list[str], output_
 
     x_label = "$\\sqrt{" + ("d" if "Phylo" in os.path.basename(input_distance_tree) else "T") + "}$"
     y_label = "|Δz|"
-    fig, axes = plt.subplots(2, 2, figsize=(16, 9))
+    fig, axes = plt.subplots(2, 2, figsize=(1920 / my_dpi, 1080 / my_dpi), dpi=my_dpi)
     ax = axes[0, 0]
     x_mean = {k: np.mean(v) for k, v in dict_x.items()}
     y_mean = {k: np.mean(v) for k, v in dict_y.items()}

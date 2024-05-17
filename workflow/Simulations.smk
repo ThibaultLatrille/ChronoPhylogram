@@ -296,7 +296,7 @@ rule gather_RevBayes_log:
     input:
         script=f"{FOLDER}/scripts/plot_simulations_RevBayes.py",
         rb_log=expand(rules.compress_RevBayes_log.output.log,gram=GRAMS,seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_OU"])
+            simulator=config["simulators"],rb=["simple_OU", "relaxed_BM"])
     output:
         plot=f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
     params:

@@ -1,8 +1,12 @@
 import os
 import argparse
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
+
+my_dpi = 150
+fontsize = 24
+fontsize_legend = 18
 
 
 def replace_last(s: str, old: str, new: str) -> str:
@@ -14,7 +18,7 @@ def main(bayescode_list: str, output: str):
     os.makedirs(os.path.dirname(output), exist_ok=True)
     list_df = []
 
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(1920 / my_dpi, 1080 / my_dpi), dpi=my_dpi)
     col = "multiLnprob"
     for path in bayescode_list:
         name_split = os.path.basename(path).split(".")[0].split("_")
@@ -27,17 +31,17 @@ def main(bayescode_list: str, output: str):
             df[p] = name_split[i]
         list_df.append(df[[col, "gram", "seed"]])
     df_out = pd.concat(list_df)
-    plt.legend()
+    plt.legend(fontsize=fontsize_legend)
     plt.savefig(replace_last(output, ".pdf", "_trace.pdf"))
     df_out["dataset"] = df_out["gram"] + "_" + df_out["seed"]
     # Violin plot of the log-likelihood
-    fig, axes = plt.subplots(2, 1, figsize=(16, 9))
+    fig, axes = plt.subplots(2, 1, figsize=(1920 / my_dpi, 1080 / my_dpi), dpi=my_dpi)
     ax = axes[0]
     df_out.sort_values(by=["seed", "gram"], inplace=True)
     palette = {"Chrono": sns.color_palette("tab10")[0], "Phylo": sns.color_palette("tab10")[1]}
     sns.violinplot(data=df_out, x="seed", y=col, hue="gram", split=True, inner="quart", fill=True,
                    density_norm='width', palette=palette, ax=ax)
-    ax.legend()
+    ax.legend(fontsize=fontsize_legend)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 
     ax = axes[1]
@@ -47,9 +51,8 @@ def main(bayescode_list: str, output: str):
         assert len(phylo) == len(chrono), f"Length of phylo ({len(phylo)}) and chrono ({len(chrono)}) are different"
         diff = phylo - chrono
         sns.kdeplot(diff, label=dataset, ax=ax)
-    ax.set_xlabel("lnprob(Phylo) - lnprob(Chrono)")
+    ax.set_xlabel("lnprob(Phylo) - lnprob(Chrono)", fontsize=fontsize)
     ax.axvline(0, color='black', linestyle='--')
-    ax.legend(fontsize=6)
     plt.tight_layout()
     plt.savefig(output)
 

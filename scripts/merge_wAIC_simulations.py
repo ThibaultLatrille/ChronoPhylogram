@@ -2,8 +2,12 @@ import os
 import argparse
 from collections import defaultdict
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
+
+my_dpi = 256
+fontsize = 16
+fontsize_legend = 16
 
 
 def replace_last(s: str, old: str, new: str) -> str:
@@ -43,16 +47,15 @@ def main(bayescode_list: list[str], output: str):
 
     df = parse_bayescode_list(bayescode_list, branch=False)
     # Violin plot of the log-likelihood
-    fig, ax = plt.subplots(1, 1, figsize=(8, 6))
+    fig, ax = plt.subplots(1, 1, figsize=(1920 / my_dpi, 1080 / my_dpi), dpi=my_dpi)
     sns.violinplot(data=df, x="experiment", y="ΔwAIC", inner="quart", fill=True, ax=ax)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
-    ax.set_xlabel("Experiment")
-    ax.set_ylabel("ΔwAIC (Chrono - Phylo)")
+    ax.set_xlabel("Experiment", fontsize=fontsize)
+    ax.set_ylabel("ΔwAIC (Chrono - Phylo)", fontsize=fontsize)
     ax.axhline(0, color="black", linestyle="--")
     ax.axhline(1, color="red", linestyle="--")
     ax.axhline(-1, color="red", linestyle="--")
-    plt.tight_layout()
-    ax.set_title("wAIC comparison")
+    ax.set_title("wAIC comparison", fontsize=fontsize)
     plt.tight_layout()
     plt.savefig(output)
 

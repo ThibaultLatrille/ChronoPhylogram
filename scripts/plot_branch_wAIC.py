@@ -1,9 +1,13 @@
 import os
 import argparse
 import numpy as np
-import matplotlib.pyplot as plt
 from libraries import *
+import matplotlib.pyplot as plt
 from merge_wAIC_simulations import parse_bayescode_list
+
+my_dpi = 300
+fontsize = 18
+fontsize_legend = 12
 
 
 def tree_to_dict(tree_path: str) -> dict:
@@ -33,10 +37,10 @@ def plot_tree(dict_x, dict_y, dict_z, x_label, y_label, z_label, title, ax):
 
     # Plot identity line
     ax.plot([min(distances_x), max(distances_x)], [min(distances_x), max(distances_x)], color="black", linestyle="--")
-    ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
-    ax.set_title(title)
-    ax.legend()
+    ax.set_xlabel(x_label, fontsize=fontsize)
+    ax.set_ylabel(y_label, fontsize=fontsize)
+    ax.set_title(title, fontsize=fontsize)
+    ax.legend(fontsize=fontsize_legend)
 
 
 def main(tree_x, tree_y, bayescode_list, output):
@@ -50,7 +54,8 @@ def main(tree_x, tree_y, bayescode_list, output):
     n = len(df["experiment"].unique())
     ncols = int(np.sqrt(n) + 1)
     nrows = int(n / ncols + 1)
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(ncols * 8, nrows * 5))
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(ncols * 1920 / my_dpi, nrows * 1440 / my_dpi),
+                             dpi=my_dpi)
     average_waic = df.groupby("name")["ΔwAIC"].mean()
     dico_waic = {k: v for k, v in zip(average_waic.index, average_waic)}
     ax = axes[0, 0]
