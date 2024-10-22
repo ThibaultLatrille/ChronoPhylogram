@@ -46,7 +46,7 @@ tree <- T
 ##########################
 
 # specify the rate parameter
-sigma2 ~ dnLoguniform(1e-3, 1e5)
+sigma2 ~ dnLoguniform(1e-8, 1e8)
 moves.append( mvScale(sigma2, weight=1.0) )
 
 # specify the strength parameter

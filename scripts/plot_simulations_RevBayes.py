@@ -7,6 +7,7 @@ import pandas as pd
 from collections import defaultdict
 from os.path import basename, isdir
 from libraries_plot import hist_plot
+from merge_results_simulations import plot_violin, plt, my_dpi
 
 
 def open_log(path):
@@ -18,61 +19,76 @@ def open_log(path):
     return df
 
 
-def posterior(df, col="alpha", burnin=0.5):
-    return np.nanmean(df[col][int(len(df) * burnin):])
+def posterior(df, col):
+    return np.nanmean(df[col])
 
+
+def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: dict):
+    post_dict = defaultdict(lambda: defaultdict(list))
+    list_df = []
+
+    for simu_m in simu_models:
+        for folderpath in replicates[simu_m]:
+            n, gram, seed = basename(folderpath).split("_")
+            for rb_model in rb_models:
+                trace_path = f"{folderpath}/{rb_model}.log.gz"
+                if not os.path.exists(trace_path):
+                    continue
+
+                trace_df = open_log(trace_path)
+                if rb_model == "simple_BM_model":
+                    df = pd.DataFrame({"Posterior": trace_df["Posterior"]})
+                    df["gram"] = gram
+                    df["seed"] = seed
+                    df["simu"] = simu_m
+                    df["dataset"] = gram + "_" + seed
+                    list_df.append(df)
+
+                key_name = f"{simu_m}_{gram}"
+                for col in trace_df.columns:
+                    if col not in parameters:
+                        continue
+                    post_dict[col][key_name].append(posterior(trace_df, col=col))
+
+    df_out = pd.concat(list_df)
+    return df_out, post_dict
+
+
+def plot_trace(df_out: pd.DataFrame, col: str, output: str):
+    plt.figure(figsize=(1920 / my_dpi, 1080 / my_dpi), dpi=my_dpi)
+    for _, df in df_out.groupby(["seed", "gram"]):
+        plt.plot(df[col])
+    plt.savefig(output)
+    plt.clf()
 
 def main(folder, output):
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
-    rb_models = ["simple_OU", "relaxed_BM"]
-    model_prefs = {"moving_optimum": 0, "directional": 1, "neutral": 3}
-    models_path = {basename(p): p for p in glob(folder + "/*") if isdir(p) and basename(p) in model_prefs}
-    models = list(sorted(models_path, key=lambda x: model_prefs[x] if x in model_prefs else -1))
+    rb_models = ["simple_OU_RJ", "relaxed_BM_RJ", "simple_BM_Switch", "simple_BM_model"]
+    simu_model_prefs = {"moving_optimum": 0, "directional": 1, "neutral": 3}
+    simu_models_path = {basename(p): p for p in glob(folder + "/*") if isdir(p) and basename(p) in simu_model_prefs}
+    simu_models = list(sorted(simu_models_path, key=lambda x: simu_model_prefs[x] if x in simu_model_prefs else -1))
 
-    replicates = {m: natsorted([i for i in glob(f"{p}/*") if isdir(i)]) for m, p in models_path.items()}
+    replicates = {m: natsorted([i for i in glob(f"{p}/*") if isdir(i)]) for m, p in simu_models_path.items()}
     assert len(set([len(g) for g in replicates.values()])) == 1
 
     parameters = {"num_rate_changes": ("N", "linear"), "std_rates": ("std rates", "log"),
                   "var_multiplier": ("var", "log"), "var_rates": ("var rates", "log"),
-                  "is_BM": ("p[BM]", "uniform"), "is_OU": ("p[OU]", "uniform"),
+                  "num_theta_changes": ("N", "linear"), "theta_multiplier": ("theta", "log"),
+                  "is_BM": ("p[BM]", "uniform"), "is_OU": ("p[OU]", "uniform"), "is_nuc": ("p[Nuc]", "uniform"),
                   "sigma2": ("sigma2", "log"), "theta": ("theta", "linear"),
                   "alpha": ("alpha", "log"), "t_half": ("t 1/2", "log")}
-
-    trace_dict = defaultdict(lambda: defaultdict(list))
-    for m in models:
-        for f, folderpath in enumerate(replicates[m]):
-            for rb in rb_models:
-                trace_path = f"{folderpath}/{rb}_RJ.log.gz"
-                if not os.path.exists(trace_path):
-                    continue
-                trace_df = open_log(trace_path)
-                gram = os.path.basename(folderpath).split("_")[1]
-                key_name = f"{m}_{gram}"
-                trace_dict[f"model_{rb}"][key_name].append(m)
-                trace_dict[f"gram_{rb}"][key_name].append(gram)
-                for col in parameters.keys():
-                    if col not in trace_df.columns:
-                        continue
-                    trace_dict[col][key_name].append(posterior(trace_df, col=col, burnin=0.5))
+    trace_df, post_dict = get_dicts(simu_models, replicates, rb_models, parameters)
 
     rename = lambda x: output.replace(".tsv", x)
-    for col, (x_label, xscale) in parameters.items():
-        if col not in trace_dict:
-            continue
-        hist_plot(trace_dict[col], x_label, rename(f".{col}.pdf"), xscale=xscale)
+    for col, dict_input in post_dict.items():
+        x_label, xscale = parameters[col]
+        hist_plot(dict_input, x_label, rename(f".{col}.pdf"), xscale=xscale)
 
-    out_dict = defaultdict(list)
-    for rb in rb_models:
-        for m in trace_dict[f"model_{rb}"].keys():
-            for col, values in trace_dict.items():
-                out_dict[f"{col}"].extend(values[m])
-            for col in parameters.keys():
-                if col not in out_dict:
-                    continue
-                print(f"{m} {col}: {np.mean(out_dict[col])} (std:{np.std(out_dict[col])})")
-    df = pd.DataFrame(out_dict)
-    df.to_csv(output, sep="\t", index=False)
+    for simu_model, df_simu in trace_df.groupby("simu"):
+        plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.pdf"))
+        plot_trace(df_simu, "Posterior", rename(f".trace.{simu_model}.pdf"))
+    trace_df.to_csv(output, sep="\t", index=False)
 
 
 if __name__ == '__main__':

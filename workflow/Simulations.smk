@@ -115,7 +115,7 @@ rule simulation_traits:
         script=f"{FOLDER}/scripts/pre_processed_traits_simulations.py",
         nhx=rules.run_simulations.output.nhx
     output:
-        traits=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/replicate_{{gram}}_seed{{seed}}.traits.tsv"
+        traits=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/replicate_seed{{seed}}.traits.tsv"
     shell:
         'python3 {input.script} --input {input.nhx} --traitsfile {output.traits}'
 
@@ -183,9 +183,9 @@ rule bayescode_inference:
         tree=f"{FOLDER}/data_simulated/{EXP}/{{gram}}_scaled.tree",
         traits=rules.simulation_traits.output.traits
     output:
-        run=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.run"
+        run=f"{FOLDER}/data_BayesCode/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.run"
     params:
-        chain=lambda wildcards: f"{FOLDER}/data_simulated/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}",
+        chain=lambda wildcards: f"{FOLDER}/data_BayesCode/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}",
         until=f"-u {config['bayes_until']}"
     shell:
         '{input.exec} {params.until} --uniq_kappa --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
@@ -195,8 +195,8 @@ rule bayescode_read:
         exec=exec_dico['readnodetraits'],
         run=rules.bayescode_inference.output.run
     output:
-        tree=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.Phenotype_mean.nhx",
-        wAIC=f"{FOLDER}/data_simulated/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.wAIC.tsv",
+        tree=f"{FOLDER}/data_BayesCode/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.Phenotype_mean.nhx",
+        wAIC=f"{FOLDER}/data_BayesCode/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}.wAIC.tsv",
     params:
         chain=rules.bayescode_inference.params.chain,
         until=rules.bayescode_inference.params.until,
@@ -208,7 +208,7 @@ rule bayescode_read:
 rule plot_ancestral_traits:
     input:
         script=f"{FOLDER}/scripts/plot_ancestral_traits.py",
-        inference_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}.Phenotype_mean.nhx",seed=SEEDS),
+        inference_tree=expand(f"{FOLDER}/data_BayesCode/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}.Phenotype_mean.nhx",seed=SEEDS),
         simu_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz",seed=SEEDS),
     output:
         pdf=f"{FOLDER}/results/{EXP}/plot_ancestral_{{gram}}_{{simulator}}.pdf"
@@ -219,7 +219,7 @@ rule plot_ancestral_trait_distance:
     input:
         scripts=f"{FOLDER}/scripts/plot_trait_distance.py",
         distance_tree=f"{FOLDER}/data_simulated/{EXP}/{{gram}}_scaled.tree",
-        annotated_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}.Phenotype_mean.nhx",seed=SEEDS)
+        annotated_tree=expand(f"{FOLDER}/data_BayesCode/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}.Phenotype_mean.nhx",seed=SEEDS)
     output:
         run=f"{FOLDER}/results/{EXP}/plot_distance_reconstructed_{{gram}}_{{simulator}}.pdf"
     shell:
@@ -229,8 +229,8 @@ rule plot_ancestral_trait_distance:
 rule merge_simulated_trace:
     input:
         script=f"{FOLDER}/scripts/merge_results_simulations.py",
-        traces=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.Phenotype_mean.nhx",gram=GRAMS,seed=SEEDS),
-        bayescode=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.run",gram=GRAMS,seed=SEEDS)
+        traces=expand(f"{FOLDER}/data_BayesCode/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.Phenotype_mean.nhx",gram=GRAMS,seed=SEEDS),
+        bayescode=expand(f"{FOLDER}/data_BayesCode/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.run",gram=GRAMS,seed=SEEDS)
     output:
         tsv=f"{FOLDER}/results/{EXP}/simu_prob_{{simulator}}.pdf"
     shell:
@@ -239,7 +239,7 @@ rule merge_simulated_trace:
 rule merge_simulated_wAIC:
     input:
         script=f"{FOLDER}/scripts/merge_wAIC_simulations.py",
-        bayescode=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.wAIC.tsv",gram=GRAMS,seed=SEEDS)
+        bayescode=expand(f"{FOLDER}/data_BayesCode/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.wAIC.tsv",gram=GRAMS,seed=SEEDS)
     output:
         tsv=f"{FOLDER}/results/{EXP}/simu_wAIC_{{simulator}}.pdf"
     shell:
@@ -250,7 +250,7 @@ rule plot_branch_wAIC:
         script=f"{FOLDER}/scripts/plot_branch_wAIC.py",
         tree_x=rules.scale_tree.output.tree_2,
         tree_y=rules.scale_tree.output.tree_1,
-        bayescode=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.wAIC.tsv",gram=GRAMS,seed=SEEDS)
+        bayescode=expand(f"{FOLDER}/data_BayesCode/{EXP}/{{{{simulator}}}}/inference_{{gram}}_seed{{seed}}.wAIC.tsv",gram=GRAMS,seed=SEEDS)
     output:
         tsv=f"{FOLDER}/results/{EXP}/branch_wAIC_{{simulator}}.pdf"
     shell:
@@ -268,35 +268,54 @@ rule convert_to_RevBayes:
     shell:
         'python3 {input.script} --input_tree {input.tree} --input_traits {input.traits} --output_tree {output.nexus_tree} --output_traits {output.nexus_traits}'
 
-rule run_OU_RevBayes:
+rule run_RevBayes:
     input:
         exec=exec_dico['rb'],
-        rev_file=f"{FOLDER}/scripts/mcmc_{{rb}}_RJ.Rev",
+        rev_file=f"{FOLDER}/scripts/mcmc_{{rb}}.Rev",
         tree=rules.convert_to_RevBayes.output.nexus_tree,
         traits=rules.convert_to_RevBayes.output.nexus_traits
     output:
-        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}_RJ.log"
+        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}.log"
     params:
         folder=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}"
     shell:
         'cd {params.folder} && {input.exec} {input.rev_file}'
 
-rule compress_RevBayes_log:
+rule run_Both_RevBayes:
     input:
-        log=rules.run_OU_RevBayes.output.log
+        exec=exec_dico['rb'],
+        rev_file=f"{FOLDER}/scripts/mcmc_{{rb}}.Rev",
+        timetree=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Chrono_seed{{seed}}/tree.nex",
+        nuctree=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Phylo_seed{{seed}}/tree.nex",
+        traits=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Chrono_seed{{seed}}/traits.nex"
     output:
-        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}_RJ.log.gz"
+        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Both_seed{{seed}}/{{rb}}.log"
     params:
-        prefix=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}_RJ"
+        folder=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_Both_seed{wildcards.seed}"
     shell:
-        'for f in {params.prefix}*; do if [ ! -f $f.gz ]; then gzip $f; fi; done'
+        'mkdir -p {params.folder};'
+        'cp {input.timetree} {params.folder}/tree_time.nex;'
+        'cp {input.nuctree} {params.folder}/tree_nuc.nex;'
+        'cp {input.traits} {params.folder}/traits.nex;'
+        'cd {params.folder} && {input.exec} {input.rev_file}'
 
+rule compress_RevBayes_BM_log:
+    input:
+        log=lambda wildcards: rules.run_Both_RevBayes.output.log if wildcards.gram == "Both" else rules.run_RevBayes.output.log
+    output:
+        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}.log.gz"
+    params:
+        prefix=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}"
+    shell:
+        'for f in {params.prefix}*.log; do if [ ! -f $f.gz ]; then gzip $f; fi; done'
 
 rule gather_RevBayes_log:
     input:
         script=f"{FOLDER}/scripts/plot_simulations_RevBayes.py",
-        rb_log=expand(rules.compress_RevBayes_log.output.log,gram=GRAMS,seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_OU", "relaxed_BM"])
+        rb_log=expand(rules.compress_RevBayes_BM_log.output.log,gram=GRAMS,seed=SEEDS,
+            simulator=config["simulators"],rb=["simple_BM_model", "simple_OU_RJ", "relaxed_BM_RJ"]),
+        rb_bm_log=expand(rules.compress_RevBayes_BM_log.output.log,gram=["Both"],seed=SEEDS,
+            simulator=config["simulators"],rb=["simple_BM_Switch"])
     output:
         plot=f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
     params:

@@ -46,7 +46,7 @@ tree <- T
 ##########################
 
 # specify the rate at the root
-sigma2_root ~ dnLoguniform(1e-5, 1e-1)
+sigma2_root ~ dnLoguniform(1e-8, 1e8)
 
 moves.append( mvScale(sigma2_root, weight=1.0) )
 

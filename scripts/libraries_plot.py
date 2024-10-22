@@ -47,13 +47,14 @@ def hist_plot(x_input, x_label, output, xscale="log"):
     if xscale == "log":
         ax.set_xlim((0.95 * min_x, 1.05 * max_x))
         ax.set_xscale("log")
+        ax.set_ylim((0, max_y))
     elif xscale == "linear":
         ax.set_xlim((min_x, max_x))
         ax.set_xscale("linear")
+        ax.set_ylim((0, max_y))
     else:
         ax.set_xlim((-0.01, 1.01))
         ax.set_yscale("log")
-    ax.set_ylim((0, max_y))
     ax.set_ylabel("Density", fontsize=fontsize)
     ax.legend(fontsize=fontsize_legend)
     plt.tight_layout()
