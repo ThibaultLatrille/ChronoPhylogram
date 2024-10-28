@@ -307,15 +307,16 @@ rule compress_RevBayes_BM_log:
     params:
         prefix=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}"
     shell:
-        'for f in {params.prefix}*.log; do if [ ! -f $f.gz ]; then gzip $f; fi; done'
+        'for f in {params.prefix}*.log; do gzip -f $f; done'
 
 rule gather_RevBayes_log:
     input:
         script=f"{FOLDER}/scripts/plot_simulations_RevBayes.py",
         rb_log=expand(rules.compress_RevBayes_BM_log.output.log,gram=GRAMS,seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_BM_model", "simple_OU_RJ", "relaxed_BM_RJ"]),
+            simulator=config["simulators"],rb=["simple_BM_REML", "simple_BM_MVN", "simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ"]),
         rb_bm_log=expand(rules.compress_RevBayes_BM_log.output.log,gram=["Both"],seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_BM_Switch"])
+            simulator=config["simulators"],rb=["simple_BM_SwitchREML", "simple_BM_Switchnodes"])
+            # simulator=config["simulators"],rb=["simple_BM_SwitchREML", "simple_BM_SwitchMVN", "simple_BM_Switchnodes"])
     output:
         plot=f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
     params:

@@ -36,6 +36,7 @@ def plot_violin(df_out: pd.DataFrame, col: str, output: str):
     plt.tight_layout()
     plt.savefig(output)
     plt.clf()
+    plt.close("all")
 
 
 
@@ -50,7 +51,7 @@ def main(bayescode_list: str, output: str):
         df = pd.read_csv(path.replace(".run", ".trace.gz"), sep='\t')
 
         # Remove the first 50% of the rows
-        plt.plot(df[col], label=name_split[1] + "_" + name_split[2])
+        plt.plot(df[col][int(0.1 * len(df)):], label=name_split[1] + "_" + name_split[2])
         df = df.iloc[int(0.5 * len(df)):]
         for i, p in enumerate(["dataset", "gram", "seed"]):
             df[p] = name_split[i]
@@ -58,6 +59,8 @@ def main(bayescode_list: str, output: str):
     df_out = pd.concat(list_df)
     plt.legend(fontsize=fontsize_legend)
     plt.savefig(replace_last(output, ".pdf", "_trace.pdf"))
+    plt.clf()
+    plt.close("all")
     df_out["dataset"] = df_out["gram"] + "_" + df_out["seed"]
     # Violin plot of the log-likelihood
     plot_violin(df_out, col, output)

@@ -13,7 +13,7 @@
 #######################
 input_tree <- "tree.nex"
 input_data <- "traits.nex"
-output_file <- "simple_BM_model.log"
+output_file <- "simple_BM_MVN.log"
 
 ### Select the trait to analyze
 trait <- 1
@@ -47,14 +47,16 @@ monitors = VectorMonitors()
 ##########################
 
 # specify the rate at the root
-sigma2 ~ dnLoguniform(1e-8, 1e8)
-moves.append(mvScale(sigma2, weight = 1.0))
+sigma ~ dnLoguniform(1e-6, 1e6)
+moves.append(mvScale(sigma, weight = 1.0))
 
 ##########################
 # Specify the BM process #
 ##########################
+root ~ dnUniform(-1000,1000)
+moves.append(mvSlide(root,delta=10,tune=true,weight=2))
 
-X ~ dnPhyloBrownianREML(psi, branchRates = sqrt(sigma2))
+X ~ dnPhyloBrownianMVN(psi, branchRates=1.0, siteRates=sigma, rootStates=root, nSites=1)
 X.clamp(data)
 
 #############
@@ -65,7 +67,7 @@ mymodel = model(psi)
 
 ### set up the monitors that will output parameter values to file and screen
 monitors.append(mnModel(filename = output_file, printgen = 10))
-monitors.append(mnScreen(printgen = 1000, sigma2))
+monitors.append(mnScreen(printgen = 1000, sigma))
 
 ################
 # The Analysis #
@@ -75,7 +77,7 @@ monitors.append(mnScreen(printgen = 1000, sigma2))
 mymcmc = mcmc(mymodel, monitors, moves, nruns = 2, combine = "mixed")
 
 ### run the MCMC ###
-mymcmc.burnin(generations=1000, tuningInterval=100)
-mymcmc.run(generations=10000, tuningInterval=100)
+mymcmc.burnin(generations=1000, tuningInterval=10)
+mymcmc.run(generations=5000, tuningInterval=100)
 
 q()

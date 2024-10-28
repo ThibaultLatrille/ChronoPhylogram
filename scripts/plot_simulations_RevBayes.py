@@ -36,15 +36,16 @@ def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: 
                     continue
 
                 trace_df = open_log(trace_path)
-                if rb_model == "simple_BM_model":
+                if rb_model in ["simple_BM_REML", "simple_BM_MVN", "simple_BM_nodes"]:
                     df = pd.DataFrame({"Posterior": trace_df["Posterior"]})
+                    df["model"] = rb_model
                     df["gram"] = gram
                     df["seed"] = seed
                     df["simu"] = simu_m
                     df["dataset"] = gram + "_" + seed
                     list_df.append(df)
 
-                key_name = f"{simu_m}_{gram}"
+                key_name = f"{simu_m}_{gram}_{rb_model.replace("simple_", "S").replace("relaxed_", "R")}"
                 for col in trace_df.columns:
                     if col not in parameters:
                         continue
@@ -61,10 +62,12 @@ def plot_trace(df_out: pd.DataFrame, col: str, output: str):
     plt.savefig(output)
     plt.clf()
 
+
 def main(folder, output):
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
-    rb_models = ["simple_OU_RJ", "relaxed_BM_RJ", "simple_BM_Switch", "simple_BM_model"]
+    rb_models = ["simple_OU_RJ", "relaxed_BM_RJ", "simple_BM_MVN", "simple_BM_REML", "simple_BM_nodes",
+                 "simple_BM_SwitchMVN", "simple_BM_SwitchREML", "simple_BM_Switchnodes"]
     simu_model_prefs = {"moving_optimum": 0, "directional": 1, "neutral": 3}
     simu_models_path = {basename(p): p for p in glob(folder + "/*") if isdir(p) and basename(p) in simu_model_prefs}
     simu_models = list(sorted(simu_models_path, key=lambda x: simu_model_prefs[x] if x in simu_model_prefs else -1))
@@ -76,7 +79,7 @@ def main(folder, output):
                   "var_multiplier": ("var", "log"), "var_rates": ("var rates", "log"),
                   "num_theta_changes": ("N", "linear"), "theta_multiplier": ("theta", "log"),
                   "is_BM": ("p[BM]", "uniform"), "is_OU": ("p[OU]", "uniform"), "is_nuc": ("p[Nuc]", "uniform"),
-                  "sigma2": ("sigma2", "log"), "theta": ("theta", "linear"),
+                  "sigma": ("sigma", "log"), "theta": ("theta", "linear"),
                   "alpha": ("alpha", "log"), "t_half": ("t 1/2", "log")}
     trace_df, post_dict = get_dicts(simu_models, replicates, rb_models, parameters)
 
@@ -85,9 +88,9 @@ def main(folder, output):
         x_label, xscale = parameters[col]
         hist_plot(dict_input, x_label, rename(f".{col}.pdf"), xscale=xscale)
 
-    for simu_model, df_simu in trace_df.groupby("simu"):
-        plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.pdf"))
-        plot_trace(df_simu, "Posterior", rename(f".trace.{simu_model}.pdf"))
+    for (simu_model, rb_model), df_simu in trace_df.groupby(["simu", "model"]):
+        plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.{rb_model}.pdf"))
+        plot_trace(df_simu, "Posterior", rename(f".trace.{simu_model}.{rb_model}.pdf"))
     trace_df.to_csv(output, sep="\t", index=False)
 
 

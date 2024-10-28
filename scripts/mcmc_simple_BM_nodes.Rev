@@ -11,22 +11,28 @@
 #######################
 # Reading in the Data #
 #######################
-input_nuctree <- "tree_nuc.nex"
-input_timetree <- "tree_time.nex"
+input_tree <- "tree.nex"
 input_data <- "traits.nex"
-output_file <- "simple_BM_Switch.log"
+output_file <- "simple_BM_nodes.log"
 
 ### Select the trait to analyze
 trait <- 1
 
+##########################
+# Specify the tree model #
+##########################
+
 ### Read in the trees
-timeT <- readTrees(input_timetree)[1]
-timeLenght <- timeT.treeLength()
-nucT <- readTrees(input_nuctree)[1]
-nucLength <- nucT.treeLength()
-T <- readTrees(input_nuctree)[1]
+T <- readTrees(input_tree)[1]
+treeLength <- T.treeLength()
 ntips <- T.ntips()
+nnodes <- T.nnodes()
 nbranches <- 2 * ntips - 2
+
+for (i in nbranches:1) {
+  branch_length[i] := T.branchLength(i) / treeLength
+}
+psi := fnTreeAssembly(T, branch_length)
 
 
 ### Read in the character data
@@ -42,34 +48,29 @@ monitors = VectorMonitors()
 ##########################
 
 # specify the rate at the root
-sigma2 ~ dnLoguniform(1e-8, 1e8)
-moves.append(mvScale(sigma2, weight = 1.0))
-
-##########################
-# Specify the tree model #
-##########################
-# Move switch on whether the tree is nucleotide or time
-is_nuc ~ dnBernoulli(0.5)
-moves.append(mvBinarySwitch(is_nuc, weight = 1.0))
-# specify the branch-specific rates
-
-for (i in nbranches:1) {
-  branch_length[i] := ifelse(is_nuc == TRUE, nucT.branchLength(i) / nucLength, timeT.branchLength(i) / timeLenght)
-}
-
-psi := fnTreeAssembly(T, branch_length)
-
-bl_id <- 1
-bl := branch_length[bl_id]
-timebl := timeT.branchLength(bl_id) / timeLenght
-nucbl := nucT.branchLength(bl_id) / nucLength
+sigma ~ dnLoguniform(1e-6, 1e6)
+moves.append(mvScale(sigma, weight = 1.0))
 
 ##########################
 # Specify the BM process #
 ##########################
+traitroot ~ dnUniform(-1000,1000)
+moves.append(mvSlide(traitroot,delta=10,tune=true,weight=2))
 
-X ~ dnPhyloBrownianREML(psi, branchRates = sqrt(sigma2))
-X.clamp(data)
+traits[nnodes] := traitroot
+# univariate Brownian process along the tree
+# parameterized by sigma
+for (i in (nnodes-1):(ntips+1) ) {
+  traits[i] ~ dnNormal( traits[psi.parent(i)], sd=sigma*sqrt(psi.branchLength(i)) )
+  # moves on the Brownian process
+  moves.append(mvSlide( traits[i], delta=10, tune=true ,weight=2))
+}
+
+for (i in ntips:1 ) {
+  traits[i] ~ dnNormal( traits[psi.parent(i)], sd=sigma*sqrt(psi.branchLength(i)) )
+  # condition Brownian model on quantitative trait data (second column of the dataset)
+  traits[i].clamp(data.getTaxon(psi.nodeName(i))[1])
+}
 
 #############
 # The Model #
@@ -79,7 +80,7 @@ mymodel = model(psi)
 
 ### set up the monitors that will output parameter values to file and screen
 monitors.append(mnModel(filename = output_file, printgen = 10))
-monitors.append(mnScreen(printgen = 1000, sigma2, is_nuc, bl, timebl, nucbl))
+monitors.append(mnScreen(printgen = 1000, sigma, traitroot))
 
 ################
 # The Analysis #
@@ -89,7 +90,7 @@ monitors.append(mnScreen(printgen = 1000, sigma2, is_nuc, bl, timebl, nucbl))
 mymcmc = mcmc(mymodel, monitors, moves, nruns = 2, combine = "mixed")
 
 ### run the MCMC ###
-mymcmc.burnin(generations=1000, tuningInterval=100)
+mymcmc.burnin(generations=1000, tuningInterval=10)
 mymcmc.run(generations=10000, tuningInterval=100)
 
 q()

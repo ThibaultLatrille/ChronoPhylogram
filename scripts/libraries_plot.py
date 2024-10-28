@@ -22,7 +22,7 @@ def hist_plot(x_input, x_label, output, xscale="log"):
     else:
         xy_filtered = {k: np.isfinite(x[k]) for k in x.keys()}
     x = {k: x[k][xy_filtered[k]] for k in x.keys() if len(x[k][xy_filtered[k]]) > 0}
-    if len(x) == 0:
+    if len(x) <= 1:
         return
     color_models = colors(x)
     fig = plt.figure(figsize=(1280 / my_dpi, 640 / my_dpi), dpi=my_dpi)
@@ -60,4 +60,5 @@ def hist_plot(x_input, x_label, output, xscale="log"):
     plt.tight_layout()
     plt.savefig(output, format="pdf")
     plt.clf()
+    plt.close("all")
     print(output)
