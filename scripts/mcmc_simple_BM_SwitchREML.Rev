@@ -22,11 +22,15 @@ trait <- 1
 ### Read in the trees
 timeT <- readTrees(input_timetree)[1]
 timeLenght <- timeT.treeLength()
+timeLenght
 nucT <- readTrees(input_nuctree)[1]
 nucLength <- nucT.treeLength()
+nucLength
 T <- readTrees(input_nuctree)[1]
 ntips <- T.ntips()
+ntips
 nbranches <- 2 * ntips - 2
+nbranches
 
 
 ### Read in the character data

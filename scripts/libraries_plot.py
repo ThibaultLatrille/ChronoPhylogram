@@ -1,6 +1,8 @@
 import numpy as np
+import seaborn as sns
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 
 mpl.use('Agg')
 hist_filled = {'alpha': 0.3, 'histtype': 'stepfilled'}
@@ -15,13 +17,25 @@ def colors(x):
     return [cs[idx % len(cs)] for idx in range(len(x))]
 
 
-def hist_plot(x_input, x_label, output, xscale="log"):
+def color_simu_models(x):
+    cs = {"N": "#F0E442", "S": "#E69F00"}
+    color_list = [(cs["N"] if "neutral" in xl.lower() else cs["S"]) for xl in x.keys()]
+    handles = [Rectangle((0, 0), 1, 1, color=cs["N"], ec="k", lw=1, label="Neutral"),
+               Rectangle((0, 0), 1, 1, color=cs["S"], ec="k", lw=1, label="Moving optimum")]
+    return color_list, handles
+
+
+def filter_x(x_input, xscale):
     x = {k: np.array(v) for k, v in x_input.items()}
     if xscale == "log":
         xy_filtered = {k: (np.isfinite(x[k]) & (x[k] > 0)) for k in x.keys()}
     else:
         xy_filtered = {k: np.isfinite(x[k]) for k in x.keys()}
-    x = {k: x[k][xy_filtered[k]] for k in x.keys() if len(x[k][xy_filtered[k]]) > 0}
+    return {k: x[k][xy_filtered[k]] for k in x.keys() if len(x[k][xy_filtered[k]]) > 0}
+
+
+def hist_plot(x_input, x_label, output, xscale="log", format_label=None):
+    x = filter_x(x_input, xscale)
     if len(x) <= 1:
         return
     color_models = colors(x)
@@ -40,8 +54,10 @@ def hist_plot(x_input, x_label, output, xscale="log"):
 
     for id_m, m in enumerate(x):
         x_mean = np.mean(x[m])
-        ax.plot((x_mean, x_mean), (0, max_y), linewidth=3, color=color_models[id_m],
-                label=f'{m.replace("_", " ").capitalize()} (mean {x_mean:.2g})')
+        label = m.replace("_", " ").capitalize()
+        if format_label is not None:
+            label = format_label(label)
+        ax.plot((x_mean, x_mean), (0, max_y), linewidth=3, color=color_models[id_m], label=f"{label}: {x_mean:.2f}")
 
     ax.set_xlabel(x_label, fontsize=fontsize)
     if xscale == "log":
@@ -57,6 +73,31 @@ def hist_plot(x_input, x_label, output, xscale="log"):
         ax.set_yscale("log")
     ax.set_ylabel("Density", fontsize=fontsize)
     ax.legend(fontsize=fontsize_legend)
+    plt.tight_layout()
+    plt.savefig(output, format="pdf")
+    plt.clf()
+    plt.close("all")
+    print(output)
+
+
+def vert_boxplot(x_input, x_label, output, xscale="linear", format_label=None):
+    x = filter_x(x_input, xscale)
+    if len(x) <= 1:
+        return
+    color_models, handles = color_simu_models(x)
+    fig = plt.figure(figsize=(1280 / my_dpi, 640 / my_dpi), dpi=my_dpi)
+    ax = fig.add_subplot(1, 1, 1)
+    sns.boxplot(data=[x[m] for m in x], ax=ax, palette=color_models, fliersize=0, log_scale=(xscale == "log"))
+    # Display points on top of the boxplot
+    sns.swarmplot(data=[x[m] for m in x], ax=ax, color="black")
+    ax.set_ylabel(x_label, fontsize=fontsize_legend)
+    labels = [m.replace("_", " ") for m in x]
+    if format_label is not None:
+        labels = [format_label(l) for l in labels]
+    ax.set_xticks(range(len(labels)))
+    ax.set_xticklabels(labels, fontsize=fontsize_legend)
+    ax.legend(handles=handles, fontsize=fontsize_legend)
+    plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.savefig(output, format="pdf")
     plt.clf()

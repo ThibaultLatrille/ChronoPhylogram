@@ -6,7 +6,7 @@ from natsort import natsorted
 import pandas as pd
 from collections import defaultdict
 from os.path import basename, isdir
-from libraries_plot import hist_plot
+from libraries_plot import vert_boxplot
 from merge_results_simulations import plot_violin, plt, my_dpi
 
 
@@ -63,6 +63,15 @@ def plot_trace(df_out: pd.DataFrame, col: str, output: str):
     plt.clf()
 
 
+def format_label(l):
+    rm_list = {"Both", "SBM", "RBM", "Switch", "RJ", "SOU", "ROU", "neutral", "moving", "optimum"}
+    for rm in rm_list:
+        l = l.replace(rm, "")
+    while "  " in l:
+        l = l.replace("  ", " ")
+    return l.replace("Chrono", "Chronogram").replace("Phylo", "Phylogram")
+
+
 def main(folder, output):
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
@@ -78,7 +87,9 @@ def main(folder, output):
     parameters = {"num_rate_changes": ("N", "linear"), "std_rates": ("std rates", "log"),
                   "var_multiplier": ("var", "log"), "var_rates": ("var rates", "log"),
                   "num_theta_changes": ("N", "linear"), "theta_multiplier": ("theta", "log"),
-                  "is_BM": ("p[BM]", "uniform"), "is_OU": ("p[OU]", "uniform"), "is_nuc": ("p[Nuc]", "uniform"),
+                  "is_BM": ("Probability of Brownian\n(not Ornstein-Uhlenbeck)", "uniform"),
+                  "is_OU": ("Probability of OU\n(not Brownian)", "uniform"),
+                  "is_nuc": ("Probability of Phylogram", "uniform"),
                   "sigma": ("sigma", "log"), "theta": ("theta", "linear"),
                   "alpha": ("alpha", "log"), "t_half": ("t 1/2", "log")}
     trace_df, post_dict = get_dicts(simu_models, replicates, rb_models, parameters)
@@ -86,7 +97,7 @@ def main(folder, output):
     rename = lambda x: output.replace(".tsv", x)
     for col, dict_input in post_dict.items():
         x_label, xscale = parameters[col]
-        hist_plot(dict_input, x_label, rename(f".{col}.pdf"), xscale=xscale)
+        vert_boxplot(dict_input, x_label, rename(f".boxplot.{col}.pdf"), xscale=xscale, format_label=format_label)
 
     for (simu_model, rb_model), df_simu in trace_df.groupby(["simu", "model"]):
         plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.{rb_model}.pdf"))

@@ -57,6 +57,12 @@ rule all:
             gram=GRAMS,simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_distance_reconstructed_{{gram}}_{{simulator}}.pdf",
             gram=GRAMS,simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/{EXP}/plot_ancestral_{{gram}}_{{simulator}}.pdf",
+           gram=GRAMS, simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/{EXP}/plot_RevBayesAncestral_{{gram}}_{{simulator}}.pdf",
+           gram=GRAMS, simulator=config["simulators"]),
+        expand(f"{FOLDER}/results/{EXP}/plot_RevBayesDistance_{{gram}}_{{simulator}}.pdf",
+            gram=GRAMS,simulator=config["simulators"]),
         f"{FOLDER}/results/{EXP}/plot_div_comparison.pdf",
         f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
 
@@ -275,11 +281,14 @@ rule run_RevBayes:
         tree=rules.convert_to_RevBayes.output.nexus_tree,
         traits=rules.convert_to_RevBayes.output.nexus_traits
     output:
-        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}.log"
+        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}.log.gz"
     params:
-        folder=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}"
+        folder=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}",
+        prefix=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_{wildcards.gram}_seed{wildcards.seed}/{wildcards.rb}"
     shell:
-        'cd {params.folder} && {input.exec} {input.rev_file}'
+        'cd {params.folder} && {input.exec} {input.rev_file};'
+        'for f in {params.prefix}*.log; do if [ -f $f ]; then gzip -f $f; fi; done;'
+        'for f in {params.prefix}*.trees; do if [ -f $f ]; then gzip -f $f; fi; done;'
 
 rule run_Both_RevBayes:
     input:
@@ -289,33 +298,26 @@ rule run_Both_RevBayes:
         nuctree=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Phylo_seed{{seed}}/tree.nex",
         traits=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Chrono_seed{{seed}}/traits.nex"
     output:
-        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Both_seed{{seed}}/{{rb}}.log"
+        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_Both_seed{{seed}}/{{rb}}.log.gz"
     params:
-        folder=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_Both_seed{wildcards.seed}"
+        folder=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_Both_seed{wildcards.seed}",
+        prefix=lambda wildcards: f"{FOLDER}/data_RevBayes/{EXP}/{wildcards.simulator}/inference_Both_seed{wildcards.seed}/{wildcards.rb}"
     shell:
         'mkdir -p {params.folder};'
         'cp {input.timetree} {params.folder}/tree_time.nex;'
         'cp {input.nuctree} {params.folder}/tree_nuc.nex;'
         'cp {input.traits} {params.folder}/traits.nex;'
-        'cd {params.folder} && {input.exec} {input.rev_file}'
-
-rule compress_RevBayes_BM_log:
-    input:
-        log=lambda wildcards: rules.run_Both_RevBayes.output.log if wildcards.gram == "Both" else rules.run_RevBayes.output.log
-    output:
-        log=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}.log.gz"
-    params:
-        prefix=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}"
-    shell:
-        'for f in {params.prefix}*.log; do gzip -f $f; done'
+        'cd {params.folder} && {input.exec} {input.rev_file};'
+        'for f in {params.prefix}*.log; do if [ -f $f ]; then gzip -f $f; fi; done;'
+        'for f in {params.prefix}*.trees; do if [ -f $f ]; then gzip -f $f; fi; done;'
 
 rule gather_RevBayes_log:
     input:
         script=f"{FOLDER}/scripts/plot_simulations_RevBayes.py",
-        rb_log=expand(rules.compress_RevBayes_BM_log.output.log,gram=GRAMS,seed=SEEDS,
+        rb_log=expand(rules.run_RevBayes.output.log,gram=GRAMS,seed=SEEDS,
             simulator=config["simulators"],rb=["simple_BM_REML", "simple_BM_MVN", "simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ"]),
-        rb_bm_log=expand(rules.compress_RevBayes_BM_log.output.log,gram=["Both"],seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_BM_SwitchREML", "simple_BM_Switchnodes"])
+        rb_bm_log=expand(rules.run_Both_RevBayes.output.log,seed=SEEDS,
+            simulator=config["simulators"],rb=["simple_BM_SwitchREML", "simple_BM_SwitchMVN", "simple_BM_Switchnodes"])
             # simulator=config["simulators"],rb=["simple_BM_SwitchREML", "simple_BM_SwitchMVN", "simple_BM_Switchnodes"])
     output:
         plot=f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
@@ -323,3 +325,32 @@ rule gather_RevBayes_log:
         folder=f"{FOLDER}/data_RevBayes/{EXP}"
     shell:
         'python3 {input.script} --folder {params.folder} --output {output.plot}'
+
+rule parse_tree_RevBayes:
+    input:
+        script=f"{FOLDER}/scripts/parse_tree_trace.py",
+        log=rules.run_RevBayes.output.log,
+    output:
+        tree=f"{FOLDER}/data_RevBayes/{EXP}/{{simulator}}/inference_{{gram}}_seed{{seed}}/{{rb}}.tree"
+    shell:
+        'python3 {input.script} --input {input.log} --output {output.tree}'
+
+rule plot_RevBayes_ancestral_traits:
+    input:
+        script=f"{FOLDER}/scripts/plot_ancestral_traits_RevBayes.py",
+        inference_tree=expand(f"{FOLDER}/data_RevBayes/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}/{{rb}}.tree",seed=SEEDS, rb=["simple_BM_nodes"]),
+        simu_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz",seed=SEEDS),
+    output:
+        pdf=f"{FOLDER}/results/{EXP}/plot_RevBayesAncestral_{{gram}}_{{simulator}}.pdf"
+    shell:
+        'python3 {input.script} --inference_tree {input.inference_tree} --simu_tree {input.simu_tree} --output {output.pdf}'
+
+rule plot_RevBayes_ancestral_trait_distance:
+    input:
+        scripts=f"{FOLDER}/scripts/plot_trait_distance_RevBayes.py",
+        distance_tree=f"{FOLDER}/data_simulated/{EXP}/{{gram}}_scaled.tree",
+        annotated_tree=expand(f"{FOLDER}/data_RevBayes/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}/{{rb}}.tree",seed=SEEDS, rb=["simple_BM_nodes"])
+    output:
+        run=f"{FOLDER}/results/{EXP}/plot_RevBayesDistance_{{gram}}_{{simulator}}.pdf"
+    shell:
+        'python3 {input.scripts} --distance_tree {input.distance_tree} --annotated_tree {input.annotated_tree} --output {output.run}'

@@ -1,4 +1,4 @@
-experiment_name: "mammals"
+experiment_name: "mammals_slow"
 nb_genes: 1
 min_seed: 0
 max_seed: 98745641
@@ -32,5 +32,5 @@ core:
   number_of_generations: 13500
   burn_in: 1000
 heritability: 0.2
-scaled_population_size_brownian_sigma: 1.0 # The order of magnitude of change in population size along the tree
-scaled_mutation_rate_brownian_sigma: 1.0 # The order of magnitude of change in mutation rate along the tree
+scaled_population_size_brownian_sigma: 0.5 # The order of magnitude of change in population size along the tree
+scaled_mutation_rate_brownian_sigma: 0.5 # The order of magnitude of change in mutation rate along the tree

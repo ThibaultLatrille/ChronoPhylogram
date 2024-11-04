@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.pdf
+*.xlsx
 .env
 .venv
 utils/
@@ -12,7 +13,14 @@ results/
 manuscript/
 RevBayes/
 data_processed/
+data_empirical/
 data_simulated/
 data_RevBayes/
 data_BayesCode/
-/data/science.abn2937.phyloP/
+data/science.abn2937.phyloP/
+data/GE_*
+data/COMBINE/imputation*.csv
+data/COMBINE/*_validation.csv
+data/COMBINE/taxonomy_crosswalk.csv
+data/COMBINE/trait_data_imputed.csv
+data/COMBINE/trait_data_sources.csv

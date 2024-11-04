@@ -22,6 +22,7 @@ def plot_violin(df_out: pd.DataFrame, col: str, output: str):
     sns.violinplot(data=df_out, x="seed", y=col, hue="gram", split=True, inner="quart", fill=True,
                    density_norm='width', palette=palette, ax=ax)
     ax.legend(fontsize=fontsize_legend)
+    ax.set_xticks(range(len(ax.get_xticklabels())))
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 
     ax = axes[1]

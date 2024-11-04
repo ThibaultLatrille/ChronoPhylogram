@@ -19,46 +19,20 @@ def main(path_input_traits: str, path_input_tree: str, path_output_tree: str,
     print(f"The tree has {len(set_taxa_names)} leaves")
 
     df_traits = pd.read_csv(path_input_traits)
+    df_traits["Genus_Species"] = df_traits["Species"]
     assert "Genus_Species" in df_traits.columns
-    dico_trait_names = {"bodyMass": "Body mass (g)", "brainMass": "Brain mass (g)"}
+    dico_trait_names = {"bodyMass": "female.svl"}
     trait = dico_trait_names[args_trait]
     assert trait in df_traits.columns
     print(f"\nPhenotype considered is {trait}")
     print(f"The trait dataframe has {len(df_traits)} rows initially.")
     df_traits = df_traits[df_traits["Genus_Species"].isin(set_taxa_names)]
     print(f"The trait dataframe has {len(df_traits)} rows after filtering taxa also in the tree.")
-    # Keep only the adult
-    df_traits = df_traits[df_traits["Age Class"] == "Adult"]
-    print(f"The trait dataframe has {len(df_traits)} rows after keeping adults.")
-
-    # Convert the brain volume in brain mass
-    # density of brain tissue is 1.036 g/ml
-    bm, bv = "Brain mass (g)", "Brain Volume (ml)"
-    density_brain_tissue = 1.036
-    df_traits[bm] = df_traits.apply(lambda r: r[bm] if np.isfinite(r[bm]) else r[bv] * density_brain_tissue, axis=1)
-    ss_brain, ss_body = "Sample size (Brain)", "Sample size (Body)"
-    df_traits[ss_body] = df_traits.apply(lambda r: r[ss_body] if np.isfinite(r[ss_body]) else r[ss_brain], axis=1)
-
     df_traits = df_traits[np.isfinite(df_traits[trait])]
     print(f"The trait dataframe has {len(df_traits)} rows after filtering not finite values.")
     # Log transform the trait
     df_traits[trait] = np.log(df_traits[trait])
     print(f"The trait is log transformed.")
-
-    if sex in ["m", "f"]:
-        # Keep only the rows with at least one male and one female
-        df_sex = df_traits[df_traits["Sex"].isin(["m", "f"])]
-        df_sex_count = df_sex.groupby(["Genus_Species", "Sex"]).size().reset_index(name="count")
-        df_genus = df_sex_count.groupby(["Genus_Species"]).size().reset_index(name="count")
-        sex_taxa = df_genus[df_genus["count"] == 2]["Genus_Species"]
-        df_traits = df_traits[df_traits["Genus_Species"].isin(sex_taxa)]
-        print(f"The trait dataframe has {len(df_traits)} rows after keeping taxa with at least 1 male and 1 female.")
-        # Keep only the male or the female
-        df_traits = df_traits[df_traits["Sex"] == sex]
-        print(f"The trait dataframe has {len(df_traits)} rows after keeping {'male' if sex == 'm' else 'female'}s.")
-    else:
-        print("Keeping all individuals (males and females).")
-    df_traits.to_csv(path_output_traits.replace("traits.tsv", "dataframe.tsv"), sep="\t", index=False)
 
     # Filter the tree and create dictionaries for variance and mean of traits
     set_taxa_names = set_taxa_names.intersection(set(df_traits["Genus_Species"]))

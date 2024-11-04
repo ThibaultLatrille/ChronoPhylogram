@@ -3,88 +3,123 @@ import os
 FOLDER = os.path.abspath('.')
 
 BURN_IN, UNTIL = 1000, 2000
-datasets = ["Mammal", "Primate"]
-sexes = ["m", "f"]
-logTs = [True]
+rb_list = ["simple_BM_SwitchREML", "simple_BM_SwitchMVN", "simple_BM_Switchnodes"]
+datasets = {"Mammal": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": rb_list},
+            "Primate": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": rb_list},
+            "Combine": {"traits": ["bodyMass", "brainMass"], "sexes": ["b"], "rb": rb_list},
+            "Lizard": {"traits": ["bodyMass"], "sexes": ["b"], "rb": ["simple_BM_SwitchREML"]}}
 
-bayescode_path = {}
-for executable in ["nodetraits", "readnodetraits"]:
-    exec_path = os.path.join(FOLDER,f'utils/BayesCode/bin/{executable}')
-    if not os.path.exists(exec_path):
-        # Find executable in the path using whereis. If not found, raise an error.
-        split = os.popen(f'whereis {executable}').read().split()
-        if len(split) > 1:
-            exec_path = split[1].strip()
-        else:
-            raise FileNotFoundError(f'{executable} not found. Please install BayesCode and add it to your path.')
-    bayescode_path[executable] = exec_path
-    print(f"Found {executable} at {exec_path}")
+exec_path = "/opt/homebrew/Caskroom/miniforge/base/envs/osx-64/bin/rb"
+if not os.path.exists(exec_path):
+    # Find executable in the path using whereis. If not found, raise an error.
+    split = os.popen(f'whereis rb').read().split()
+    if len(split) > 1:
+        exec_path = split[1].strip()
+    else:
+        raise FileNotFoundError(f'rb not found. Please install RevBayes and add it to your path.')
+print(f"Found rb at {exec_path}")
 
 
-def data_dS(dataset):
-    dico_dS = {"PrimatePhylo": "science.abn7829.primates/science.abn7829_data_s3.nw.tree"}
-    dico_dS["PrimatePhyloNeu"] = dico_dS["PrimatePhylo"].replace("nw.tree","scaled.nw.tree")
-    timescale = "science.abl8189.Timescale"
-    dico_dS["MammalP30"] = f"{timescale}/PreliminaryTopologies/X_lessGC40_241.tree"
-    dico_dS["MammalP75"] = f"{timescale}/PreliminaryTopologies/200Mammals_X_lessGC40_75consensus.tr"
-    dico_dS["MammalPhylo"] = f"{timescale}/Table_S2_RootedTrees/Concatenation_HRA_neutral_241_10miss_rooted.tree"
-    dico_dS["MammalChrono"] = dico_dS["PrimateChrono"] = "mammals_timetree.nwk"
-    return dico_dS[dataset]
+def data_tree(dataset):
+    dtree = {"Primate": "science.abn7829.primates/science.abn7829_data_s3.scaled.nw.tree"}
+    r = "science.abl8189.Timescale/Table_S2_RootedTrees"
+    dtree["Combine"] = dtree["Mammal"] = f"{r}/Concatenation_HRA_neutral_241_10miss_rooted.tree"
+    dtree["Lizard"] = "Lizard/squam_shl_new.tre"
+    return f"{FOLDER}/data/{dtree[dataset]}"
+
+
+def data_traits(dataset):
+    ttree = {"Combine": "COMBINE/trait_data_reported.csv", "Mammal": "Tsuboi_etal_NEE_mammal.csv",
+             "Primate": "Tsuboi_etal_NEE_mammal.csv", "Lizard": "Lizard/Table_S2_JAN2024.csv"}
+    return f"{FOLDER}/data/{ttree[dataset]}"
+
+
+def script_preprocess(dataset):
+    dscript = {"Combine": "pre_processed_traits_COMBINE.py", "Mammal": "pre_processed_traits_mammals.py",
+               "Primate": "pre_processed_traits_mammals.py", "Lizard": "pre_processed_traits_lizard.py"}
+    return f"{FOLDER}/scripts/{dscript[dataset]}"
 
 
 rule all:
-    input: expand(f"{FOLDER}/results/empirical_{{dataset}}.pdf", dataset=datasets)
+    input:
+        expand(f"{FOLDER}/results/empiricalRevBayes_{{dataset}}.pdf",dataset=datasets.keys())
 
+rule reconstructed_chronogram:
+    input:
+        script=f"{FOLDER}/scripts/calib_pl.R",
+        tree=lambda wildcards: data_tree(wildcards.dataset),
+    output:
+        tree=f"{FOLDER}/data_empirical/{{dataset}}.reconstructed.Chrono.tree"
+    shell:
+        'Rscript {input.script} {input.tree} {output.tree}'
 
 rule scale_trees:
     input:
         script=f"{FOLDER}/scripts/scale_tree.py",
-        tree_1=lambda wildcards: f"{FOLDER}/data/{data_dS(wildcards.dataset + 'Phylo')}",
-        tree_2=lambda wildcards: f"{FOLDER}/data/{data_dS(wildcards.dataset + 'Chrono')}"
+        tree_1=lambda wildcards: data_tree(wildcards.dataset),
+        tree_2=f"{FOLDER}/data_empirical/{{dataset}}.reconstructed.Chrono.tree"
     output:
-        tree_1=f"{FOLDER}/data_processed/{{dataset}}.scaled.Phylo.tree",
-        tree_2=f"{FOLDER}/data_processed/{{dataset}}.scaled.Chrono.tree"
+        tree_1=f"{FOLDER}/data_empirical/{{dataset}}.scaled.Phylo.tree",
+        tree_2=f"{FOLDER}/data_empirical/{{dataset}}.scaled.Chrono.tree"
     shell:
         'python3 {input.script} --tree_1 {input.tree_1} --tree_2 {input.tree_2} --tree_output_1 {output.tree_1} --tree_output_2 {output.tree_2}'
 
 rule pre_processed_traits:
     input:
-        script=f"{FOLDER}/scripts/pre_processed_traits_mammals.py",
-        input_tree=f"{FOLDER}/data_processed/{{dataset}}.scaled.{{gram}}.tree",
-        input_traits=f"{FOLDER}/data/Tsuboi_etal_NEE_mammal.csv"
+        script=lambda wildcards: script_preprocess(wildcards.dataset),
+        input_tree=f"{FOLDER}/data_empirical/{{dataset}}.scaled.{{gram}}.tree",
+        input_traits=lambda wildcards: data_traits(wildcards.dataset)
     output:
-        tree=f"{FOLDER}/data_processed/mammals/{{dataset}}_{{gram}}_{{sex}}_{{logT}}.tree",
-        traits=f"{FOLDER}/data_processed/mammals/{{dataset}}_{{gram}}_{{sex}}_{{logT}}.traits.tsv"
+        tree=f"{FOLDER}/data_empirical/processed/{{dataset}}_{{gram}}_{{sex}}_{{trait}}.tree",
+        traits=f"{FOLDER}/data_empirical/processed/{{dataset}}_{{gram}}_{{sex}}_{{trait}}.traits.tsv"
     params:
-        phenotype=lambda wildcards: f"--log_transform {wildcards.logT} --sex {wildcards.sex}"
+        phenotype=lambda wildcards: f"--trait {wildcards.trait} --sex {wildcards.sex}"
     log:
-        stdout=f"{FOLDER}/data_processed/mammals/{{dataset}}_{{gram}}_{{sex}}_{{logT}}.preprocessed.log"
+        stdout=f"{FOLDER}/data_empirical/processed/{{dataset}}_{{gram}}_{{sex}}_{{trait}}.preprocessed.log"
     shell:
         'python3 {input.script} {params.phenotype} --input_tree {input.input_tree}  --input_traits {input.input_traits}'
         ' --output_tree {output.tree} --output_traits {output.traits} > {log.stdout}'
 
-rule run_inference:
+rule convert_to_RevBayes:
     input:
-        exec=bayescode_path["nodetraits"],
-        traits=rules.pre_processed_traits.output.traits,
-        tree=rules.pre_processed_traits.output.tree
+        script=f"{FOLDER}/scripts/convert_to_nexus.py",
+        tree=rules.pre_processed_traits.output.tree,
+        traits=rules.pre_processed_traits.output.traits
     output:
-        run=f"{FOLDER}/data_processed/inference/{{dataset}}_{{gram}}_{{sex}}_{{logT}}.run"
-    params:
-        chain=f"{FOLDER}/data_processed/inference/{{dataset}}_{{gram}}_{{sex}}_{{logT}}",
-        until=f"--until {UNTIL}"
-    log:
-        stdout=f"{FOLDER}/data_processed/inference/{{dataset}}_{{gram}}_{{sex}}_{{logT}}.log"
+        nexus_tree=f"{FOLDER}/data_empirical/processed/{{dataset}}_{{gram}}_{{sex}}_{{trait}}.tree.nex",
+        nexus_traits=f"{FOLDER}/data_empirical/processed/{{dataset}}_{{gram}}_{{sex}}_{{trait}}.traits.nex"
     shell:
-        '{input.exec} {params.until} --uniq_kappa --keep_scale --df 1 --tree {input.tree} --traitsfile {input.traits} {params.chain}'
-        ' > {log.stdout}'
+        'python3 {input.script} --input_tree {input.tree} --input_traits {input.traits} --output_tree {output.nexus_tree} --output_traits {output.nexus_traits}'
 
-rule merge_trace:
+rule run_RevBayes:
     input:
-        script=f"{FOLDER}/scripts/merge_results_mammals.py",
-        bayescode=expand(f"{FOLDER}/data_processed/inference/{{{{dataset}}}}_{{gram}}_{{sex}}_{{logT}}.run",
-            gram=["Phylo", "Chrono"],sex=sexes,logT=logTs)
+        exec=exec_path,
+        rev_file=f"{FOLDER}/scripts/mcmc_{{rb}}.Rev",
+        timetree=f"{FOLDER}/data_empirical/processed/{{dataset}}_Chrono_{{sex}}_{{trait}}.tree.nex",
+        nuctree=f"{FOLDER}/data_empirical/processed/{{dataset}}_Phylo_{{sex}}_{{trait}}.tree.nex",
+        traits=f"{FOLDER}/data_empirical/processed/{{dataset}}_Chrono_{{sex}}_{{trait}}.traits.nex"
     output:
-        tsv=f"{FOLDER}/results/empirical_{{dataset}}.pdf"
+        log=f"{FOLDER}/data_empirical/RevBayes_{{dataset}}/{{sex}}_{{trait}}/{{rb}}.log.gz"
+    params:
+        folder=lambda wildcards: f"{FOLDER}/data_empirical/RevBayes_{wildcards.dataset}/{wildcards.sex}_{wildcards.trait}",
+        prefix=lambda wildcards: f"{FOLDER}/data_empirical/RevBayes_{wildcards.dataset}/{wildcards.sex}_{wildcards.trait}/{wildcards.rb}"
     shell:
-        'python3 {input.script} --bayescode {input.bayescode} --output {output.tsv}'
+        'mkdir -p {params.folder};'
+        'cp {input.timetree} {params.folder}/tree_time.nex;'
+        'cp {input.nuctree} {params.folder}/tree_nuc.nex;'
+        'cp {input.traits} {params.folder}/traits.nex;'
+        'cd {params.folder} && {input.exec} {input.rev_file};'
+        'for f in {params.prefix}*.log; do if [ -f $f ]; then gzip -f $f; fi; done;'
+
+rule gather_RevBayes_log:
+    input:
+        script=f"{FOLDER}/scripts/plot_empirical_RevBayes.py",
+        rb_bm=lambda wildcards: expand(f"{FOLDER}/data_empirical/RevBayes_{wildcards.dataset}/{{sex}}_{{trait}}/{{rb}}.log.gz",
+            rb=datasets[wildcards.dataset]["rb"],trait=datasets[wildcards.dataset]["traits"],
+            sex=datasets[wildcards.dataset]["sexes"]),
+    output:
+        plot=f"{FOLDER}/results/empiricalRevBayes_{{dataset}}.pdf"
+    params:
+        folder=f"{FOLDER}/data_empirical/RevBayes_{{dataset}}"
+    shell:
+        'python3 {input.script} --folder {params.folder} --output {output.plot}'

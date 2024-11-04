@@ -14,6 +14,7 @@
 input_tree <- "tree.nex"
 input_data <- "traits.nex"
 output_file <- "simple_BM_nodes.log"
+output_trees <- "simple_BM_nodes.trees"
 
 ### Select the trait to analyze
 trait <- 1
@@ -63,7 +64,7 @@ traits[nnodes] := traitroot
 for (i in (nnodes-1):(ntips+1) ) {
   traits[i] ~ dnNormal( traits[psi.parent(i)], sd=sigma*sqrt(psi.branchLength(i)) )
   # moves on the Brownian process
-  moves.append(mvSlide( traits[i], delta=10, tune=true ,weight=2))
+  moves.append(mvSlide( traits[i], delta=10, tune=true, weight=2))
 }
 
 for (i in ntips:1 ) {
@@ -76,11 +77,12 @@ for (i in ntips:1 ) {
 # The Model #
 #############
 
-mymodel = model(psi)
+mymodel = model(traits)
 
 ### set up the monitors that will output parameter values to file and screen
 monitors.append(mnModel(filename = output_file, printgen = 10))
 monitors.append(mnScreen(printgen = 1000, sigma, traitroot))
+monitors.append(mnExtNewick(filename=output_trees, isNodeParameter=TRUE, printgen=100, separator=TAB, tree=T, traits) )
 
 ################
 # The Analysis #
@@ -93,4 +95,5 @@ mymcmc = mcmc(mymodel, monitors, moves, nruns = 2, combine = "mixed")
 mymcmc.burnin(generations=1000, tuningInterval=10)
 mymcmc.run(generations=10000, tuningInterval=100)
 
+### quit ###
 q()
