@@ -315,7 +315,7 @@ rule gather_RevBayes_log:
     input:
         script=f"{FOLDER}/scripts/plot_simulations_RevBayes.py",
         rb_log=expand(rules.run_RevBayes.output.log,gram=GRAMS,seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_BM_REML", "simple_BM_MVN", "simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ"]),
+            simulator=config["simulators"],rb=["simple_BM_REML", "simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ"]),
         rb_bm_log=expand(rules.run_Both_RevBayes.output.log,seed=SEEDS,
             simulator=config["simulators"],rb=["simple_BM_SwitchREML", "simple_BM_Switchnodes"])
     output:
