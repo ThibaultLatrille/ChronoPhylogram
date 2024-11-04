@@ -36,7 +36,7 @@ def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: 
                     continue
 
                 trace_df = open_log(trace_path)
-                if rb_model in ["simple_BM_REML", "simple_BM_MVN", "simple_BM_nodes"]:
+                if rb_model in ["simple_BM_REML", "simple_BM_nodes"]:
                     df = pd.DataFrame({"Posterior": trace_df["Posterior"]})
                     df["model"] = rb_model
                     df["gram"] = gram
@@ -75,8 +75,8 @@ def format_label(l):
 def main(folder, output):
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
-    rb_models = ["simple_OU_RJ", "relaxed_BM_RJ", "simple_BM_MVN", "simple_BM_REML", "simple_BM_nodes",
-                 "simple_BM_SwitchMVN", "simple_BM_SwitchREML", "simple_BM_Switchnodes"]
+    rb_models = ["simple_OU_RJ", "relaxed_BM_RJ","simple_BM_REML", "simple_BM_nodes",
+                 "simple_BM_SwitchREML", "simple_BM_Switchnodes"]
     simu_model_prefs = {"moving_optimum": 0, "directional": 1, "neutral": 3}
     simu_models_path = {basename(p): p for p in glob(folder + "/*") if isdir(p) and basename(p) in simu_model_prefs}
     simu_models = list(sorted(simu_models_path, key=lambda x: simu_model_prefs[x] if x in simu_model_prefs else -1))

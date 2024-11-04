@@ -3,7 +3,7 @@ import os
 FOLDER = os.path.abspath('.')
 
 BURN_IN, UNTIL = 1000, 2000
-rb_list = ["simple_BM_SwitchREML", "simple_BM_SwitchMVN", "simple_BM_Switchnodes"]
+rb_list = ["simple_BM_SwitchREML", "simple_BM_Switchnodes"]
 datasets = {"Mammal": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": rb_list},
             "Primate": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": rb_list},
             "Combine": {"traits": ["bodyMass", "brainMass"], "sexes": ["b"], "rb": rb_list},

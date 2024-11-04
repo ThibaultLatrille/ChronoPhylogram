@@ -8,7 +8,7 @@ from libraries_plot import plt
 
 def main(folder, output):
     os.makedirs(os.path.dirname(output), exist_ok=True)
-    models = {"MVN": "simple_BM_SwitchMVN", "REML": "simple_BM_SwitchREML", "nodes": "simple_BM_Switchnodes"}
+    models = {"REML": "simple_BM_SwitchREML", "nodes": "simple_BM_Switchnodes"}
     x_input = {}
     for directory in os.listdir(folder):
         if not isdir(f"{folder}/{directory}"):
