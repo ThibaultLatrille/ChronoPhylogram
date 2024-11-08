@@ -2,7 +2,7 @@ experiment_name: "mammals_no"
 nb_genes: 1
 min_seed: 0
 max_seed: 98745641
-nb_seeds: 25
+nb_seeds: 100
 tree: "utils/simulator/trees/mammal.tre.annotated"
 bayes_inference: true
 bayes_burn_in: 1000
@@ -19,6 +19,15 @@ simulators:
     bias_optimum: 0.0
     sigma_optimum: 1.0
     theta_optimum: 0.0
+  multi_optimum:
+    model: "selection"
+    number_loci: 5000
+    peakness: 0.02
+    epistasis: 2.0
+    bias_optimum: 10.0
+    bias_optimum_rate: 1e-5
+    sigma_optimum: 1.0
+    theta_optimum: 0.02
 core:
   mutation_mean_effect_size: 1.0
   mutation_rate_per_loci_per_generation: 1.4e-6

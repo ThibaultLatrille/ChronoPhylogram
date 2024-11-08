@@ -64,7 +64,7 @@ def plot_trace(df_out: pd.DataFrame, col: str, output: str):
 
 
 def format_label(l):
-    rm_list = {"Both", "SBM", "RBM", "Switch", "RJ", "SOU", "ROU", "neutral", "moving", "optimum"}
+    rm_list = {"Both", "SBM", "RBM", "Switch", "RJ", "SOU", "ROU", "neutral", "moving", "multi", "optimum"}
     for rm in rm_list:
         l = l.replace(rm, "")
     while "  " in l:
@@ -75,9 +75,9 @@ def format_label(l):
 def main(folder, output):
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
-    rb_models = ["simple_OU_RJ", "relaxed_BM_RJ","simple_BM_REML", "simple_BM_nodes",
+    rb_models = ["relaxed_BM_RJ", "relaxed_OU_RJ", "simple_OU_RJ", "simple_BM_REML", "simple_BM_nodes",
                  "simple_BM_SwitchREML", "simple_BM_Switchnodes"]
-    simu_model_prefs = {"moving_optimum": 0, "directional": 1, "neutral": 3}
+    simu_model_prefs = {"moving_optimum": 0, "multi_optimum": 1, "neutral": 3}
     simu_models_path = {basename(p): p for p in glob(folder + "/*") if isdir(p) and basename(p) in simu_model_prefs}
     simu_models = list(sorted(simu_models_path, key=lambda x: simu_model_prefs[x] if x in simu_model_prefs else -1))
 
@@ -96,8 +96,8 @@ def main(folder, output):
 
     rename = lambda x: output.replace(".tsv", x)
     for col, dict_input in post_dict.items():
-        x_label, xscale = parameters[col]
-        vert_boxplot(dict_input, x_label, rename(f".boxplot.{col}.pdf"), xscale=xscale, format_label=format_label)
+        y_label, yscale = parameters[col]
+        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label)
 
     for (simu_model, rb_model), df_simu in trace_df.groupby(["simu", "model"]):
         plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.{rb_model}.pdf"))

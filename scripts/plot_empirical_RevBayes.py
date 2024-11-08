@@ -3,14 +3,20 @@ import argparse
 import numpy as np
 import pandas as pd
 from os.path import isdir
-from libraries_plot import plt
+from libraries_plot import vert_boxplot
+
+
+def format_label(l):
+    l = l.replace("b ", "").replace("m ", "♂").replace("f ", "♀ ")
+    l = l.replace("bodyMass", "body mass").replace("brainMass", "brain mass")
+    return l.replace("REML", "(REML)").replace("nodes", "(nodes)")
 
 
 def main(folder, output):
     os.makedirs(os.path.dirname(output), exist_ok=True)
     models = {"REML": "simple_BM_SwitchREML", "nodes": "simple_BM_Switchnodes"}
     x_input = {}
-    for directory in os.listdir(folder):
+    for directory in sorted(os.listdir(folder)):
         if not isdir(f"{folder}/{directory}"):
             continue
         for rb_name, rb in models.items():
@@ -26,11 +32,8 @@ def main(folder, output):
             # compute the mean across 100 points
             x_input[label] = [np.mean(p) for p in p_slice]
 
-    pd.plotting.boxplot(pd.DataFrame(x_input), vert=True)
-    plt.ylim(-0.01, 1.01)
-    plt.xticks(rotation=45, ha="right")
-    plt.tight_layout()
-    plt.savefig(output)
+    vert_boxplot(x_input, "Probability of Phylogram", output, yscale="uniform",
+                 format_label=format_label, empirical=True)
 
 
 if __name__ == '__main__':

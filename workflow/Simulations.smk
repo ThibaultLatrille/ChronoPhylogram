@@ -4,6 +4,9 @@ import numpy as np
 FOLDER = os.path.abspath('.')
 
 executable_list = ["nodetraits", "readnodetraits", "rb"]
+rb_list = ["simple_BM_REML", "simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ", "relaxed_OU_RJ"]
+rb_switch_list = ["simple_BM_SwitchREML", "simple_BM_Switchnodes"]
+
 exec_dico = {}
 
 for executable in executable_list:
@@ -101,7 +104,7 @@ rule run_simulations:
             pop_size=config["core"]["population_size"],
             h2=config["heritability"])
     shell:
-        'mkdir -p {params.folder} && {input.exec} --tree {input.tree} {params.simulator} --variance_environment {params.ve} --seed {wildcards.seed} --seed_pop_size {SEED_POP_SIZE} --seed_mut_rate {SEED_MUT_RATE} --output {params.file} && gzip {params.file}.nhx'
+        'mkdir -p {params.folder} && {input.exec} --output_summary --tree {input.tree} {params.simulator} --variance_environment {params.ve} --seed {wildcards.seed} --seed_pop_size {SEED_POP_SIZE} --seed_mut_rate {SEED_MUT_RATE} --output {params.file} && gzip {params.file}.nhx'
 
 rule run_neutral_simulation:
     input:
@@ -315,9 +318,9 @@ rule gather_RevBayes_log:
     input:
         script=f"{FOLDER}/scripts/plot_simulations_RevBayes.py",
         rb_log=expand(rules.run_RevBayes.output.log,gram=GRAMS,seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_BM_REML", "simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ"]),
+            simulator=config["simulators"],rb=rb_list),
         rb_bm_log=expand(rules.run_Both_RevBayes.output.log,seed=SEEDS,
-            simulator=config["simulators"],rb=["simple_BM_SwitchREML", "simple_BM_Switchnodes"])
+            simulator=config["simulators"],rb=rb_switch_list)
     output:
         plot=f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
     params:

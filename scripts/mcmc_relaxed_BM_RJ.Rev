@@ -52,7 +52,7 @@ moves.append( mvScale(sigma2_root, weight=1.0) )
 
 
 # specify the prior on the number of rate shifts
-expected_number_of_shifts <- 5
+expected_number_of_shifts <- 1
 rate_shift_probability <- expected_number_of_shifts / nbranches
 
 # specify the prior on the magnitude of rate shifts

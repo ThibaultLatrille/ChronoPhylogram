@@ -8,7 +8,13 @@ __pycache__/
 *.xlsx
 .env
 .venv
-utils/
+utils/BayesCode
+utils/RevBayes
+/utils/simulator/cmake-build-debug/
+/utils/simulator/build/
+/utils/simulator/test/
+/utils/simulator/trees/
+/Legacy
 results/
 manuscript/
 RevBayes/
