@@ -69,7 +69,7 @@ def sort_x(list_x):
     return list(sorted(list_x, key=lambda x: 0 if "neutral" in x else (1 if "multi" in x and "optimum" in x else 2)))
 
 
-def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, empirical=False):
+def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, empirical=False, rotation=45):
     x = filter_x(x_input, yscale)
     if len(x) < 1:
         return
@@ -91,7 +91,7 @@ def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, e
     ax.set_xticks(range(len(labels)))
     ax.set_xticklabels(labels, fontsize=fontsize_legend)
     ax.legend(handles=handles, fontsize=fontsize_legend)
-    plt.xticks(rotation=45, ha='right')
+    plt.xticks(rotation=rotation, ha="right" if rotation > 0 else "center")
     if yscale == "uniform":
         ax.set_ylim((-0.01, 1.01))
     plt.tight_layout()

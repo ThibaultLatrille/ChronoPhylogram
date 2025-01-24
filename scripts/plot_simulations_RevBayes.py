@@ -7,7 +7,43 @@ import pandas as pd
 from collections import defaultdict
 from os.path import basename, isdir
 from libraries_plot import vert_boxplot
-from merge_results_simulations import plot_violin, plt, my_dpi
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+my_dpi = 150
+fontsize = 24
+fontsize_legend = 18
+
+
+def replace_last(s: str, old: str, new: str) -> str:
+    li = s.rsplit(old, 1)
+    return new.join(li)
+
+
+def plot_violin(df_out: pd.DataFrame, col: str, output: str):
+    fig, axes = plt.subplots(2, 1, figsize=(1920 / my_dpi, 1080 / my_dpi), dpi=my_dpi)
+    ax = axes[0]
+    df_out.sort_values(by=["seed", "gram"], inplace=True)
+    palette = {"Chrono": sns.color_palette("tab10")[0], "Phylo": sns.color_palette("tab10")[1]}
+    sns.violinplot(data=df_out, x="seed", y=col, hue="gram", split=True, inner="quart", fill=True,
+                   density_norm='width', palette=palette, ax=ax)
+    ax.legend(fontsize=fontsize_legend)
+    ax.set_xticks(range(len(ax.get_xticklabels())))
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
+
+    ax = axes[1]
+    for dataset, df_seed in df_out.groupby("seed"):
+        phylo = df_seed[df_seed["gram"] == "Phylo"][col].values
+        chrono = df_seed[df_seed["gram"] == "Chrono"][col].values
+        assert len(phylo) == len(chrono), f"Length of phylo ({len(phylo)}) and chrono ({len(chrono)}) are different"
+        diff = phylo - chrono
+        sns.kdeplot(diff, label=dataset, ax=ax)
+    ax.set_xlabel("lnprob(Phylo) - lnprob(Chrono)", fontsize=fontsize)
+    ax.axvline(0, color='black', linestyle='--')
+    plt.tight_layout()
+    plt.savefig(output)
+    plt.clf()
+    plt.close("all")
 
 
 def open_log(path):
@@ -64,7 +100,7 @@ def plot_trace(df_out: pd.DataFrame, col: str, output: str):
 
 
 def format_label(l):
-    rm_list = {"Both", "SBM", "RBM", "Switch", "RJ", "SOU", "ROU", "neutral", "moving", "multi", "optimum"}
+    rm_list = {"Both", "SBM", "RBM", "Switch", "RJ", "SOU", "ROU", "nodes", "REML"}
     for rm in rm_list:
         l = l.replace(rm, "")
     while "  " in l:
@@ -97,7 +133,7 @@ def main(folder, output):
     rename = lambda x: output.replace(".tsv", x)
     for col, dict_input in post_dict.items():
         y_label, yscale = parameters[col]
-        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label)
+        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, rotation=0, format_label=format_label)
 
     for (simu_model, rb_model), df_simu in trace_df.groupby(["simu", "model"]):
         plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.{rb_model}.pdf"))

@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 import os
 import argparse
-from gzip import open as gzopen
 import pandas as pd
-from ete3 import Tree
 from Bio import Phylo
-from libraries import open_tree, prune_tree, replace_last
 
 
 def main(input_tree: str, input_traits: str, output_tree: str, output_traits: str):
