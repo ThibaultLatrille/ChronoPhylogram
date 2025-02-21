@@ -4,9 +4,6 @@ min_seed: 0
 max_seed: 98745641
 nb_seeds: 25
 tree: "data/tree_l1_mu08.tre"
-bayes_inference: true
-bayes_burn_in: 1000
-bayes_until: 2000
 simulators:
   neutral:
     model: "neutral"

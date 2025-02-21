@@ -3,10 +3,9 @@ import os
 FOLDER = os.path.abspath('.')
 
 BURN_IN, UNTIL = 1000, 2000
-rb_list = ["simple_BM_SwitchREML", "simple_BM_Switchnodes"]
-datasets = {"Mammal": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": rb_list},
-            "Primate": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": rb_list},
-            "Combine": {"traits": ["bodyMass", "brainMass"], "sexes": ["b"], "rb": rb_list},
+datasets = {"Mammal": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": ["simple_BM_Switchnodes"]},
+            "Primate": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": ["simple_BM_Switchnodes"]},
+            "Combine": {"traits": ["bodyMass", "brainMass"], "sexes": ["b"], "rb": ["simple_BM_Switchnodes"]},
             "Lizard": {"traits": ["bodyMass"], "sexes": ["b"], "rb": ["simple_BM_SwitchREML"]}}
 
 exec_path = "/opt/homebrew/Caskroom/miniforge/base/envs/osx-64/bin/rb"

@@ -46,8 +46,11 @@ tree <- T
 ##########################
 
 # specify the rate at the root
-sigma2_root ~ dnLoguniform(1e-8, 1e8)
-
+for (j in 1:data.ntaxa()) {
+  vec_trait[j] <- data.get(j, 1)
+}
+# specify the rate parameter
+sigma2_root ~ dnLoguniform(var(vec_trait) * 1e-4, var(vec_trait) * 1e4)
 moves.append( mvScale(sigma2_root, weight=1.0) )
 
 

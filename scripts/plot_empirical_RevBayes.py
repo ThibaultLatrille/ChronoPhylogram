@@ -9,7 +9,7 @@ from libraries_plot import vert_boxplot
 def format_label(l):
     l = l.replace("b ", "").replace("m ", "♂").replace("f ", "♀ ")
     l = l.replace("bodyMass", "body mass").replace("brainMass", "brain mass")
-    return l.replace("REML", "(REML)").replace("nodes", "(nodes)")
+    return l.replace("REML", "(REML)").replace("nodes", "")
 
 
 def main(folder, output):

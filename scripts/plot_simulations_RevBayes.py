@@ -103,9 +103,14 @@ def format_label(l):
     rm_list = {"Both", "SBM", "RBM", "Switch", "RJ", "SOU", "ROU", "nodes", "REML"}
     for rm in rm_list:
         l = l.replace(rm, "")
-    while "  " in l:
-        l = l.replace("  ", " ")
-    return l.replace("Chrono", "Chronogram").replace("Phylo", "Phylogram")
+    # Remove "neutral", "moving", "multi", "optimum" only there is no other word
+    s = l.replace("neutral", "").replace("moving", "").replace("multi", "").replace("optimum", "")
+    if len(s.strip()) == 0:
+        s = l
+        s = s.replace("multi_optimum", "multiple_optima")
+    while "  " in s:
+        s = s.replace("  ", " ")
+    return s.replace("Chrono", "Chronogram").replace("Phylo", "Phylogram").title()
 
 
 def main(folder, output):
@@ -120,20 +125,25 @@ def main(folder, output):
     replicates = {m: natsorted([i for i in glob(f"{p}/*") if isdir(i)]) for m, p in simu_models_path.items()}
     assert len(set([len(g) for g in replicates.values()])) == 1
 
-    parameters = {"num_rate_changes": ("N", "linear"), "std_rates": ("std rates", "log"),
-                  "var_multiplier": ("var", "log"), "var_rates": ("var rates", "log"),
-                  "num_theta_changes": ("N", "linear"), "theta_multiplier": ("theta", "log"),
-                  "is_BM": ("Probability of Brownian\n(not Ornstein-Uhlenbeck)", "uniform"),
-                  "is_OU": ("Probability of OU\n(not Brownian)", "uniform"),
-                  "is_nuc": ("Probability of Phylogram", "uniform"),
-                  "sigma": ("sigma", "log"), "theta": ("theta", "linear"),
-                  "alpha": ("alpha", "log"), "t_half": ("t 1/2", "log")}
+    parameters = {"num_rate_changes": ("Number of rate changes", "linear", 1.0),
+                  "std_rates": ("std rates", "log", None),
+                  "var_multiplier": ("Variance in the rates", "log", None),
+                  "var_rates": ("var rates", "log", None),
+                  "num_theta_changes": ("Number of optimum changes", "linear", 1.0),
+                  "theta_multiplier": ("theta", "log", None),
+                  "is_BM": ("Probability of Brownian\n(not Ornstein-Uhlenbeck)", "uniform", 0.5),
+                  "is_OU": ("Probability of OU\n(not Brownian)", "uniform", 0.5),
+                  "is_nuc": ("Support for a phylogram", "uniform", 0.5),
+                  "sigma": ("sigma", "log", None), "theta": ("theta", "linear", None),
+                  "alpha": ("alpha", "log", None), "t_half": ("t 1/2", "log", None)}
+    print(f"Importing data from {folder}")
     trace_df, post_dict = get_dicts(simu_models, replicates, rb_models, parameters)
 
     rename = lambda x: output.replace(".tsv", x)
     for col, dict_input in post_dict.items():
-        y_label, yscale = parameters[col]
-        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, rotation=0, format_label=format_label)
+        y_label, yscale, prior = parameters[col]
+        print(f"Plotting {col}")
+        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label, prior=prior)
 
     for (simu_model, rb_model), df_simu in trace_df.groupby(["simu", "model"]):
         plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.{rb_model}.pdf"))

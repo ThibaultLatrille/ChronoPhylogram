@@ -45,8 +45,11 @@ tree <- T
 # Specify the rate model #
 ##########################
 
+for (j in 1:data.ntaxa()) {
+  vec_trait[j] <- data.get(j, 1)
+}
 # specify the rate parameter
-sigma2 ~ dnLoguniform(1e-8, 1e8)
+sigma2 ~ dnLoguniform(var(vec_trait) * 1e-4, var(vec_trait) * 1e4)
 moves.append( mvScale(sigma2, weight=1.0) )
 
 # specify the strength parameter
@@ -55,7 +58,7 @@ alpha ~ dnExponential( abs(root_age / 2.0 / ln(2.0)) )
 moves.append( mvScale(alpha, weight=1.0) )
 
 # specify theta at the root of the tree
-theta_root ~ dnUniform(-100, 100)
+theta_root ~ dnUniform(min(vec_trait), max(vec_trait))
 moves.append( mvSlide(theta_root, weight=1.0) )
 
 # specify the prior on the number of optimum shifts
@@ -63,7 +66,8 @@ expected_number_of_shifts <- 1
 shift_probability    <- expected_number_of_shifts / nbranches
 
 # specify the prior on the magnitude of optimum shifts
-shift_distribution = dnNormal(0, 0.587)
+delta <- abs(max(vec_trait) - min(vec_trait))
+shift_distribution = dnUniform(-delta / 2.0, delta / 2.0)
 
 # specify the branch-specific thetas
 for(i in nbranches:1) {

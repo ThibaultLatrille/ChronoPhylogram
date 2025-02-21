@@ -40,7 +40,11 @@ tree <- T
 # Specify the rate model #
 ##########################
 
-sigma2 ~ dnLoguniform(1e-8, 1e8)
+for (j in 1:data.ntaxa()) {
+  vec_trait[j] <- data.get(j, 1)
+}
+# specify the rate parameter
+sigma2 ~ dnLoguniform(var(vec_trait) * 1e-4, var(vec_trait) * 1e4)
 moves.append( mvScale(sigma2, weight=1.0) )
 
 root_age := tree.rootAge()
@@ -49,8 +53,8 @@ alpha ~ dnReversibleJumpMixture(0.0, dnExponential( abs(root_age / 2.0 / ln(2.0)
 moves.append( mvRJSwitch(alpha, weight=1.0) )
 moves.append( mvScale(alpha, weight=1.0) )
 
-theta ~ dnUniform(-100, 100)
-moves.append( mvSlide(theta, weight=1.0) )
+theta ~ dnUniform(min(vec_trait), max(vec_trait))
+moves.append( mvSlide(theta, delta=10,tune=true, weight=1.0) )
 
 # also add an adaptive mutlivariate normal move
 avmvn_move = mvAVMVN(weight=5, waitBeforeLearning=500, waitBeforeUsing=1000)

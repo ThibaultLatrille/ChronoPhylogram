@@ -47,7 +47,11 @@ monitors = VectorMonitors()
 ##########################
 
 # specify the rate at the root
-sigma ~ dnLoguniform(1e-6, 1e6)
+for (j in 1:data.ntaxa()) {
+  vec_trait[j] <- data.get(j, 1)
+}
+# specify the rate parameter
+sigma ~ dnLoguniform(var(vec_trait)^0.5 * 1e-4, var(vec_trait)^0.5 * 1e4)
 moves.append(mvScale(sigma, weight = 1.0))
 
 ##########################
