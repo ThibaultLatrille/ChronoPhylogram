@@ -69,7 +69,7 @@ class OrnsteinUhlenbeckBiasModel : public FitnessModel {
         if (peakness < 0.0) { throw std::invalid_argument("'peakness' must be >= 0"); }
         if (epistasis < 0.0) { throw std::invalid_argument("'epistasis' must be >= 0"); }
 
-        exponential_distrib = std::exponential_distribution<double>(bias);
+        exponential_distrib = std::exponential_distribution<double>(1.0 / bias);
     }
 
     void update() override {
