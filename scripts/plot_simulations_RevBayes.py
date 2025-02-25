@@ -85,6 +85,8 @@ def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: 
                 for col in trace_df.columns:
                     if col not in parameters:
                         continue
+                    if "multi" in simu_m and (col in ["is_OU", "var_multiplier", "num_rate_changes", "num_theta_changes"]):
+                        continue
                     post_dict[col][key_name].append(posterior(trace_df, col=col))
 
     df_out = pd.concat(list_df)
@@ -125,25 +127,30 @@ def main(folder, output):
     replicates = {m: natsorted([i for i in glob(f"{p}/*") if isdir(i)]) for m, p in simu_models_path.items()}
     assert len(set([len(g) for g in replicates.values()])) == 1
 
-    parameters = {"num_rate_changes": ("Number of rate changes", "linear", 1.0),
-                  "std_rates": ("std rates", "log", None),
-                  "var_multiplier": ("Variance in the rates", "log", None),
-                  "var_rates": ("var rates", "log", None),
-                  "num_theta_changes": ("Number of optimum changes", "linear", 1.0),
-                  "theta_multiplier": ("theta", "log", None),
-                  "is_BM": ("Probability of Brownian\n(not Ornstein-Uhlenbeck)", "uniform", 0.5),
-                  "is_OU": ("Probability of OU\n(not Brownian)", "uniform", 0.5),
-                  "is_nuc": ("Support for a phylogram", "uniform", 0.5),
-                  "sigma": ("sigma", "log", None), "theta": ("theta", "linear", None),
-                  "alpha": ("alpha", "log", None), "t_half": ("t 1/2", "log", None)}
+    parameters = {"num_rate_changes": ("Number of rate changes", "linear", 1.0, "n"),
+                  "std_rates": ("std rates", "log", None, "n"),
+                  "var_multiplier": ("Variance in the rates", "log", None, "v"),
+                  "var_rates": ("Variance in the rates", "log", None, "v"),
+                  "num_theta_changes": ("Number of optimum changes", "linear", 1.0, "m"),
+                  "theta_multiplier": ("theta", "log", None, "n"),
+                  "is_BM": ("Probability of BM\n and not OU", "uniform", 0.5, "p_{BM}"),
+                  "is_OU": ("Probability of OU\n and not BM", "uniform", 0.5, "p_{OU}"),
+                  "is_nuc": ("Support for a phylogram", "uniform", 0.5, "\\pi"),
+                  "sigma": ("sigma", "log", None, "\\sigma"), "theta": ("theta", "linear", None, "\\theta"),
+                  "alpha": ("alpha", "log", None, "\\alpha"), "t_half": ("t 1/2", "log", None, "T_{1/2}")}
     print(f"Importing data from {folder}")
     trace_df, post_dict = get_dicts(simu_models, replicates, rb_models, parameters)
 
     rename = lambda x: output.replace(".tsv", x)
     for col, dict_input in post_dict.items():
-        y_label, yscale, prior = parameters[col]
+        y_label, yscale, prior, var_name = parameters[col]
+        y_label = y_label + f" (${var_name}$)"
+        if "_" in var_name:
+            var_name_mean = f"\\overline{{{var_name.split('_')[0]}}}_{{{var_name.split('_')[1]}}}"
+        else:
+            var_name_mean = f"\\overline{{{var_name}}}"
         print(f"Plotting {col}")
-        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label, prior=prior)
+        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label, prior=prior, var_name=var_name_mean)
 
     for (simu_model, rb_model), df_simu in trace_df.groupby(["simu", "model"]):
         plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.{rb_model}.pdf"))

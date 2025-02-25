@@ -3,10 +3,10 @@ import os
 FOLDER = os.path.abspath('.')
 
 BURN_IN, UNTIL = 1000, 2000
-datasets = {"Mammal": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": ["simple_BM_Switchnodes"]},
-            "Primate": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": ["simple_BM_Switchnodes"]},
-            "Combine": {"traits": ["bodyMass", "brainMass"], "sexes": ["b"], "rb": ["simple_BM_Switchnodes"]},
-            "Lizard": {"traits": ["bodyMass"], "sexes": ["b"], "rb": ["simple_BM_SwitchREML"]}}
+datasets = {"Mammal": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": ["simple_BM_Switchnodes", "simple_BM_SwitchREML"]},
+#           "Lizard": {"traits": ["bodyMass"], "sexes": ["b"], "rb": ["simple_BM_SwitchREML"]},
+#           "Primate": {"traits": ["bodyMass", "brainMass"], "sexes": ["m", "f", "b"], "rb": ["simple_BM_Switchnodes"]},
+            "Combine": {"traits": ["bodyMass", "brainMass"], "sexes": ["b"], "rb": ["simple_BM_Switchnodes", "simple_BM_SwitchREML"]}}
 
 exec_path = "/opt/homebrew/Caskroom/miniforge/base/envs/osx-64/bin/rb"
 if not os.path.exists(exec_path):
@@ -41,7 +41,7 @@ def script_preprocess(dataset):
 
 rule all:
     input:
-        expand(f"{FOLDER}/results/empiricalRevBayes_{{dataset}}.pdf",dataset=datasets.keys())
+        f"{FOLDER}/results/empiricalRevBayes.tsv"
 
 rule reconstructed_chronogram:
     input:
@@ -117,8 +117,18 @@ rule gather_RevBayes_log:
             rb=datasets[wildcards.dataset]["rb"],trait=datasets[wildcards.dataset]["traits"],
             sex=datasets[wildcards.dataset]["sexes"]),
     output:
-        plot=f"{FOLDER}/results/empiricalRevBayes_{{dataset}}.pdf"
+        plot=f"{FOLDER}/results/empiricalRevBayes_{{dataset}}.pdf",
+        tsv=f"{FOLDER}/results/empiricalRevBayes_{{dataset}}.tsv"
     params:
         folder=f"{FOLDER}/data_empirical/RevBayes_{{dataset}}"
     shell:
-        'python3 {input.script} --folder {params.folder} --output {output.plot}'
+        'python3 {input.script} --folder {params.folder} --output_pdf {output.plot} --output_tsv {output.tsv}'
+
+rule merge_tsv:
+    input:
+        script=f"{FOLDER}/scripts/merge_results_empirical.py",
+        tsv=expand(f"{FOLDER}/results/empiricalRevBayes_{{dataset}}.tsv",dataset=datasets.keys())
+    output:
+        tsv=f"{FOLDER}/results/empiricalRevBayes.tsv"
+    shell:
+        'python3 {input.script} --output_tsv {output.tsv} --input_tsv {input.tsv}'

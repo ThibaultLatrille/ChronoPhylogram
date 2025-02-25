@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from matplotlib.lines import Line2D
 from statannotations.Annotator import Annotator
+import scipy.stats as sci_stats
 
 mpl.use('Agg')
 hist_filled = {'alpha': 0.3, 'histtype': 'stepfilled'}
@@ -24,6 +25,21 @@ WHITE = "#FFFFFF"
 BLACK = "#000000"
 
 
+def tex_f(x):
+    if x == 0:
+        s = "0.0"
+    elif 0.001 < abs(x) < 10:
+        s = f"{x:6.3f}"
+    elif 10 <= abs(x) < 10000:
+        s = f"{x:6.1f}"
+    else:
+        s = f"{x:6.2g}"
+        if "e" in s:
+            mantissa, exp = s.split('e')
+            s = mantissa + '\\times 10^{' + str(int(exp)) + '}'
+    return s
+
+
 def colors(x):
     cs = [RED, BLUE, YELLOW, ORANGE, CYAN, GREEN, PURPLE, BLACK]
     return [cs[idx % len(cs)] for idx in range(len(x))]
@@ -34,7 +50,7 @@ def gr_simu_models(x):
 
 
 def color_simu_models(x_list):
-    cs = {"N": (ORANGE, "Neutral"), "B": (BLUE, "Multiple optima"), "S": (RED, "Moving optimum")}
+    cs = {"N": (ORANGE, "Neutral"), "B": (RED, "Multiple optima"), "S": (BLUE, "Moving optimum")}
     grs = [gr_simu_models(xl) for xl in x_list]
     color_list = [cs[g][0] for g in grs]
     handles = [Rectangle((0, 0), 1, 1, color=v[0], ec="k", lw=1, label=v[1]) for c, v in cs.items() if c in set(grs)]
@@ -68,14 +84,15 @@ def filter_x(x_input, xscale):
 
 def sort_x(list_x):
     # Put the neutral model first, then the multiple optima model, then the moving optimum model
-    return list(sorted(list_x, key=lambda x: 0 if "neutral" in x else (1 if "multi" in x and "optimum" in x else 2)))
+    return list(sorted(list_x, key=lambda x: 0 if "neutral" in x else (1 if "moving" in x and "optimum" in x else 2)))
 
 
 def remove_chrono_phylo(x):
     return x.replace("Chrono", "").replace("Phylo", "")
 
 
-def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, empirical=False, prior=None):
+def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, empirical=False, prior=None,
+                 var_name=""):
     x = filter_x(x_input, yscale)
     if len(x) < 1:
         return
@@ -89,7 +106,7 @@ def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, e
     df = pd.DataFrame({"y": np.concatenate([x[k] for k in sorted_x]),
                        "x": np.concatenate([[k] * len(x[k]) for k in sorted_x])})
     sns.violinplot(data=df, x="x", y="y", ax=ax, palette=color_models, log_scale=(yscale == "log"), inner="stick",
-                   cut=0, legend=False, hue="x")
+                   cut=0, legend=False, hue="x", linewidth=0.25, linecolor="auto")
     ax.set_xlabel("")
     if "".join(sorted_x).count("Both") > 0:
         handles = []
@@ -105,8 +122,8 @@ def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, e
                 ax.text(i, 0.05, f"{count_05} / {len(x[k])} < 0.05",
                         bbox=dict(facecolor="white", edgecolor="black", boxstyle="round", pad=0.15),
                         fontsize=13, ha="center", va="center", zorder=10)
-            # h.set_label(r"$\hat{\mu}=$" + f"{np.mean(x[k]):.2f}")
-            ax.text(i, 0.55, r"$\hat{\mu} = $" + str(round(np.mean(x[k]), 2)),
+            mean_txt = f"${var_name}={np.mean(x[k]):.2f}$"
+            ax.text(i, 0.55, mean_txt,
                     bbox=dict(facecolor="white", edgecolor=color_models[i], boxstyle="round", pad=0.4),
                     fontsize=13, ha="center", va="center", zorder=10)
         if yscale == "uniform":
@@ -116,26 +133,33 @@ def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, e
         # Add the mean above each violin
         for i, k in enumerate(sorted_x):
             x_mean = np.mean(x[k])
-            ax.text(i, x_mean, r"$\hat{\mu} = $" + str(round(x_mean, 3 if x_mean < 0.01 else 2)),
+            mean_txt = f"${var_name}={np.mean(x[k]):.2g}$"
+            ax.text(i, x_mean, mean_txt,
                     bbox=dict(facecolor="white", edgecolor="black", boxstyle="round", pad=0.15),
                     fontsize=13, ha="center", va="center", zorder=10)
         # Test the difference between the models
-        pairs = []
         # They must be different only for chronogram/phylogram in the name
+        pairs = []
         for i in range(1, len(sorted_x)):
             if remove_chrono_phylo(sorted_x[i - 1]) == remove_chrono_phylo(sorted_x[i]):
                 pairs.append((sorted_x[i - 1], sorted_x[i]))
         if len(pairs) > 0:
+            pvalues = []
+            for pair in pairs:
+                pvalues.append(sci_stats.wilcoxon(x[pair[0]], x[pair[1]], alternative="two-sided").pvalue)
+            formatted_pvalues = [f'$p={tex_f(pvalue)}$' for pvalue in pvalues]
             annotator = Annotator(ax, pairs, data=df, x="x", y="y", order=sorted_x)
-            annotator.configure(test='Wilcoxon', text_format='simple', loc='outside', verbose=0)
-            annotator.apply_and_annotate()
+            annotator.configure(loc='outside', verbose=0)
+            annotator.set_custom_annotations(formatted_pvalues)
+            annotator.annotate()
+
     ax.set_ylabel(y_label, fontsize=fontsize_legend)
     labels = [m.replace("_", " ") for m in sorted_x]
     if format_label is not None:
         labels = [format_label(l) for l in labels]
     ax.set_xticks(range(len(labels)))
     ax.set_xticklabels(labels, fontsize=fontsize_legend)
-    if len(x) < 4:
+    if len(x) < 6:
         plt.xticks(rotation=0, ha="center")
     else:
         plt.xticks(rotation=45, ha="right")
@@ -148,6 +172,7 @@ def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, e
         ax.legend(handles=handles, fontsize=12)
     plt.tight_layout()
     plt.savefig(output, format="pdf")
+    plt.savefig(output.replace(".pdf", ".png"), format="png")
     plt.clf()
     plt.close("all")
     print(output)
