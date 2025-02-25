@@ -156,7 +156,7 @@ In this framework, reconstructing the trait variation along the whole phylogeny 
 Alternatively to a simple BM, a trend in the BM is interpreted as a signature of directional selection at the phylogenetic scale~\citep{silvestro_early_2019}.
 More complex models to detect selection have been proposed, notably the Ornstein-Uhlenbeck (OU) processes, when trait variation is constrained around an optimum value, which is often interpreted as a signature of stabilizing selection~\citep{hansen_stabilizing_1997, butler_phylogenetic_2004, beaulieu_modeling_2012}.
 Methodologically, such alternative models of evolution raise issues since an OU process might be statistically preferred over a BM due to sampling artifacts~\citep{silvestro_measurement_2015, cooper_cautionary_2016, price_detecting_2022}.
-Alleviating statistical artifact and adding biological complexity and realism, the OU process can be relaxed to allow for multiple optima along the phylogenetic tree, which is interpreted as a change in the fitness peak~\citep{uyeda_novel_2014, grabowski_cautionary_2023}.
+Alleviating statistical artifact and adding biological complexity and realism, the OU process can be relaxed to allow for multiple optima along the phylogenetic tree, which is interpreted as a change in the fitness peak~\citep{ingram_surface_2013, uyeda_novel_2014, khabbazian_fast_2016, mitov_fast_2020, grabowski_cautionary_2023}.
 Finally, the optimum can also be allowed to change continuously along the tree, which is interpreted as a trait tracking a moving optimum~\citep{hansen_translating_1996, latrille_detecting_2024}.
 One special case a continuously changing optimum is again the BM, where the optimum is changing along the phylogenetic tree as a random walk~\citep{hansen_comparative_2008, hansen_three_2024, holstad_evolvability_2024}.
 This modeling raises an issue: the BM can not be interpreted as the null model of neutral trait evolution since it also models the alternative scenario of a fluctuating optimum.
@@ -199,7 +199,7 @@ Altogether, by using genomic information we seek to provide additional approache
 We performed simulations under different selective regimes (neutral, multiple optima, moving optimum).
 Simulations were individual-based and followed a Wright-Fisher model with mutation, selection and drift for a diploid population including speciation along a predefined ultrametric phylogenetic tree.
 We used the same simulation framework as in \citet{latrille_detecting_2024}, with parameters detailed in the supplementary material (section~\ref{sec:simulator}).
-The parameters of simulations were chosen to mimic an empirical dataset of \textit{Mammal}s.
+The parameters of simulations were chosen to mimic an empirical dataset of mammals.
 In summry, the trait was encoded by $\NbrLoci$ independent loci, with each locus contributing additively, and mutations were drawn from a Poisson distribution at each generation (Fig.~\ref{fig:results-brownian}A).
 Parents were selected for reproduction to the next generation according to their phenotypic value, with a probability proportional to their fitness.
 Flattening the fitness landscape result in neutral evolution (Fig.~\ref{fig:results-brownian}B), which meant that each individual had the same probability of being sampled at each generation regardless of its trait value.
@@ -214,7 +214,7 @@ The phylogram is obtained from the same simulation setting on a set of independe
 The chronogram is derived from the phylogram by fitting a relaxed molecular clock model (correlated rate model with penalized likelihood smoothing parameter of 1) to the phylogram with the \textit{R} package \textit{ape}~\citep{paradis_ape_2004}.
 
 \subsection*{Empirical dataset}
-We analyzed a dataset of body and brain masses from \textit{Mammal}s.
+We analyzed a dataset of body and brain masses from mammals.
 The log-transformed values of body and brain masses were taken from \citet{tsuboi_breakdown_2018}.
 We removed individuals not marked as adults and split the data into males and females due to sexual dimorphism in body and brain masses.
 We also extracted brain and body masses from the \textit{COMBINE} dataset~\citep{soria_combine_2021}.
@@ -398,42 +398,35 @@ In our simulations, we found that generally using a phylogram tend to favor the 
 This suggests that trees in unit of nucleotide divergence may not always provide a reliable framework for modeling trait evolution, especially when selection is involved.
 As such, we recommend continuing to use chronograms for modeling selection acting on a trait, as they generally provide more accurate and reliable results.
 Moreover, for a trait is under selection for which the pace of optimum changes is also tracking the changes in generation time, the support for a phylogram over a chronogram would be misleading~\citep{litsios_effects_2012}.
-Therefore, we argue that while phylograms can offer valuable insights, they should be used with caution and in conjunction with chronograms to provide a more comprehensive understanding of trait evolution.
+Therefore, we argue that while phylograms can offer valuable insights~\citep{wilson_chronogram_2022}, they should be used with caution and in conjunction with chronograms to provide a more comprehensive understanding of trait evolution.
+Contrarily to our cautious note, \citet{wilson_chronogram_2022} suggested that phylograms are more robust for studying discrete character evolution than chronogram.
+This apparent contradiction is due to the different units of measurement used in the studies, as they measure branch lengths in units of morphological distance rather than substitutions per site~\citep{wilson_chronogram_2022}.
+We thus argue that the use of a phylogram, measured in units of substitutions, could also be useful for studying the evolution of discrete characters, but the same caution should be applied.
 
 % Altogether, what we have done and haven't tested and done yet
-Our results suggest that the use of phylograms can be a valuable tool for modeling trait evolution, particularly when the null model is neutral evolution.
+We acknowledge that our study has some limitations.
 First, we simulated only a subset of different regimes of selection, but more complex scenarios could be included for example with with primary and secondary moving optimums~\citep{hansen_three_2024}.
 Additionally, the simulated genetic architecture of a single trait is assumed to be constant across the phylogeny.
 Such constant architecture result in saturation of the phenotype on long time scales, with a phenomenon similar to nucleotide saturation~\citep{latrille_detecting_2024}.
 Such saturation might be one of the reason for a bias in favor of the Ornstein-Uhlenbeck (OU) process over the Brownian Motion (BM) model that we observed in our simulations.
 A more realistic genetic architecture should include pleiotropy, epistasis and linkage disequilibrium, while here we only considered non-linked loci contributing additively to a single trait.
 Second, while the tested alternative models of evolution (multi-rates BM, OU, multi-optium OU) are standard, they do not encompass the full breadth of available methods, which could be expanded~\citep{pennell_geiger_2014, hohna_revbayes_2016}.
-Finally, the dataset of body and brain masses in \textit{Mammal}s may not be representative of all traits or species and even though our analysis showcase the utility of phylograms, more empirical studies are needed to replicate the findings.
+Finally, the dataset of body and brain masses in mammals may not be representative of all traits or species and even though our analysis showcase the utility of phylograms, more empirical studies are needed to replicate the findings.
 
 % Gene expression level and empirical studies.
-One striking example of traits that could (and should) be studied with a phylogram is gene expression level, both for protein concentration and mRNA expression.
+One striking example of traits that could (and should) be empirically studied with a phylogram is gene expression level, both for protein concentration and mRNA expression.
 Indeed, the regime of selection acting on gene expression level is the focus of intense debates~\citep{signor_evolution_2018, price_detecting_2022, bertram_cagee_2023, dimayacyac_evaluating_2023}.
 And typically, dataset on which the Brownian process is favored over other models is interpreted as mRNA expression level evolving neutrally~\citep{khaitovich_evolution_2006, catalan_drift_2019, dimayacyac_evaluating_2023}.
-More generally, empirical studies plot phenotypic distance as a function of time while claiming that a trait is evolving under drift~\citep{jiang_decoupling_2023}.
-As such, we argue that phenotypic distance should be computed as the function of branch length in unit of substitutions (square root), not time.
-Altogether, the use of a phylogram, or more generally nucleotide divergence could help to disentangle the effect of drift and selection acting on gene expression levels.
-
-% Perspective on the use of phylograms in phylogenetic comparative methods.
-The use of phylograms in phylogenetic comparative methods has been a subject of debate~\citep{wilson_chronogram_2022}.
-The study of \citet{wilson_chronogram_2022} suggested that phylograms are more robust for studying discrete character evolution, contrary to our results suggesting more false positives.
-However, this apparent contradiction is due to the different units of measurement used in the studies, as they measure branch lengths in units of morphological distance rather than substitutions per site.
-We argue that the use of a phylogram, measured in units of substitutions, could also be useful for studying the evolution of discrete characters~\citep{wilson_chronogram_2022}.
-Phylograms provide a valuable tool for modeling trait evolution, especially when the null model is neutral evolution.
-In addition to the neutrality index for a trait~\citep{latrille_detecting_2024}, the toolbox for studying trait evolution could be enriched by the use of phylograms to model trait evolution, particularly when variation within species is available.
-We argue, that the soundness of studying trait evolution on phylograms can be evaluated by the absolute fit of a model to the data~\citep{pennell_model_2015}.
-More generally, genomic information could potentially be seen as a way to disentangle congruence models~\citep{louca_extant_2020}, or as prior for methods that detect shifts in adaptive regimes~\citep{ingram_surface_2013, uyeda_novel_2014, khabbazian_fast_2016, mitov_fast_2020}.
+Phenotypic distance is also plotted as a function of time while claiming that a trait is evolving under drift~\citep{jiang_decoupling_2023}.
+Instead, we argue that phenotypic distance should be shown as the function of branch length in unit of substitutions (square root), not time.
+More generally, from an empirical perspective, the use of substitutions at neutral loci brings new perspective, particularly when variation within species is also available and the neutrality index for a trait can be computed~\citep{latrille_detecting_2024}.
 
 % Conclusion
-Altogether, we support the use a chronogram when testing for selection acting on a trait.
+Altogether, our study support the use a chronogram when testing for selection acting on a trait.
 The pipeline of hypothesis testing and model comparison is currently well established and should be followed.
 However, when the analysis concludes that the BM is favored, then the support of the phylogram over the chronogram should be tested additionally.
 We provide a Bayesian model implemented in \textit{RevBayes} to test this hypothesis.
-Only then we can we have a bit more support that a trait is evolving under drift if the phylogram has more support than chronogram, but caution is still warranted.
+Only then can we claim that a trait is evolving under drift if the phylogram has more support than chronogram, but caution is still warranted.
 
 %TC:ignore
 \printbibliography
@@ -512,7 +505,7 @@ We assumed a trait with a narrow-sense heritability of $\Heritability=0.2$ and c
 Assuming a diploid panmictic population of size $\Ne=50$ at the root of the tree, and with non-overlapping generations, we simulated explicitly each generation along an ultrametric phylogenetic tree.
 For each offspring, the number of mutations was drawn from a Poisson distribution with mean $2 \Multiply \MutationRatePheno \Multiply \NbrLoci $, with the mutation rate per locus per generation $\MutationRatePheno$.
 From the empirical mammalian dataset (see Methods), we computed an average nucleotide divergence from the root to leaves of $0.18$.
-We scaled parameters in our simulations to fit plausible values for \textit{Mammal}s.
+We scaled parameters in our simulations to fit plausible values for mammals.
 We thus used a nucleotide mutation rate of $\MutationRateNuc=0.00276 / 4 \Ne = 1.38 \times 10^{-5}$ per site per generation and a total of $0.18 / 1.38 \times 10^{-5} = 13,500$ generations from root to leaves, and the number of generations along each branch was proportional to the branch length.
 We set $\MutationRatePheno=\MutationRateNuc$ without loss in generality since the genetic architecture ($\NbrLoci$ and $a$) is assumed constant in the simulator.
 
@@ -594,8 +587,8 @@ The number of taxa is the number of species with data available for the trait.
     \textbf{Phenotypic distance as a function of branch length.}
     Phenoypic distance ($|\Delta z|$) is computed as the absolute difference of the posterior mean trait value between the ancestral node and the descendent node.
     Across all simulated dataset (100 replicates), we computed the mean phenotypic distance (blue dots) and standard deviation (blue horizontal lines) for each branch.
-    Simulations under a neutral regime (top row, panels A and B) and under a moving optimum regime (bottom row, panels C and D).
-    Reconstruction of ancestral trait on a phylogram (left column, panels A and C) and a chronogram (right column, panels B and D).
+    Simulations under a neutral regime (yellow, top row, panels A and B) and under a moving optimum regime (bottom row, panels C and D).
+    Reconstruction of ancestral trait on a phylogram (blue, left column, panels A and C) and a chronogram (right column, panels B and D).
     \label{fig:results-distance}
     }
 \end{center}

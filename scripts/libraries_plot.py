@@ -23,6 +23,11 @@ YELLOW = "#F0E442"
 CYAN = "#56B4E9"
 WHITE = "#FFFFFF"
 BLACK = "#000000"
+cs_simu_models = {"N": (ORANGE, "Neutral"), "M": (RED, "Multiple optima"), "B": (BLUE, "Moving optimum")}
+
+
+def gr_simu_models(x):
+    return "N" if ("neutral" in x) else ("M" if (("multi" in x) and ("optimum" in x)) else "B")
 
 
 def tex_f(x):
@@ -40,20 +45,11 @@ def tex_f(x):
     return s
 
 
-def colors(x):
-    cs = [RED, BLUE, YELLOW, ORANGE, CYAN, GREEN, PURPLE, BLACK]
-    return [cs[idx % len(cs)] for idx in range(len(x))]
-
-
-def gr_simu_models(x):
-    return "N" if ("neutral" in x) else ("B" if (("multi" in x) and ("optimum" in x)) else "S")
-
-
 def color_simu_models(x_list):
-    cs = {"N": (ORANGE, "Neutral"), "B": (RED, "Multiple optima"), "S": (BLUE, "Moving optimum")}
     grs = [gr_simu_models(xl) for xl in x_list]
-    color_list = [cs[g][0] for g in grs]
-    handles = [Rectangle((0, 0), 1, 1, color=v[0], ec="k", lw=1, label=v[1]) for c, v in cs.items() if c in set(grs)]
+    color_list = [cs_simu_models[g][0] for g in grs]
+    handles = [Rectangle((0, 0), 1, 1, color=v[0], ec="k", lw=1, label=v[1])
+               for c, v in cs_simu_models.items() if c in set(grs)]
     return color_list, handles
 
 
@@ -106,7 +102,7 @@ def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, e
     df = pd.DataFrame({"y": np.concatenate([x[k] for k in sorted_x]),
                        "x": np.concatenate([[k] * len(x[k]) for k in sorted_x])})
     sns.violinplot(data=df, x="x", y="y", ax=ax, palette=color_models, log_scale=(yscale == "log"), inner="stick",
-                   cut=0, legend=False, hue="x", linewidth=0.25, linecolor="auto")
+                   cut=0, legend=False, hue="x", linewidth=0.5, linecolor="auto")
     ax.set_xlabel("")
     if "".join(sorted_x).count("Both") > 0:
         handles = []

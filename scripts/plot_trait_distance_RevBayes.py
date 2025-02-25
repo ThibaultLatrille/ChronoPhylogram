@@ -4,27 +4,28 @@ import numpy as np
 from collections import defaultdict
 from libraries import *
 import matplotlib.pyplot as plt
+from libraries_plot import cs_simu_models, gr_simu_models
 
 my_dpi = 96
 fontsize = 24
 fontsize_legend = 18
 
 
-def scatter_plot(data, ax: plt.Axes, title: str, x_label: str, y_label: str, average: bool = False):
+def scatter_plot(data, ax: plt.Axes, title: str, x_label: str, y_label: str, average: bool = False, color: str = "black"):
     r2_list = []
     for key, (x, y, y_std) in data.items():
         if y_std is not None:
             # Display the range of the inference nodes, hide the center points
-            ax.errorbar(x, y, yerr=y_std, fmt='none', alpha=0.1, zorder=-1)
+            ax.errorbar(x, y, yerr=y_std, fmt='none', alpha=0.1, zorder=-1, ecolor=color)
         assert len(x) == len(y), "Different number of x and y values"
         # regression line and r-squared
         a, b = np.polyfit(x, y, 1)
         r2 = np.corrcoef(x, y)[0, 1] ** 2
         x_lim = np.array([min(0, min(x)), max(x)])
         if average:
-            ax.scatter(x, y, alpha=0.25)
+            ax.scatter(x, y, alpha=0.25, color=color)
         else:
-            ax.scatter(x, y, label=f"{key} (n = {len(x)})")
+            ax.scatter(x, y, label=f"{key} (n = {len(x)})", color=color)
         ax.plot(x_lim, a * x_lim + b, color="black", linestyle="--", label=f"Linear regression (R² = {r2:.2f})")
         r2_list.append(r2)
     # ax.axhline(0, color="black", linestyle="--")
@@ -68,21 +69,15 @@ def main(input_distance_tree: str, input_annotated_tree_list: list[str], output_
             trait_parent = float(getattr(n_t.up, "Phenotype_mean"))
             dict_y[n_t.name].append(np.abs(trait - trait_parent))
 
-
-
     x_label = "$\\sqrt{" + ("d" if "Phylo" in os.path.basename(input_distance_tree) else "T") + "}$"
     y_label = "|Δz|"
     fig, ax = plt.subplots(1, 1, figsize=(640 / my_dpi, 480 / my_dpi), dpi=my_dpi)
     x_mean = {k: np.mean(v) for k, v in dict_x.items()}
     y_mean = {k: np.mean(v) for k, v in dict_y.items()}
     y_std = {k: np.std(v) for k, v in dict_y.items()}
-    # leaves = set([node for node in dict_x.keys() if dict_d[node].is_leaf()])
-    # nodes = set([node for node in dict_x.keys() if not dict_d[node].is_leaf()])
-    # dico_data = {"all": (list(x_mean.values()), list(y_mean.values()), list(y_std.values())),
-    #              "leaves": ([x_mean[k] for k in leaves], [y_mean[k] for k in leaves], [y_std[k] for k in leaves]),
-    #              "nodes": ([x_mean[k] for k in nodes], [y_mean[k] for k in nodes], [y_std[k] for k in nodes])}
     dico_data = {"All branches": (list(x_mean.values()), list(y_mean.values()), list(y_std.values()))}
-    scatter_plot(dico_data, ax, "", x_label=x_label, y_label=y_label)
+    color = cs_simu_models[gr_simu_models(os.path.basename(output_path))][0]
+    scatter_plot(dico_data, ax, "", x_label=x_label, y_label=y_label, color=color)
     plt.tight_layout()
     plt.savefig(output_path)
 
