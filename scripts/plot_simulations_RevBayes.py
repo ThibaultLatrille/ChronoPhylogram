@@ -133,8 +133,8 @@ def main(folder, output):
                   "var_rates": ("Variance in the rates", "log", None, "v"),
                   "num_theta_changes": ("Number of optimum changes", "linear", 1.0, "m"),
                   "theta_multiplier": ("theta", "log", None, "n"),
-                  "is_BM": ("Probability of BM\n and not OU", "uniform", 0.5, "p_{BM}"),
-                  "is_OU": ("Probability of OU\n and not BM", "uniform", 0.5, "p_{OU}"),
+                  "is_BM": ("Support for BM over OU", "uniform", 0.5, "p_{BM}"),
+                  "is_OU": ("Support for OU over BM", "uniform", 0.5, "p_{OU}"),
                   "is_nuc": ("Support for a phylogram", "uniform", 0.5, "\\pi"),
                   "sigma": ("sigma", "log", None, "\\sigma"), "theta": ("theta", "linear", None, "\\theta"),
                   "alpha": ("alpha", "log", None, "\\alpha"), "t_half": ("t 1/2", "log", None, "T_{1/2}")}
