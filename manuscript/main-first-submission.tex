@@ -1,0 +1,633 @@
+%! BibTeX Compiler = biber
+\documentclass{article}
+\usepackage{caption}
+\usepackage{censor}
+\usepackage{xcolor, colortbl}
+\definecolor{BLUELINK}{HTML}{0645AD}
+\definecolor{DARKBLUELINK}{HTML}{0B0080}
+\definecolor{LIGHTGREY}{gray}{0.9}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[colorlinks=false]{hyperref}
+% for linking between references, figures, TOC, etc in the pdf document
+\hypersetup{colorlinks,
+linkcolor=DARKBLUELINK,
+anchorcolor=DARKBLUELINK,
+citecolor=DARKBLUELINK,
+filecolor=DARKBLUELINK,
+menucolor=DARKBLUELINK,
+urlcolor=BLUELINK
+} % Color citation links in purple
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+
+\usepackage{biorxiv}
+\usepackage[
+    style=authoryear,
+    doi=false,
+    isbn=false,
+    url=false,
+    date=year,
+    natbib=true,
+    hyperref,
+    mincitenames = 1,
+    maxcitenames = 2,
+    minbibnames = 1,
+    maxbibnames = 30,
+    uniquename=false,
+    uniquelist=false,
+    giveninits=true,
+    backend=biber]{biblatex}
+\AtEveryBibitem{\clearfield{note}}
+\addbibresource{references_bibtex.bib}
+
+\usepackage{url}
+\usepackage{amssymb,amsfonts,amsmath,amsthm,mathtools}
+\usepackage{lmodern}
+\usepackage{xfrac, nicefrac}
+\usepackage{bm}
+\usepackage{listings, enumerate, enumitem}
+\usepackage[export]{adjustbox}
+\usepackage{graphicx}
+\usepackage{bbold}
+\usepackage{pdfpages}
+\pdfinclusioncopyfonts=1
+\usepackage{lineno}
+\usepackage{tabu}
+\usepackage{hhline}
+\usepackage{multicol,multirow,array}
+\usepackage{etoolbox}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{marvosym}
+\usepackage{orcidlink}
+
+% -- Defining colors:
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}% Definig a custom style:
+\lstdefinestyle{mystyle}{
+backgroundcolor=\color{backcolour},
+basicstyle=\ttfamily\scriptsize\bfseries,
+breakatwhitespace=false,
+breaklines=true,
+captionpos=t,
+keepspaces=true,
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+tabsize=2
+}% -- Setting up the custom style:
+\lstset{style=mystyle}
+\captionsetup[table]{hypcap=false}
+\captionsetup[figure]{hypcap=false}
+
+\newcommand{\Multiply}{\cdot}
+\DeclareMathOperator{\Var}{\text{var}}
+\newcommand{\der}{\mathrm{d}}
+\newcommand{\e}{\text{e}}
+\newcommand{\Ne}{N_{\text{e}}}
+\newcommand{\PhyloSupport}{\pi}
+\newcommand{\MeanPhyloSupport}{\overline{\PhyloSupport}}
+\newcommand{\Indiv}{k}
+\newcommand{\Trait}{P}
+\newcommand{\Heritability}{h^2}
+\newcommand{\MutationRatePheno}{\mu}
+\newcommand{\MutationRateNuc}{u}
+\newcommand{\NbrLoci}{L}
+\newcommand{\VarEnv}{V_{\mathrm{E}}}
+\newcommand{\brownian}{\mathcal{B}}
+
+\renewcommand{\baselinestretch}{1.3}
+\renewcommand{\arraystretch}{1.2}
+\linenumbers
+\frenchspacing
+
+\title{Phylogram instead of chronogram when assessing the neutral evolution of a trait}
+\rhead{\scshape Phylogram over chronogram for neutral evolution.}
+
+\author{
+\large
+\textbf{T. {Latrille}$^{1}$\orcidlink{0000-0002-9643-4668}, T. {Gaboriau}$^{1}$\orcidlink{0000-0001-7530-2204}, N. {Salamin}$^{1}$\orcidlink{0000-0002-3963-4954}}\\
+\normalsize
+$^{1}$Department of Computational Biology, University of Lausanne, Quartier Sorge, 1015 Lausanne, Switzerland\\
+\texttt{\href{mailto:thibault.latrille@ens-lyon.org}{thibault.latrille@ens-lyon.org}} \\
+}
+\begin{document}
+%TC:ignore
+\maketitle
+
+% Abstract (≤ 300 words)
+\begin{abstract}
+At the species level, the evolution of traits is driven by a combination of selective and neutral forces. To disentangle these processes, different scenarios of evolution are modelled and compared. For quantitative traits under selection, the species is usually considered to track a trait optimum, and such an optimum can change along the branches of the species tree. On the other hand, neutral evolution is modelled with a trait changing randomly around the ancestral trait value along the different branches of the species tree. Regardless of the intricacy of modelling trait changes, the species tree is assumed to be known and obtained independently of the trait data analysed. Branch lengths are usually assumed to be in units proportional to time, and the tree is represented by a chronogram. The rationale is that time correlates with trait changes because of its direct connection with the number of generations that occurred. However, since the generation time of species can also vary along the phylogenetic tree, we argue that their use introduces biases. In contrast, if the phylogenetic tree is represented by a phylogram with branch lengths in units of sequence divergence, this will account for the effect of changing generation time. In this study, we show using simulations that, for a trait evolving neutrally, the fit of a random evolution model has more support on a phylogram than on a chronogram. However, comparing models and testing different scenarios of selection using a phylogram leads to incorrect predictions. Given these results, we argue that we should use phylograms instead of chronograms when claiming that a trait is evolving under drift. Nevertheless, we support the fact that we should generally continue to use chronograms to model selection acting on a quantitative trait.
+\end{abstract}
+
+\keywords{Comparative studies \and Morphological evolution \and Genetic drift \and Macroevolution \and Chronogram \and Phylogram}
+
+\newpage
+%TC:endignore
+\section*{Lay summary}\label{sec:summary}
+When we look at different species, we can see that some traits are different between them.
+For example, the brain size of different primate and human lineages varies.
+The question we ask is: does the time that passed explain the differences in their traits?
+Or are genetic differences between species better at explaining the differences?
+The standard in evolutionary biology is to use time to explain differences in traits.
+However, if the trait is not under natural selection and instead is changing due to accumulating mutations, the genetic differences between species instead of time should best explain the differences in traits.
+As a result, we argue that using both genetic differences and species divergence time simultaneously provides a better understanding of how traits evolve across species.
+
+\section*{Introduction}\label{sec:introduction}
+% The model of neutral trait evolution, explained in the context of phylogenetic comparative methods.
+By measuring changes in a phenotypic trait along a lineage, it is possible to infer the type of selection acting on it or whether this change is only due to random genetic drift.
+At a larger scale, from the observed variations of traits across species, regimes of evolution are typically assessed using phylogenetic comparative methods, where traits are modelled as evolving along the branches of the species tree~\citep{felsenstein_phylogenies_1985, felsenstein_phylogenies_1988a, harmon_phylogenetic_2018}.
+For example, to model neutral evolution, the mean trait value is said to follow a Brownian motion (BM), branching and evolving independently after each speciation event~\citep{felsenstein_phylogenies_1985, lynch_phenotypic_1986, hansen_translating_1996}.
+In other words, for each branch of the tree, the value at the descendant node is normally distributed around the ancestral value, with a variance proportional to the branch length.
+In this framework, reconstructing trait variation along the whole phylogeny as a BM can thus constitute a null model of neutral trait evolution.
+
+% Alternative models of trait evolution and their pitfalls.
+Alternatively to a simple BM, adding a trend parameter in the BM is interpreted as a signature of directional selection at the phylogenetic scale~\citep{silvestro_early_2019}.
+More complex models to detect selection have been proposed, notably the Ornstein-Uhlenbeck (OU) processes, where trait variation is constrained around an optimum value, which is often interpreted as a signature of stabilizing selection~\citep{hansen_stabilizing_1997, butler_phylogenetic_2004, beaulieu_modeling_2012}.
+Methodologically, this alternative model of evolution raises issues since an OU process might be statistically preferred over a BM due to sampling artifacts~\citep{silvestro_measurement_2015, cooper_cautionary_2016, price_detecting_2022}.
+Adding biological realism, the OU process can be relaxed to allow for multiple optima along the phylogenetic tree, which is interpreted as a few abrupt changes in the environment along the phylogeny~\citep{ingram_surface_2013, uyeda_novel_2014, khabbazian_fast_2016, mitov_fast_2020, grabowski_cautionary_2023}.
+Finally, the optimum can also be allowed to change continuously along the tree, which results in the trait itself reflecting the movement of the optimum along the lineages due to the constant adaptive evolution of the trait toward the optimum~\citep{hansen_translating_1996, hansen_three_2024}.
+One special case of a continuously changing optimum is again the BM, where changes in the optimum are a consequence of the randomly changing environment~\citep{hansen_comparative_2008}, named fluctuating selection~\citep{holstad_evolvability_2024} or also diversifying selection due to the diversity of generated phenotypes at the clade level~\citep{latrille_detecting_2024}.
+This modelling raises an issue in disentangling selection from neutral evolution: the best fit of BM can not be interpreted as the trait evolving neutrally, it can also be interpreted as a continuously moving optimum.
+
+% Deriving the neutral expectation from standing variation
+In order to disentangle neutral evolution from selection, another approach is to contrast the observed rate of evolution to the neutral expectation~\citep{lande_genetic_1980}.
+The neutral expectation can be obtained if the underlying genetic architecture of the trait is known and the trait encoded by many loci of additive effects~\citep{barton_infinitesimal_2017, sella_thinking_2019}.
+Additionally, we can also derive the expected changes in mean trait value along a lineage given the trait variance at the population scale~\citep{turelli_heritable_1984, felsenstein_phylogenies_1988a}.
+When generalized to many species at the phylogenetic scale, contrasting between and within-species variations allow us to disentangle neutral evolution from selection~\citep{latrille_detecting_2024}.
+More generally, comparing the rate of evolution at different timescales allows inferring the regime of evolution~\citep{hansen_three_2024, holstad_evolvability_2024}.
+However, trait variation at different timescales is not always available, and the genetic architecture of the trait is often unknown.
+Instead, to disentangle neutral evolution from selection in the context of phylogenetic comparative methods, we hereby focus on the underlying tree and the unit of its branch lengths (Fig.~\ref{fig:methods}A).
+
+%TC:ignore
+\begin{figure*}[!htb]
+    \centering
+    \includegraphics[width=\textwidth, page=1] {figures/artwork_rational}
+    \caption{
+        Panel~A: Across many species, the evolution of continuous traits can be modelled as a stochastic process evolving along the branches of a phylogenetic tree.
+        The branches of such phylogenetic tree can be measured in either time (chronogram) or number of substitutions (phylogram).
+        Panel~B: Theoretically, changes of a trait under a moving optimum should be better predicted by a chronogram.
+        Instead, changes of a neutral trait should be better predicted by a phylogram.
+    }
+    \label{fig:methods}
+\end{figure*}
+%TC:endignore
+
+% The use of chronogram is widely accepted and de facto standard in phylogenetic comparative methods.
+Typically, the tree is assumed to be known and obtained independently, and the \textit{de facto} standard in phylogenetic comparative methods is to use a chronogram, where the branch lengths are proportional to time~\citep{felsenstein_phylogenies_1985, harmon_phylogenetic_2018}.
+Theoretically, for a neutrally evolving trait, trait changes depend directly on the number of generations~\citep{hansen_translating_1996}, which is proportional to time only if the average time between two consecutive generations, called generation time, is constant and equal for all species.
+Since generation time depends on the time for an individual to reach sexual maturity, it can vary considerably between species, from a few months for coral reef pygmy gobies to 150 years for the Greenland shark~\citep{demagalhaes_database_2009, nielsen_eye_2016}.
+As a result, variations of generation time between species means that modelling neutral evolution as a BM on a chronogram might induce biases~\citep{litsios_effects_2012}.
+
+% Phylogram to model neutral trait evolution
+Alternatively, on a phylogram, the branch lengths represent another quantity than time, which can be used as the backbone to model trait evolution and can potentially absorb changes in generation time.
+For example, it is known that using phylograms in units of morphological distance can be used to improve ancestral trait reconstruction for a discrete character~\citep{wilson_chronogram_2022}.
+From a genomic perspective, phylograms can also be in units of nucleotide divergence, that is, depicting the number of nucleotide substitutions occurring along a branch.
+Because the number of neutral nucleotide substitutions accumulating along a branch is proportional to the number of generations~\citep{kimura_evolutionary_1968, kimura_neutral_1983}, nucleotide divergence would in this case absorb the effect of changing generation time (i.e. longer branches for lineages with shorter generation time).
+Such a phylogram, if obtained from neutrally evolving genomic loci would be more appropriate to model a trait evolving neutrally~\citep{latrille_detecting_2024}.
+Additionally, the rational to use nucleotide divergence to absorb changes in generation time is also valid for changes in mutation rate (per loci and per generation) under the assumption of a constant genetic architecture of the trait and that changes in mutation rate impact the whole genome~\citep{latrille_detecting_2024}.
+Empirically, such changes in mutation rate along a phylogenetic tree are also observed, although to a lesser extent than changes in generation time~\citep{bergeron_evolution_2023}.
+
+% Phylogram in the case of selection
+Under the alternative scenario involving selection, shorter generation time and higher mutation rate can also allow for the species to track the changing optimum faster and not lag behind~\citep{lande_natural_1976, hansen_comparative_2008}.
+However, the timescale for this lag (hundreds or thousands of years) is negligible compared to the timescale on which the optimum changes at the level of clades (millions of years) in a first approximation~\citep{hansen_three_2024}.
+Thus, at the phylogenetic scale, since shifts in the optimum fitness peak is extrinsic to the species and is dependent on the environment which varies with time, using a chronogram would be more accurate to model mean trait changes.
+As a result, for a trait under selection, mean trait changes should be better explained by the time rather than the number of substitutions that occurred along a branch (Fig.~\ref{fig:methods}B).
+
+% Here, we propose a method to evaluate the soundness of studying trait evolution on a phylogram or a chronogram.
+In this study, we test this hypothesis, namely if using a phylogram (in units of nucleotide divergence for neutral loci) instead of a chronogram (in units proportional to time) can allow to assess the regime of evolution of a trait, by evaluating the fit of a BM on both trees.
+More precisely, we seek to test if the changes of a neutral trait are better predicted by a phylogram.
+Conversely, we also seek to test if changes of a trait under a moving optimum are better predicted by a chronogram.
+Using genomic information we seek to provide additional approaches to model trait evolution, particularly to disentangle selection and neutral evolution.
+
+\section*{Methods}
+To assess whether a phylogram is better suited to model neutral evolution we first performed simulations of a trait evolving along a phylogenetic tree under different regimes of selection (neutral, moving optimum, multiple optima).
+Second, we fitted a single rate Brownian motion (BM) to the simulated data, and we compared the fit of the BM on a phylogram versus a chronogram.
+Third, based on the single rate BM, we derived a model to estimate the support of a phylogram over a chronogram that we apply to the simulated dataset.
+Fourth, we fitted several models of trait evolution to the simulated datasets: a multi-rate BM, an Ornstein-Uhlenbeck (OU) process, and a relaxed OU with multiple optima, tested on a phylogram versus a chronogram.
+Finally, we gathered an empirical dataset of body and brain masses from mammals, including both a chronogram and a phylogram (in units of nucleotide divergence from neutral loci), on which we tested the support of a phylogram for the single rate BM.
+
+\subsection*{Simulations along a phylogenetic tree}
+We performed simulations under different selective regimes (neutral, moving optimum, multiple optima).
+Simulations were individual-based and followed a Wright-Fisher model with mutation, selection and drift for a diploid population including speciation along a predefined ultrametric phylogenetic tree.
+We used the same simulation framework as in \citet{latrille_detecting_2024}, with parameters detailed in the supplementary material (section~\ref{sec:simulator}).
+The parameters of simulations were chosen to mimic an empirical dataset of mammals.
+In summary, the trait was encoded by $\NbrLoci$ independent loci, with each locus contributing additively, and mutations were drawn from a Poisson distribution at each generation.
+Parents were selected for reproduction according to their phenotypic value, with a probability proportional to their fitness.
+Flattening the fitness landscape resulted in neutral evolution, which meant that each individual had the same probability of being sampled at each generation regardless of its trait value.
+Alternatively, for a trait under selection around a moving optimum, we modelled stabilizing selection acting on the trait, with the optimum value changing as a geometric Brownian motion (BM) along the phylogenetic tree~\citep{hansen_stabilizing_1997, hansen_translating_1996}.
+Finally, for a trait under selection around multiple optima~\citep{uyeda_novel_2014}, we draw a Bernoulli variable to test whether there is a switch of optimum along a branch; if a switch occurs, the sliding of the optimum is drawn from a reflected exponential distribution (symmetric positive and negative values).
+
+At each internal node of the tree (i.e. speciation event), the population is split into two daughter populations running independently on each of the two branches, and the process is repeated until the tips of the tree are reached.
+As a control, we performed simulations with constant mutation rates, generation times and effective population sizes ($\Ne$).
+Alternatively, we performed simulations with fluctuating mutation rates, generation times and $\Ne$, where we used a BM to model the long-term changes along the phylogenetic tree, and we overlaid short-term changes in $\Ne$ (see supplementary material section~\ref{sec:simulator}).
+
+The phylogram is obtained from the same simulation setting on a set of 30,000 independent neutral loci, and the nucleotide divergence is computed as the number of substitutions along each branch.
+The chronogram is derived from the phylogram by fitting a relaxed molecular clock model (correlated rate model with penalized likelihood, default value) to the phylogram with the \textit{R} package \textit{ape}~\citep{paradis_ape_2004}.
+
+\subsection*{Brownian motion (BM)}
+On the simulated dataset, we fitted a single rate BM using either a phylogram or a chronogram as the underlying tree.
+We used \textit{RevBayes}~\citep{hohna_revbayes_2016} to fit a Brownian motion (BM) on continuous traits evolving along the branches of a phylogenetic tree~\citep{felsenstein_phylogenies_1985, felsenstein_phylogenies_1988a}.
+The data consist of the mean trait value for each extant species, and the tree topology is fixed.
+Along each branch, the value of the trait is drawn from a normal distribution with mean equal to the parent node value and variance equal to the branch length~\citep{felsenstein_phylogenies_1985}.
+Formally, the BM process is described by the equation:
+% Ornstein-Uhlenbeck model equations
+\begin{align}
+    \der \Trait_t & = \sigma \Multiply \der W_t,  \label{eq:bm-process}
+\end{align}
+where $\Trait_t$ is the trait value at time $t$, $\sigma$ is the rate of the BM, and $\der W_t$ is a Wiener process (i.e. a standard Brownian motion).
+We used a log-uniform prior for $\sigma$.
+Using Markov chain Monte Carlo (MCMC), we reconstructed the ancestral trait value at each node of the tree as the posterior mean estimate (burn-in of 1000 gen., running of 10,000 gen., 2 chains), and we compared the accuracy of the reconstruction using either a phylogram or a chronogram as the underlying tree.
+Both trees are scaled such that the sum of all the branch lengths is equal to one in each case.
+Importantly, the data and the tree topology are the same in both analyses; only the branch lengths are different.
+In this simulation setting, for traits simulated under neutral evolution, we expect more accurate trait reconstruction on a phylogram, and conversely, for traits under selection (moving optimum), more accurate trait reconstruction on a chronogram.
+
+\subsection*{BM with a switch}
+To test the support of a phylogram over a chronogram, we implemented a model based on a single rate BM.
+The model was implemented in \textit{RevBayes} and contains a switch variable, denoted as $\PhyloSupport$ that allows the model to switch the branch lengths in units of time to units of substitutions (Fig.~\ref{fig:results-brownian}A).
+Formally, $\PhyloSupport \in {0, 1}$ is a Bernoulli random variable ($\PhyloSupport \in {0, 1}$) with a prior probability of $0.5$.
+If $\PhyloSupport$ is $0$, the branch lengths are those of the chronogram, and if $\PhyloSupport$ is $1$, the branch lengths are those of the phylogram.
+The tree topology is fixed, meaning both trees have the same branching structure, but because branch lengths are different and not necessarily on the same scale, both trees are re-scaled by dividing branch lengths by the total tree length.
+As in the previous section, a BM is fitted to the data by modelling trait changes as normal distributions (\textit{dnNormal} in \textit{RevBayes}) running along the branches of the tree, with variance proportional to the branch length and the squared value of the Brownian rate parameter ($\sigma$, log-uniform prior).
+Alternatively for large trees or for faster computation, the likelihood can also be estimated by the REML method (\textit{dnPhyloBrownianREML} in \textit{RevBayes}).
+Altogether, the input data is the mean trait value for extant species and both the chronogram and phylogram with the same tree topology.
+The posterior mean of $\PhyloSupport$ (burn-in of 1,000 gen., running of 10,000 gen., 2 chains) is the probability that the phylogram is favoured over the chronogram.
+We expect $\PhyloSupport = 1$ for a trait under neutral evolution, and $\PhyloSupport = 0$ for a trait under selection (moving optimum).
+
+\subsection*{Alternative models of evolution}
+In addition to a single rate BM, we also fitted a BM with multiple rate parameters~\citep{eastman_novel_2011}, using either a phylogram or a chronogram as the underlying tree to the simulated dataset.
+The likelihood of the data is estimated by the REML method (\textit{dnPhyloBrownianREML} in \textit{RevBayes}), and the number of rate shifts is estimated by reversible-jump MCMC (\textit{dnReversibleJumpMixture} in \textit{RevBayes}).
+For each branch, we draw a rate-multiplier either equal to $1$ (no rate shift), or drawn from a log-normal distribution with a median of 1, and a standard deviation such that rate shifts range over about one order of magnitude.
+We set our prior to the expected number of rate shifts of $1$ across the whole tree.
+The number of rate shifts as well as the variance of rate parameters are estimated as the posterior mean (burn-in of 1,000 gen., running of 50,000 gen., 2 chains).
+
+% Simple OU model versus a brownian process.
+Also, we compared the fit of an Ornstein-Uhlenbeck (OU) process (eq.~\ref{eq:ou-process}) to a BM~\citep{hansen_stabilizing_1997,butler_phylogenetic_2004}, using either a phylogram or a chronogram as the underlying tree.
+% Ornstein-Uhlenbeck model equations
+The OU process is described by the equation:
+\begin{align}
+    \der \Trait_t & = -\alpha \left( \Trait_t - \theta \right) \der t + \sigma \Multiply \der W_t, \label{eq:ou-process}
+\end{align}
+where the parameter $\alpha$ in eq.~\ref{eq:ou-process} is the strength of the pull towards the optimum, $\theta$ is the optimum value and the other parameters are defined as in eq~\ref{eq:bm-process}.
+The likelihood of the data is estimated by the REML method (\textit{dnPhyloOrnsteinUhlenbeckREML} in \textit{RevBayes}), and because the OU process has more parameters than the BM, we used a reversible-jump MCMC switch between the two models ($0$ for BM and $1$ for OU, \textit{dnReversibleJumpMixture} in \textit{RevBayes}).
+% alpha ~ dnReversibleJumpMixture(0.0, dnExponential( abs(root_age / 2.0 / ln(2.0)) ), 0.5)
+The prior for $\theta$ is uniform between the minimum and maximum trait value for extant species.
+The prior for $\alpha$ is a reversible-jump mixture distribution: a value of $0$ or drawn from an exponential distribution with mean equal to half the root age divided by $\ln (2)$, meaning that we expect a phylogenetic half life of half the tree age.
+Thus, when $\alpha = 0$ the OU process (eq.~\ref{eq:ou-process}) is equivalent to a BM (eq.~\ref{eq:bm-process}).
+The support for the OU model is estimated as the posterior mean of the switch variable ($p_{\text{OU}}$), or equivalently that of $\alpha \neq 0$ (burn-in of 1,000 gen., running of 10,000 gen., 2 chains).
+
+% Relaxed OU model, how many optimums?
+Finally, we fitted a relaxed OU with multiple optima~\citep{uyeda_novel_2014}, using either a phylogram or a chronogram as the underlying tree.
+The likelihood of the data given the tree is estimated by the REML method (\textit{dnPhyloOrnsteinUhlenbeckREML} in \textit{RevBayes}), and the number of optimums is also estimated by the reversible-jump MCMC method (\textit{dnReversibleJumpMixture} in \textit{RevBayes}) as the posterior mean estimate (burn-in of 1,000 gen., running of 5,000 gen., 2 chains).
+For each branch, we draw a shift in optimum either equal to $0$ (no shift), or drawn from a uniform distribution centred on $0$ with breadth spanning the whole range of observed trait value.
+We set our prior to the expected number of optimum shifts of $1$ across the whole tree.
+
+\subsection*{Empirical dataset}
+We analysed a dataset of body and brain masses from mammals.
+The log-transformed values of body and brain masses were taken from \citet{tsuboi_breakdown_2018}.
+We removed individuals not marked as adults and split the data into males and females due to sexual dimorphism in body and brain masses.
+We also extracted brain and body masses from the \textit{COMBINE} dataset~\citep{soria_combine_2021}.
+The mammalian genomic data are gathered from the Zoonomia project~\citep{genereux_comparative_2020}.
+More specifically, the phylogram in units of nucleotide divergence is estimated on a set of neutral markers in \citet{foley_genomic_2023}.
+The chronogram is derived from the phylogram by fitting a relaxed molecular clock model (correlated rate model with penalized likelihood, default value) to the phylogram with the \textit{R} package \textit{ape}~\citep{paradis_ape_2004}.
+
+%TC:ignore
+\begin{figure*}[!htb]
+    \centering
+    \includegraphics[width=\textwidth, page=1] {figures/artwork_pipeline}\\
+    \vspace{10pt}
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\small \textbf{C.\ Simulations with constant generation time}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_cstGT_phylogram_support}
+    \end{minipage}
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\small \textbf{D.\ Simulations with fluctuating generation time}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_phylogram_support}
+    \end{minipage}
+    \caption{
+        \textbf{Testing the support for a phylogram over a chronogram}
+        Panel~A:
+        Brownian motion (BM) is used to model trait changes along a phylogeny, given a mean trait value for extant species.
+        The model contains a switch variable, denoted $\PhyloSupport$, that switches the branch lengths in units of time ($\PhyloSupport=0$, chronogram) to units of nucleotide divergence for neutral sites ($\PhyloSupport=1$, phylogram).
+        The posterior mean estimate of $\PhyloSupport$ indicates whether a BM supports better the phylogram over the chronogram ($0 \leq \PhyloSupport \leq 1$).
+        Panel~B: Wright-Fisher simulations of trait evolution along a phylogeny.
+        At each node of the tree a speciation event creates two descendant species evolving independently.
+        Neutral evolution is modelled as a constant fitness regardless of the phenotype of individuals (yellow).
+        Selection is modelled by stabilizing selection around a optimum value, which is changing along the phylogenetic tree: as a moving optimum (blue) or as multiple optima (red).
+        The output of the simulation is: 1) the mean trait value for each extant species, 2) the phylogram as obtained from independent neutral markers and 3) the chronogram derived from the phylogram assuming a relaxed molecular clock.
+        The posterior mean estimate of $\PhyloSupport$ is inferred from the output of the simulation.
+        Panels C \& D: Violin plot of the posterior mean of $\PhyloSupport$ across 100 replicates for the different simulated regimes of evolution with mean $\PhyloSupport$ values at the center ($\MeanPhyloSupport$).
+        Horizontal lines inside the violins are the estimated $\PhyloSupport$ of each replicate simulations.
+        Results of simulations with constant generation time (Panel~C) and with fluctuating generation time, mutation rate and effective population size (Panel~D).
+    }
+    \label{fig:results-brownian}
+\end{figure*}
+%TC:endignore
+
+\section*{Results}
+
+\subsection*{Support for a phylogram over a chronogram}
+% Simulations of a trait evolving neutrally versus under a moving optimum.
+We tested the hypothesis that a phylogram is better suited to model neutral evolution than a chronogram.
+We simulated traits evolving on a phylogenetic tree under different regimes of selection: 1) neutrally evolving, 2) under a moving optimum, and 3) under multiple optima (see Methods).
+We first assessed the accuracy of ancestral trait reconstruction on a phylogram versus a chronogram, under the assumption that changes follow a BM.
+For a neutral trait, ancestral trait reconstruction was more accurate on a phylogram (Fig.~\ref{fig:results-distance}A, $r^2=0.95$) than on a chronogram (Fig.~\ref{fig:results-distance}B, $r^2=0.85$).
+In contrast, for a trait evolving under a moving optimum, ancestral trait reconstruction was less accurate on a phylogram (Fig.~\ref{fig:results-distance}C, $r^2=0.79$) than on a chronogram (Fig.~\ref{fig:results-distance}D, $r^2=0.96$).
+
+We then tested for the BM support of phylogram over a chronogram, and we developed a statistic denoted as $\PhyloSupport$ (Fig.~\ref{fig:results-brownian}A), which ranges from 0 (full support for the chronogram) to 1 (full support for the phylogram).
+For simulations with a constant generation time, the support is similar for both a phylogram and a chronogram regardless of the regime of evolution (Fig.~\ref{fig:results-brownian}B-C), which is expected since the branch lengths are equivalent in both trees.
+Next, we simulated changing generation time, mutation rate (per generation) and effective population size ($\Ne$) along the phylogenetic tree, mimicking a mammalian range of changes.
+In this case, for a simulated neutral trait, the BM was better fitted on a phylogram than on a chronogram, with an average support for phylogram of $\MeanPhyloSupport = 0.94$ across $100$ replicate simulations, and $80$ of the $100$ replicates above the $0.95$ threshold (Fig.~\ref{fig:results-brownian}D, yellow).
+Conversely, for a simulated trait under selection, the fit of a BM on a chronogram was better than on a phylogram with an average support for phylogram of $\MeanPhyloSupport = 0.17$ for multiple optima ($69$ out of $100$ replicates below the $0.05$ threshold, Fig.~\ref{fig:results-brownian}D, blue) and $\MeanPhyloSupport = 0.14$ for a moving optimum ($67$ of the $100$ below the $0.05$ threshold, Fig.~\ref{fig:results-brownian}D, red).
+
+On the empirical mammalian dataset from \citet{tsuboi_breakdown_2018}, for body mass the support for the phylogram is $\PhyloSupport = 0.0$, when sex is not taken into account.
+When splitting the dataset into males and females, the support for the phylogram is $\PhyloSupport_{\text{\Female}} = 0.85$ and $\PhyloSupport_{\text{\Male}} = 0.70$.
+For brain mass, the support for the phylogram is $\PhyloSupport = 0.0035$ on the mixed dataset, with $\PhyloSupport_{\text{\Female}} = 0.56$ and $\PhyloSupport_{\text{\Male}} = 0.51$.
+On the \textit{COMBINE} dataset, which does not distinguish between males and females, the support for the phylogram is $\PhyloSupport = 0.0$ for body mass and $\PhyloSupport = 0.0015$ for brain mass (Table~\ref{table:results-empirical}).
+We also computed $\PhyloSupport$ using an approximate likelihood computation (REML), a method that allow for faster computation and scale better for larger trees, and found similar results (Table~\ref{table:results-empirical}).
+
+
+\subsection*{Fitting alternative models of evolution}
+% Mis-classification of trait evolution on a phylogram.
+Besides testing the fit of a BM with a single rate, we also fitted a multi-rate BM (see Methods).
+When fitting a multi-rate BM, the estimated variance of rate parameters ($v$) was lower on a phylogram than on a chronogram for a trait evolving neutrally (Fig.~\ref{fig:results-alternative}A, yellow violins, Wilcoxon paired test with $p_{\text{value}}=8.8\times 10^{-14}$), and the number of rate shifts ($n$) was reflecting the prior on the phylogram while not on the chronogram, showing a bias (Fig.~\ref{fig:results-alternative}B, yellow violins).
+Conversely, for a trait under a moving optimum, $v$ was higher on a phylogram than on a chronogram (Fig.~\ref{fig:results-alternative}A, blue violins, Wilcoxon paired test with  $p_{\text{value}}=8.9\times 10^{-15}$), and $n$ was reflecting the prior on the chronogram while not on the phylogram, showing a bias (Fig.~\ref{fig:results-alternative}B, blue violins).
+Altogether, fitting a BM on a phylogram is more accurate for a trait evolving neutrally, but results in less accurate estimates for a trait under selection.
+
+% Mainly testing BM versus OU
+Moreover, we tested alternatives to the BM with OU models: with a single optimum and with multiple optima (see Methods).
+First, for a trait under a moving optimum, the estimated support for the OU process ($p_{\text{OU}}$) was higher on a phylogram than on a chronogram (Fig.~\ref{fig:results-alternative}C, blue violins, Wilcoxon paired test with $p_{\text{value}}=3.9\times 10^{-18}$), an expected result since the BM with a switch supported the chronogram.
+For a trait evolving neutrally, $p_{\text{OU}}$ was still higher on a phylogram than on a chronogram (Fig.~\ref{fig:results-alternative}C, yellow violins, Wilcoxon paired test with $p_{\text{value}}=8.0\times 10^{-8}$), an unexpected result since the BM with a switch supported the phylogram, thus showing a high rate of mis-classification on a phylogram.
+When fitting a multi-OU process on a trait evolving neutrally, the number of optimum shifts ($m$) was reflecting the prior on the phylogram, but not on the chronogram (Fig.~\ref{fig:results-alternative}B, yellow violins).
+Conversely, for a trait under a moving optimum, ($m$) was reflecting the prior on the chronogram but not on the phylogram (Fig.~\ref{fig:results-alternative}A, blue violins).
+In summary, fitting an OU process on a phylogram results in biases not only for a trait under selection but also for a trait under neutral evolution.
+
+
+%TC:ignore
+\begin{figure*}[!htb]
+    \centering
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{A}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiBM}
+    \end{minipage}
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{B}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiBM_NSwitch}
+    \end{minipage}\\
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{C}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_OU}
+    \end{minipage}
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{D}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiOU_NSwitch}
+    \end{minipage}
+
+    \caption{
+        \textbf{Mis-classification of trait evolution on a phylogram.}
+        Violin plot of posterior parameter estimates for different models of trait evolution and different simulated regimes of selection.
+        Horizontal lines inside the violin show the results of each replicate simulation.
+        Simulations of 100 replicates per regime: trait evolving under a neutral regime (yellow) and under a moving optimum (blue).
+        Wilcoxon rank-test are performed between the paired estimates on the phylogram and the chronogram.
+        Panel~A \& B: Fit of a relaxed Brownian motion (BM) with multiple rate parameters, using either a phylogram or a chronogram.
+        Posterior estimate for the variance in rate parameters (Panel~A) and number of rate changes (Panel~B).
+        Panel~C: Relative fit of an Ornstein-Uhlenbeck (OU) process compared to BM, using either a phylogram or a chronogram.
+        Posterior estimates for the support of the OU process over the BM (reversible-jump).
+        Panel~D: Fit of a relaxed OU with multiple optima, using either a phylogram or a chronogram.
+        Posterior estimate for the number of optimum changes.
+    }
+    \label{fig:results-alternative}
+\end{figure*}
+%TC:endignore
+
+\section*{Discussion}
+% Context and rationale
+In phylogenetic comparative methods, the evolution of continuous traits is typically modelled as a stochastic process running along the branches of a phylogenetic tree.
+The null model of neutral trait evolution, genetic drift, is thought of as a Brownian motion (BM) running on the tree~\citep{lynch_phenotypic_1986, felsenstein_phylogenies_1988a}, and deviations from this model are interpreted as selection acting on the trait~\citep{butler_phylogenetic_2004}.
+As a result, a trait on which the BM is favoured over alternative models are sometimes interpreted as a trait evolving neutrally~\citep{khaitovich_evolution_2006, catalan_drift_2019}.
+However, the BM is not only the null model of neutral evolution, but can also model selection, with a trait tracking a moving optimum, where the optimum itself is following a BM~\citep{hansen_translating_1996, latrille_detecting_2024}.
+Distinguishing these scenarios is not trivial, but we here showed that the underlying backbone tree to model trait evolution can help disentangle neutral evolution from selection.
+The standard in phylogenetic comparative methods is a chronogram, where the branch lengths are measured in time~\citep{felsenstein_phylogenies_1985, harmon_phylogenetic_2018}, while phylograms, where the branch lengths are measured in number of substitutions instead, have been generally overlooked.
+For a simulated trait under selection we assessed that the BM has indeed a better fit on a chronogram than on a phylogram.
+However, we argue that to model a trait evolving neutrally, the backbone tree should not be a chronogram but instead a phylogram.
+Phylograms better represent the number of generations that occurred, and in turn should explain best the differences in traits between species~\citep{latrille_detecting_2024}
+In practice, we show that for simulations of a trait evolving neutrally, the fit of a BM supports a phylogram rather than a chronogram.
+Additionally, for a neutral trait, both ancestral state reconstruction and estimation for the number of rate changes for a multi-rate BM was more accurate on a phylogram.
+Altogether, the combined use of a phylogram and a chronogram can help support the hypothesis of neutral evolution, or to rule it out.
+% Thus, we argue that claims for a trait evolving under drift should be tested more thoroughly by comparing the fit of the BM under both a phylogram and a chronogram as the underlying tree.
+
+% When does it apply and why is it important
+We applied this method to different empirical datasets of body and brain masses in mammals, and we showed that the chronogram was favoured over the phylogram, ruling out the neutral model of evolution for these traits~\citep{latrille_detecting_2024}.
+The mammalian dataset is particularly relevant, since changes in generation time are expected to occur along the phylogenetic tree, from 6 months for mice to 50 years for bowhead whales~\citep{demagalhaes_database_2009, nielsen_eye_2016}.
+But more generally, our method is also relevant when changes in mutation rate (per generation) and effective population size ($\Ne$) are expected.
+First, normalizing by nucleotide divergence also accounts theoretically for variations in effective population size ($\Ne$) since the substitution rate of neutral mutations is equal to the mutation rate, such that $\Ne$ has no effect on the rate of neutral evolution~\citep{kimura_evolutionary_1968, ohta_population_1972}.
+Moreover, if population structure were to impact the probability of fixation for neutral mutations (which would also impact a neutral trait), the phylogram would automatically absorb these changes.
+This argument was partially tested in our simulation by modelling changes in both $\Ne$ and generation time (although not modelling population structure \textit{per se}), and the phylogram was favoured over the chronogram for a trait evolving neutrally.
+Second, under certain conditions, the use of phylograms can also absorb changes in mutation rate (per loci per generation), which in mammals can vary up to 10 fold~\citep{bergeron_evolution_2023}.
+As in the case of our simulations, we assumed that the genetic architecture of the trait is constant and the mutation rate is homogeneous across the genome.
+However, if the mutation rate would only change for a subset of the genome that is encoding the trait, the phylogram would not absorb these changes in mutation rate.
+Finally, because chronograms are usually derived from phylograms by calibrating the tree with molecular clocks, using phylograms directly has the additional advantage of removing model assumptions required to calibrate node ages~\citep{litsios_effects_2012}.
+
+% When does it fall appart, our second result
+These examples show that while phylograms are useful to model neutral evolution, they are not a silver bullet to disentangle the effect of drift and selection.
+In our simulations, we generally found that using a phylogram tends to favour the OU process over BM.
+This suggests that trees in units of nucleotide divergence may not always provide a reliable framework for modelling trait evolution, especially when selection is involved.
+We recommend continuing to use chronograms for modelling selection acting on a trait, as they generally provide more accurate and reliable results.
+Moreover, for a trait under selection for which the pace of optimum changes is also tracking the changes in generation time, the support for a phylogram over a chronogram would be misleading~\citep{litsios_effects_2012}.
+Therefore, we argue that while phylograms can offer valuable insights~\citep{wilson_chronogram_2022}, they should be used with caution and in conjunction with chronograms to provide a more comprehensive understanding of trait evolution.
+Contrarily to our cautious note, \citet{wilson_chronogram_2022} suggested that phylograms are more robust for studying discrete character evolution than chronogram.
+This apparent contradiction is due to the different units of measurement used in the studies, as they measure branch lengths in units of morphological distance rather than substitutions per site~\citep{wilson_chronogram_2022}.
+We thus argue that the use of a phylogram, measured in units of substitutions, could also be useful for studying the evolution of discrete characters, but the same caution should be applied.
+
+% Altogether, what we have done and haven't tested and done yet
+Caution is indeed warranted, as there are several limitations to our approach.
+First, we simulated only a subset of different regimes of selection, but more complex scenarios could be included, for example with primary and secondary moving optima~\citep{hansen_three_2024}.
+Additionally, the simulated genetic architecture of a single trait is assumed to be constant across the phylogeny.
+Constant architecture results in the saturation of the phenotype on long time scales, with a phenomenon similar to nucleotide saturation~\citep{latrille_detecting_2024}.
+This saturation effect might be one of the reasons for a bias in favour of the OU process over BM that we observed in our simulations.
+A more realistic genetic architecture should include pleiotropy, epistasis and linkage disequilibrium, while here we only considered non-linked loci contributing additively to a single trait.
+Second, while the tested alternative models of evolution (multi-rates BM, OU, multi-optimum OU) are standard, they do not encompass the full breadth of available methods to model trait evolution~\citep{pennell_geiger_2014, hohna_revbayes_2016}.
+Finally, the mammalian dataset (brain and body) may not be representative of all traits or species and even though our analysis showcases the utility of phylograms, more empirical studies are needed to replicate the findings.
+
+% Gene expression level and empirical studies.
+One striking example of a trait that could (and should) be empirically studied with a phylogram is gene expression level, both for mRNA and protein levels.
+Indeed, the regime of selection acting on gene expression level is the focus of intense debate~\citep{signor_evolution_2018, price_detecting_2022, bertram_cagee_2023, dimayacyac_evaluating_2023}.
+Typically, datasets on which BM is favoured over other models is interpreted as mRNA expression level evolving neutrally~\citep{khaitovich_evolution_2006, catalan_drift_2019, dimayacyac_evaluating_2023}.
+Phenotypic distance is also plotted as a function of time while claiming that a trait is evolving under drift~\citep{jiang_decoupling_2023}.
+Instead, we argue that phenotypic distance should be shown as a function of branch length in units of substitutions (square root), not time.
+More generally, from an empirical perspective, the use of nucleotide changes at neutral loci as a normalizing factor brings new perspectives into trait evolution~\citep{latrille_detecting_2024}.
+
+% Conclusion
+Altogether, our study supports the use of a chronogram when testing for selection acting on a trait.
+The pipeline of hypothesis testing and model comparison is currently well established and should be followed.
+However, when the analysis concludes that the BM is favoured, then the support of the phylogram over the chronogram should be tested additionally.
+We provide a Bayesian model implemented in \textit{RevBayes} to test this hypothesis, which indicates whether a BM supports better a phylogram or a chronogram ($0 \leq \PhyloSupport \leq 1$), given the data at the tip of the tree and both trees with the same topology.
+Only if the phylogram has more support than the chronogram ($\PhyloSupport$ close to $1$) can it be assumed that the trait is evolving under drift, but caution is still warranted.
+
+%TC:ignore
+
+\section*{Author contributions}
+Original idea: T.L.\ and anonymous reviewers;
+Model conception: T.L., T.G.\ and N.S.;
+Code: T.L.;
+Data analyses: T.L.\ and T.G.;
+Interpretation: T.L., T.G.\ and N.S.;
+First draft: T.L.;
+Editing and revisions: T.L., T.G.\ and N.S.
+Project management and funding: N.S\@.
+
+\section*{Acknowledgements}
+\label{sec:acknowledgment}
+We gratefully acknowledge the help of Lucy M. Fitzgerald, Diego A. Hartasánchez, Anna Marcionetti and Julien Joseph for their advice and reviews concerning this manuscript.
+
+\section*{Funding}
+This work was funded by Faculté de Biologie et de Médecine, Université de Lausanne (https://www.unil.ch; to TL, TG and NS) and Swiss National Science Fund (https://www.snf.ch; grant 315230-219757 to TL and NS). The funders did not play any role in the study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+\section*{Competing interests}
+The authors declare no conflicts of interest.
+
+\subsection*{Data and materials availability:}
+The materials that support the findings of this study are openly available in GitHub at \href{https://github.com/ThibaultLatrille/ChronoPhylogram}{github.com/ThibaultLatrille/ChronoPhylogram}.
+Snakemake pipeline, simulator, analysis scripts and \textit{RevBayes} scripts and documentation are available in the repository to replicate the study.
+
+\printbibliography
+
+\newpage
+
+\part*{Supplementary materials}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\setcounter{section}{0}
+
+\renewcommand{\baselinestretch}{1.0}\normalsize
+\tableofcontents
+\renewcommand{\baselinestretch}{1.5}\normalsize
+
+\section{Simulation of continuous trait}\label{sec:simulator}
+
+\subsection{Genotype-phenotype map}\label{subsec:genotype-phenotype-map}
+
+\begin{itemize}
+    \item $\NbrLoci$ is the number of loci encoding the trait.
+    \item $a_l \sim \mathcal{N}(0,a^2)$ is the effect of a mutation on the trait at locus $l \in \{1, \hdots, \NbrLoci\}$.
+    \item $\Ne$ is the effective number of individuals.
+    \item $g_{\Indiv,l} \in \{0, 1, 2\}$ is the genotypic value at locus $l$ for individual $\Indiv \in \{1, \hdots, \Ne\}$.
+    \item $G_{\Indiv} = \sum_{l=1}^{\NbrLoci} a_l \times g_{\Indiv,l}$ is the genotypic value for individual $\Indiv$.
+    \item $\xi_{\Indiv} \sim \mathcal{N}(0, \VarEnv)$ is the effect of environment on the trait for individual $\Indiv$.
+    \item $\Trait_{\Indiv} = G_{\Indiv}+ \xi_i$ is the phenotype for individual $\Indiv$.
+\end{itemize}
+
+\begin{center}
+    \captionof{figure}{summary of trait's genetic architecture.}
+    \includegraphics[width=0.6\textwidth, page=1] {figures/artwork_genet_architecture}
+    \label{fig:simulator-summary}
+\end{center}
+
+\subsection{Simulation along a tree}\label{subsec:simulation-along-a-tree}
+% vG: 13.8, vP: 69.0, vE: 55.2, nbr_loci: 5,000, a: 1.0, mut_rate: 1.38e-05, pop_size: 50, h2: 0.2
+% pS = 0.0027577478571428568
+% Tree length (dS) = 2.340579
+% Tree length (My) = 1259.4490200000002
+% Root age (My) = 98.9489413888889
+% Root age (dS) = 0.18388820079995308
+% nbr_sites_var = 27.577478571428568
+% u = 1.3788739285714283e-05
+% nbr_generations = 13336.114128321291
+Each individual phenotypic value was the sum of genotypic value and an environmental effect.
+The environmental effect was normally distributed with variance $\VarEnv$.
+We assumed that the genotypic value was encoded by $\NbrLoci=5,000$ loci, with each locus contributing an additive effect that was normally distributed with standard deviation $a=1$.
+We assumed a trait with a narrow-sense heritability of $\Heritability=0.2$ and computed the theoretical $\VarEnv$ accordingly.
+Assuming a diploid panmictic population of size $\Ne=50$ at the root of the tree, and with non-overlapping generations, we simulated explicitly each generation along an ultrametric phylogenetic tree.
+For each offspring, the number of mutations was drawn from a Poisson distribution with mean $2 \Multiply \MutationRatePheno \Multiply \NbrLoci $, with the mutation rate per locus per generation $\MutationRatePheno$.
+From the empirical mammalian dataset (see Methods), we computed an average nucleotide divergence from the root to leaves of $0.18$.
+We scaled parameters in our simulations to fit plausible values for mammals.
+We thus used a nucleotide mutation rate of $\MutationRateNuc=0.00276 / 4 \Ne = 1.38 \times 10^{-5}$ per site per generation and a total of $0.18 / 1.38 \times 10^{-5} = 13,500$ generations from root to leaves, and the number of generations along each branch was proportional to the branch length.
+We set $\MutationRatePheno=\MutationRateNuc$ without loss in generality since the genetic architecture ($\NbrLoci$ and $a$) is assumed constant in the simulator.
+
+The changes in $\MutationRatePheno$ and $\Ne$ along the lineages were both modelled by a Brownian motion (BM) on the log scale (log-$\MutationRatePheno$ and log-$\Ne$), leading to geometric Brownian motion on the linear scale ($\MutationRatePheno$ and $\Ne$).
+These processes are parametrized as $\brownian \left(0, \sigma_{\MutationRatePheno}=0.0043\right)$ and $\brownian \left(0, \sigma_{\Ne}=0.0043\right)$, which, if counted across $13,500$ generations, leads to a standard deviation of $0.0043 \Multiply \sqrt {13,500} = 0.5$.
+In other words, the deviation in log-$\Ne$ and log-$\MutationRatePheno$  between the extant species and the root is $0.5$.
+An Ornstein-Uhlenbeck process was overlaid to the instant value of log-$\Ne$ provided by the geometric BM to account for short-term changes between generations ($\text{OU} \left(0, \sigma_{\Ne}=0.1, \theta_{\Ne}=0.9\right)$).
+The geometric Brownian motion accounted for long-term fluctuations (low rate of changes $\sigma_{\Ne}$ but unbounded), while the Ornstein-Uhlenbeck introduced short-term fluctuations (high rate of changes $\sigma_{\Ne}$ but bounded and mean-reverting).
+The simulation started from an initial sequence at equilibrium at the root of the tree and, at each node, the process was split until it finally reached the leaves of the tree.
+From a speciation process perspective, this was equivalent to an allopatric speciation over one generation.
+
+At each generation, parents were randomly sampled with a weight proportional to their fitness ($W$).
+Selection was modelled as a one-dimensional Fisher's geometric landscape, with the fitness of an individual being a monotonously decreasing function of the distance between the individual and the optimal phenotype~\citep{tenaillon_utility_2014,blanquart_epistasis_2016}.
+More specifically, the fitness of an individual was given by $W = \e^{(\Trait - \lambda)^2/ \alpha}$, where $\Trait$ was the trait value of the individual, $\lambda=0.0$ was the optimal trait value, and $\alpha=0.02$ was the strength of selection.
+Mutations were considered as a displacement of the phenotype in the multidimensional space.
+Beneficial mutations moved the phenotype closer to the optimum, while deleterious mutations moved it further away.
+Moving optimum selection was implemented by allowing the optimum phenotype to move along the phylogenetic tree as a geometric BM~\citep{hansen_stabilizing_1997} ($\lambda \sim \brownian \left(0, \sigma_{\lambda}=1.0\right)$).
+Multiple optima were implemented by allowing the optimum phenotype to shift along a branch with a probability of $10^{-5}$, the shift in optimum being then drawn from a exponential distribution with rate parameter $0.1$, meaning an average of $10$ in the optimum shift per switch.
+Neutral evolution was implemented by flattening the fitness landscape ($W=1$), which meant that each individual had the same probability of being sampled at each generation.
+
+\newpage
+\section{Ancestral trait reconstruction}\label{sec:ancestral-trait-reconstruction}
+\begin{center}
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{A}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_NeutralPhylo}
+    \end{minipage}
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{B}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_NeutralChrono}
+    \end{minipage}\\
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{C}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_SelectionPhylo}
+    \end{minipage}
+    \begin{minipage}{0.49\linewidth}
+        \flushleft {\tiny  \textbf{D}}
+        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_SelectionChrono}
+    \end{minipage}
+    \captionof{figure}{
+    \textbf{Phenotypic distance as a function of branch length.}
+    Phenotypic distance ($|\Delta z|$) is computed as the absolute difference of the posterior mean trait value between the ancestral node and the descendent node.
+    Across all simulated dataset (100 replicates), we computed the mean phenotypic distance (blue dots) and standard deviation (blue horizontal lines) for each branch.
+    Simulations under a neutral regime (yellow, top row, panels A and B) and under a moving optimum regime (bottom row, panels C and D).
+    Reconstruction of ancestral trait on a phylogram (blue, left column, panels A and C) and a chronogram (right column, panels B and D).
+    \label{fig:results-distance}
+    }
+\end{center}
+
+\newpage
+\section{Empirical dataset}\label{sec:empirical-dataset}
+
+\begin{center}
+\begin{adjustbox}{width = 0.75\textwidth}
+\begin{tabular}{||l|l|l|l|r|r||}
+\hline \textbf{Dataset} & \textbf{Trait} & \textbf{Sex} & \textbf{Likelihood} & \textbf{Taxa} & \textbf{Phylogram support ($\bm{\pi}$)} \\
+\hline \hline
+\textit{Mammal} & Body mass & Mixed & Full & 125 & 0.0 \\ \hline
+\textit{Mammal} & Body mass & Mixed & REML & 125 & 0.002 \\ \hline
+\textit{Mammal} & Body mass & \Female & Full & 46 & 0.848 \\ \hline
+\textit{Mammal} & Body mass & \Female & REML & 46 & 0.846 \\ \hline
+\textit{Mammal} & Body mass & \Male & Full & 46 & 0.697 \\ \hline
+\textit{Mammal} & Body mass & \Male & REML & 46 & 0.684 \\ \hline
+\textit{Mammal} & Brain mass & Mixed & Full & 125 & 0.0035 \\ \hline
+\textit{Mammal} & Brain mass & Mixed & REML & 125 & 0.0035 \\ \hline
+\textit{Mammal} & Brain mass & \Female & Full & 46 & 0.56 \\ \hline
+\textit{Mammal} & Brain mass & \Female & REML & 46 & 0.539 \\ \hline
+\textit{Mammal} & Brain mass & \Male & Full & 46 & 0.515 \\ \hline
+\textit{Mammal} & Brain mass & \Male & REML & 46 & 0.497 \\ \hline
+\textit{COMBINE} & Body mass & Mixed & Full & 217 & 0.0 \\ \hline
+\textit{COMBINE} & Body mass & Mixed & REML & 217 & 0.0 \\ \hline
+\textit{COMBINE} & Brain mass & Mixed & Full & 174 & 0.0015 \\ \hline
+\textit{COMBINE} & Brain mass & Mixed & REML & 174 & 0.00649 \\ \hline
+\end{tabular}
+\end{adjustbox}
+\captionof{table}{
+\textbf{Summary of empirical datasets.}
+Support for the phylogram over the chronogram ($\pi$) for different datasets and traits.
+Brain and body mass is either extracted from \citet[\textit{\textit{Mammal}}]{tsuboi_breakdown_2018} or from the \textit{COMBINE} database~\citep{soria_combine_2021}.
+For the \citet[\textit{\textit{Mammal}}]{tsuboi_breakdown_2018} dataset, the individuals can also be split into males (\Male) and females (\Female).
+Likelihood is either computed with a full likelihood or with a restricted maximum likelihood (REML).
+The number of taxa is the number of species with data available for the trait.
+\label{table:results-empirical}
+}
+\end{center}
+
+
+%TC:endignore
+\end{document}
