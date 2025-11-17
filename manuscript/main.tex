@@ -80,7 +80,9 @@ tabsize=2
 \captionsetup[figure]{hypcap=false}
 
 \newcommand{\Multiply}{\cdot}
+\DeclareMathOperator{\E}{\mathbb{E}}
 \DeclareMathOperator{\Var}{\text{var}}
+\DeclareMathOperator{\Cov}{\text{cov}}
 \newcommand{\der}{\mathrm{d}}
 \newcommand{\e}{\text{e}}
 \newcommand{\Ne}{N_{\text{e}}}
@@ -94,6 +96,42 @@ tabsize=2
 \newcommand{\NbrLoci}{L}
 \newcommand{\VarEnv}{V_{\mathrm{E}}}
 \newcommand{\brownian}{\mathcal{B}}
+\newcommand{\proba}{\mathbb{P}}
+\newcommand{\pfix}{\proba_{\text{fix}}}
+\newcommand{\Spi}{i}
+\newcommand{\Spj}{j}
+\newcommand{\NbrTaxa}{n}
+\newcommand{\Time}{T}
+\newcommand{\NbrGen}{g_{\Spi, \Spj}}
+\newcommand{\NucDiv}{d_{\Spi, \Spj}}
+\newcommand{\VarGenetic}{V_{\mathrm{A}}}
+\newcommand{\HeritabilitySpi}{\Heritability_{\Spi}}
+\newcommand{\MeanTrait}{\bar{\Trait}}
+\newcommand{\VecTrait}{\UniDimArray{\bar{\Trait}}}
+\newcommand{\RootTrait}{\phi}
+\newcommand{\VarPhy}{\Cov \left( \MeanTrait_{\Spi}, \MeanTrait_{\Spj}\right)}
+\newcommand{\VecZero}{\UniDimArray{0}}
+\newcommand{\VecOne}{\UniDimArray{1}}
+\newcommand{\Distance}{\BiDimArray{D}}
+\newcommand{\DistanceMatrix}{\BiDimArray{\Distance}}
+\newcommand{\SubRate}{q}
+\newcommand{\VarPhenotype}{V_{\Trait}}
+\newcommand{\VarPhenotypeSpi}{V_{\Trait, \Spi}}
+\newcommand{\VarGeneticSpi}{V_{\mathrm{A}, \Spi}}
+\newcommand{\VarMutation}{V_{\mathrm{M}}}
+\newcommand{\GenArchi}{\NbrLoci \Multiply \E \left[ a^2 \right]}
+\newcommand{\RateMut}{\sigma^2_{\mathrm{M}}}
+\newcommand{\RateBetween}{\sigma^2_{\mathrm{B}}}
+\newcommand{\RateWhithin}{\sigma^2_{\mathrm{W}}}
+\newcommand{\RateWhithinSpi}{\sigma^2_{\mathrm{W}, \Spi}}
+\newcommand{\VecRateWhithin}{\UniDimArray{\RateWhithin}}
+\newcommand{\EstRateBetween}{\widehat{\sigma}^2_{\mathrm{B}}}
+\newcommand{\EstRateWhithin}{\widehat{\sigma}^2_{\mathrm{W}}}
+\newcommand{\NI}{\rho}
+\newcommand{\EstNI}{\widehat{\rho}}
+\newcommand{\StdSelection}{\sigma}
+\newcommand{\VarSelection}{\StdSelection^2}
+
 
 \renewcommand{\baselinestretch}{1.3}
 \renewcommand{\arraystretch}{1.2}
@@ -503,6 +541,38 @@ Snakemake pipeline, simulator, analysis scripts and \textit{RevBayes} scripts an
 \renewcommand{\baselinestretch}{1.0}\normalsize
 \tableofcontents
 \renewcommand{\baselinestretch}{1.5}\normalsize
+
+\section{Theoretical rationale}
+
+For a given trait, the genetic architecture is mainly defined by the number of loci encoding the trait ($\NbrLoci$) and the random additive effect of a mutation on the trait ($a$).
+
+For a given species $\Spi$, we denote by $\MeanTrait_{\Spi}$ the mean value of the trait across the individuals.
+If the trait is neutral and encoded by many loci as assumed by the infinitesimal model, $\MeanTrait_{\Spi}$ evolves as a Brownian process~\citep{felsenstein_phylogenies_1985, hansen_translating_1996}.
+Given a phylogenetic tree, for a pair of species $\Spi$ and $\Spj$ from this tree, we denote as $\NbrGen$ the number of generations between the root of the tree and the most recent common ancestor of taxa $\Spi$ and $\Spj$.
+Then, the covariance between $\MeanTrait_{\Spi}$ and $\MeanTrait_{\Spj}$ depends on $\NbrGen$ as given in \citet{hansen_translating_1996} by:
+\begin{align}
+    \VarPhy  = 4 \NbrGen \Multiply \MutationRatePheno \Multiply \GenArchi \label{eq:covar}.
+\end{align}
+Moreover, for any genomic region under neutral evolution, some mutations will eventually reach fixation due to random genetic drift, resulting in a substitution of a nucleotide at the species level.
+The probability of fixation ($\pfix$) of a neutral mutation is $1/2\Ne$~\citep{kimura_probability_1962}.
+We can derive the substitution rate ($\SubRate$, per nucleotide site per generation) as the number of newly arisen mutations ($2\Ne \Multiply \MutationRateNuc$) multiplied by the probability of fixation for each newly arisen mutations $\pfix$~\citep{kimura_evolutionary_1968}, giving:
+\begin{align}
+    \SubRate & = 2 \Ne \Multiply \MutationRateNuc \Multiply \pfix, \\
+    & = 2 \Ne  \Multiply \MutationRateNuc  \Multiply \dfrac{1}{2\Ne}, \\
+    & = \MutationRateNuc. \label{eq:substitution-rate}
+\end{align}
+That is, if mutations are neutral, the rate of substitution per generation within a genomic region equals the rate at which new mutations arise per generation for the same genomic region, reviewed in \citet{mccandlish_modeling_2014}.
+
+Next, we denote $\NucDiv$ as the nucleotide divergence between the root of the tree and the most recent common ancestor of taxa $\Spi$ and $\Spj$.
+In other words, $\NucDiv$ is the expected number of substitutions per nucleotide site during the $\NbrGen$ generations.
+Assuming that no multiple substitutions occurred at the same site, $\NucDiv$ is the number of generations ($\NbrGen$) multiplied by the nucleotide substitution rate per generation ($\SubRate$):
+\begin{align}
+    \NucDiv & = \NbrGen \Multiply \SubRate \\
+    & = \NbrGen \Multiply \MutationRateNuc \text{ from eq.~\ref{eq:substitution-rate}}. \label{eq:distance}
+\end{align}
+
+We show that the covariance in mean trait value between a pair of species ($\VarPhy$) does increase linearly with shared nucleotide divergence ($\NucDiv$), if the trait and sequences are neutrally evolving and the genetic architecture of the trait has not changed.
+Importantly, since the number of generations is the ratio of time divided by generation time (average time between two consecutive generations), removing the effect of the number of generations also removes the effect of both time and generation time.
 
 \section{Simulation of continuous trait}\label{sec:simulator}
 
