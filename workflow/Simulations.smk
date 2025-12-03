@@ -33,6 +33,7 @@ for tag in ["population_size", "mutation_rate"]:
 SIMULATOR_PARAMS["core"] = " ".join(['--{0} {1}'.format(k,v) for k, v in config["core"].items()])
 SEED_POP_SIZE = 42
 SEED_MUT_RATE = 24
+INPUT_CHRONO = True if str(config["input_chronogram"]).lower() == "true" else False
 GRAMS = ["Phylo", "Chrono"]
 
 wildcard_constraints:
@@ -43,11 +44,12 @@ rule all:
         expand(f"{FOLDER}/results/{EXP}/plot_distance_{{gram}}_{{simulator}}.pdf",
             gram=GRAMS,simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_RevBayesAncestral_{{gram}}_{{simulator}}.pdf",
-           gram=GRAMS, simulator=config["simulators"]),
+            gram=GRAMS,simulator=config["simulators"]),
         expand(f"{FOLDER}/results/{EXP}/plot_RevBayesDistance_{{gram}}_{{simulator}}.pdf",
             gram=GRAMS,simulator=config["simulators"]),
         f"{FOLDER}/results/{EXP}/plot_div_comparison.pdf",
-        f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv"
+        f"{FOLDER}/results/{EXP}/inference_RevBayes.tsv",
+        f"{FOLDER}/results/{EXP}/plot_MaximumLikelihood.pdf"
 
 
 def variance_env(nbr_loci, a, mut_rate, pop_size, h2):
@@ -148,13 +150,13 @@ rule reconstructed_chronogram:
 rule scale_tree:
     input:
         script=f"{FOLDER}/scripts/scale_tree.py",
-        tree_1=rules.neutral_tree.output.tree,
-        tree_2=rules.reconstructed_chronogram.output.tree
+        phylogram=rules.neutral_tree.output.tree,
+        chronogram=rules.prepare_chronogram.output.tree if INPUT_CHRONO else rules.reconstructed_chronogram.output.tree
     output:
-        tree_1=f"{FOLDER}/data_simulated/{EXP}/Phylo_scaled.tree",
-        tree_2=f"{FOLDER}/data_simulated/{EXP}/Chrono_scaled.tree"
+        phylogram=f"{FOLDER}/data_simulated/{EXP}/Phylo_scaled.tree",
+        chronogram=f"{FOLDER}/data_simulated/{EXP}/Chrono_scaled.tree"
     shell:
-        'python3 {input.script} --tree_1 {input.tree_1} --tree_2 {input.tree_2} --tree_output_1 {output.tree_1} --tree_output_2 {output.tree_2}'
+        'python3 {input.script} --tree_1 {input.phylogram} --tree_2 {input.chronogram} --tree_output_1 {output.phylogram} --tree_output_2 {output.chronogram}'
 
 rule plot_trait_distance:
     input:
@@ -256,3 +258,15 @@ rule plot_RevBayes_ancestral_trait_distance:
         run=f"{FOLDER}/results/{EXP}/plot_RevBayesDistance_{{gram}}_{{simulator}}.pdf"
     shell:
         'python3 {input.scripts} --distance_tree {input.distance_tree} --annotated_tree {input.annotated_tree} --output {output.run}'
+
+rule maximum_likelihood:
+    input:
+        scripts=f"{FOLDER}/scripts/maximum_likelihood.py",
+        chronogram=rules.scale_tree.output.chronogram,
+        phylogram=rules.scale_tree.output.phylogram,
+        rb_results=rules.gather_RevBayes_log.output.plot,
+        simu_traits=expand(rules.simulation_traits.output.traits,seed=SEEDS,simulator=config["simulators"])
+    output:
+        run=f"{FOLDER}/results/{EXP}/plot_MaximumLikelihood.pdf"
+    shell:
+        'python3 {input.scripts} --chronogram {input.chronogram} --phylogram {input.phylogram} --rb_results {input.rb_results} --simu_traits {input.simu_traits} --output {output.run}'

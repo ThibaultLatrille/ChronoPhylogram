@@ -61,6 +61,7 @@ def posterior(df, col):
 
 def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: dict):
     post_dict = defaultdict(lambda: defaultdict(list))
+    output_rows = list()
     list_df = []
 
     for simu_m in simu_models:
@@ -82,15 +83,23 @@ def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: 
                     list_df.append(df)
 
                 key_name = f"{simu_m}_{gram}_{rb_model.replace("simple_", "S").replace("relaxed_", "R")}"
+
+
+
+                row = {"simu": simu_m, "gram": gram, "seed": seed, "model": rb_model}
                 for col in trace_df.columns:
                     if col not in parameters:
                         continue
-                    if "multi" in simu_m and (col in ["is_OU", "var_multiplier", "num_rate_changes", "num_theta_changes"]):
+                    if "multi" in simu_m and (
+                            col in ["is_OU", "var_multiplier", "num_rate_changes", "num_theta_changes"]):
                         continue
-                    post_dict[col][key_name].append(posterior(trace_df, col=col))
-
-    df_out = pd.concat(list_df)
-    return df_out, post_dict
+                    post_v = posterior(trace_df, col=col)
+                    post_dict[col][key_name].append(post_v)
+                    row[col] = post_v
+                output_rows.append(row)
+    # output_rows is a list of dicts (missing values for some parameters)
+    df_post = pd.DataFrame(output_rows)
+    return pd.concat(list_df), post_dict, df_post
 
 
 def plot_trace(df_out: pd.DataFrame, col: str, output: str):
@@ -139,7 +148,7 @@ def main(folder, output):
                   "sigma": ("sigma", "log", None, "\\sigma"), "theta": ("theta", "linear", None, "\\theta"),
                   "alpha": ("alpha", "log", None, "\\alpha"), "t_half": ("t 1/2", "log", None, "T_{1/2}")}
     print(f"Importing data from {folder}")
-    trace_df, post_dict = get_dicts(simu_models, replicates, rb_models, parameters)
+    trace_df, post_dict, output_df = get_dicts(simu_models, replicates, rb_models, parameters)
 
     rename = lambda x: output.replace(".tsv", x)
     for col, dict_input in post_dict.items():
@@ -150,12 +159,14 @@ def main(folder, output):
         else:
             var_name_mean = f"\\overline{{{var_name}}}"
         print(f"Plotting {col}")
-        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label, prior=prior, var_name=var_name_mean)
+        vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label,
+                     prior=prior, var_name=var_name_mean)
 
     for (simu_model, rb_model), df_simu in trace_df.groupby(["simu", "model"]):
         plot_violin(df_simu, "Posterior", rename(f".violin.{simu_model}.{rb_model}.pdf"))
         plot_trace(df_simu, "Posterior", rename(f".trace.{simu_model}.{rb_model}.pdf"))
-    trace_df.to_csv(output, sep="\t", index=False)
+
+    output_df.to_csv(output, sep="\t", index=False)
 
 
 if __name__ == '__main__':
