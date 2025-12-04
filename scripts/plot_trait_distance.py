@@ -4,10 +4,56 @@ import numpy as np
 from collections import defaultdict
 from libraries import *
 import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+from sklearn.metrics import r2_score
 
 my_dpi = 96
 fontsize = 24
 fontsize_legend = 18
+
+
+def saturation_fit(x, a, b):
+    return a * (x / (b + x))
+
+
+def linear_fit(x, a, b):
+    return a * x + b
+
+
+def polyfit(x_array, y_array, func, label, ax, color):
+    popt, pcov = curve_fit(func, x_array, y_array, bounds=(0, np.inf))
+    y_pred = func(x_array, *popt)
+    r2 = r2_score(y_array, y_pred)
+    if label == "saturation":
+        reg = f"y = {popt[0]:.2g}x / ({popt[1]:.2g} + x) ($r^2$={r2:.2g})"
+    else:
+        reg = f"y = {popt[0]:.2g}x + {popt[1]:.2g} ($r^2$={r2:.2g})"
+    x_line = np.linspace(np.min(x_array), np.max(x_array), 100)
+    ax.plot(x_line, func(x_line, *popt), linestyle="--", label=reg, color=color)
+
+
+def distance_plot(x_dico, y_dico, output, x_label='Tree distance', y_label='Phenotypic distance'):
+    x_mean = {k: np.mean(v) for k, v in x_dico.items()}
+    y_mean = {k: np.mean(v) for k, v in y_dico.items()}
+    y_lower = {k: np.percentile(v, 10) for k, v in y_dico.items()}
+    y_upper = {k: np.percentile(v, 90) for k, v in y_dico.items()}
+    fig = plt.figure(figsize=(640 / my_dpi, 480 / my_dpi), dpi=my_dpi)
+    ax = fig.add_subplot(1, 1, 1)
+    x_array = np.array(list(x_mean.values()))
+    y_array = np.array(list(y_mean.values()))
+    polyfit(x_array, y_array, saturation_fit, "saturation", ax, "blue")
+    polyfit(x_array, y_array, linear_fit, "linear", ax, "red")
+    ax.scatter(x_array, y_array, s=12, color="black")
+    for k in x_mean.keys():
+        ax.errorbar(x_mean[k], y_mean[k], color="black", alpha=0.05, linewidth=0.5,
+                    yerr=[[y_mean[k] - y_lower[k]], [y_upper[k] - y_mean[k]]])
+    ax.set_xlabel(x_label, fontsize=fontsize)
+    ax.set_ylabel(y_label, fontsize=fontsize)
+    ax.legend(fontsize=fontsize_legend)
+    plt.tight_layout()
+    plt.savefig(output, format="pdf")
+    plt.close('all')
+    print(output)
 
 
 def scatter_plot(data, ax: plt.Axes, title: str, x_label: str, y_label: str, average: bool = False):
@@ -62,8 +108,7 @@ def main(input_distance_tree: str, input_annotated_tree_list: list[str], output_
 
     x_label = "$\\sqrt{" + ("d" if "Phylo" in os.path.basename(input_distance_tree) else "T") + "}$"
     y_label = "|Δz|"
-    fig, axes = plt.subplots(2, 2, figsize=(1920 / my_dpi, 1080 / my_dpi), dpi=my_dpi)
-    ax = axes[0, 0]
+    fig, ax = plt.subplots(1, 1, figsize=(640 / my_dpi, 480 / my_dpi), dpi=my_dpi)
     x_mean = {k: np.mean(v) for k, v in dict_x.items()}
     y_mean = {k: np.mean(v) for k, v in dict_y.items()}
     y_std = {k: np.std(v) for k, v in dict_y.items()}
@@ -71,27 +116,13 @@ def main(input_distance_tree: str, input_annotated_tree_list: list[str], output_
                  "leaves": ([x_mean[k] for k in leaves], [y_mean[k] for k in leaves], [y_std[k] for k in leaves]),
                  "nodes": ([x_mean[k] for k in nodes], [y_mean[k] for k in nodes], [y_std[k] for k in nodes])}
     scatter_plot(dico_data, ax, "Average across simulations", x_label=x_label, y_label=y_label)
-
-    ax = axes[0, 1]
-    dico_data = {}
-    for i in range(len(input_annotated_tree_list)):
-        dico_data[f"simu_{i}"] = ([dict_x[k][i] for k in dict_x.keys()], [dict_y[k][i] for k in dict_y.keys()], None)
-    scatter_plot(dico_data, ax, "Per simulations", x_label=x_label, y_label=y_label, average=True)
-
-    ax = axes[1, 0]
-    dico_data = {}
-    for i in range(len(input_annotated_tree_list)):
-        dico_data[f"simu_{i}"] = ([dict_x[k][i] for k in leaves], [dict_y[k][i] for k in leaves], None)
-    scatter_plot(dico_data, ax, "Leaves only per simulation", x_label=x_label, y_label=y_label, average=True)
-
-    ax = axes[1, 1]
-    dico_data = {}
-    for i in range(len(input_annotated_tree_list)):
-        dico_data[f"simu_{i}"] = ([dict_x[k][i] for k in nodes], [dict_y[k][i] for k in nodes], None)
-    scatter_plot(dico_data, ax, "Nodes only per simulation", x_label=x_label, y_label=y_label, average=True)
     plt.tight_layout()
     plt.savefig(output_path)
+    plt.close('all')
 
+    # Saturation plot
+    distance_output = replace_last(output_path, ".pdf", "_saturation.pdf")
+    distance_plot(dict_x, dict_y, distance_output, x_label=x_label, y_label=y_label)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)

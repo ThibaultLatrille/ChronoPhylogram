@@ -261,7 +261,7 @@ rule plot_RevBayes_ancestral_trait_distance:
 
 rule maximum_likelihood:
     input:
-        scripts=f"{FOLDER}/scripts/maximum_likelihood.py",
+        scripts=f"{FOLDER}/scripts/plot_maximum_likelihood.py",
         chronogram=rules.scale_tree.output.chronogram,
         phylogram=rules.scale_tree.output.phylogram,
         rb_results=rules.gather_RevBayes_log.output.plot,
