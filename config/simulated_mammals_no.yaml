@@ -1,10 +1,10 @@
-experiment_name: "mammals_no"
+experiment_name: "simulated_mammals_no"
 nb_genes: 1
 min_seed: 0
 max_seed: 98745641
 nb_seeds: 100
 tree: "utils/simulator/trees/mammal.tre.annotated"
-input_chronogram: false
+input_chronogram: true
 simulators:
   neutral:
     model: "neutral"
