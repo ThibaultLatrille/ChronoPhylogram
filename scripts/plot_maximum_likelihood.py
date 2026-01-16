@@ -32,6 +32,7 @@ def main(chronogram_path: str, phylogram_path: str, rb_results_path: str, simu_t
         AIC_chrono = 2 * 2 - 2 * ll_chrono  # 2 parameters: anc_z and var
         AIC_phylo = 2 * 2 - 2 * ll_phylo
         Delta_AIC = AIC_chrono - AIC_phylo
+        AIC_weight_phylo = 1 - np.exp(-0.5 * Delta_AIC) / (1 + np.exp(-0.5 * Delta_AIC))
         # Save to a dataframe
         output_dico["simu"].append(simu_name)
         output_dico["seed"].append(seed)
@@ -42,12 +43,22 @@ def main(chronogram_path: str, phylogram_path: str, rb_results_path: str, simu_t
         output_dico["var_phylogram"].append(var_phylo)
         output_dico["ll_phylogram"].append(ll_phylo)
         output_dico["Delta_AIC"].append(Delta_AIC)
+        output_dico["AIC_weight_phylogram"].append(AIC_weight_phylo)
     df_output = pd.DataFrame(output_dico)
     print(df_output.head())
 
     # Join with the RevBayes results
     rb_results = pd.read_csv(rb_results_path, sep="\t")
     # Filter only to "simple_BM_Switchnodes" model
+    if "is_nuc" not in rb_results.columns:
+        # Plot histogram of AIC weights to see available models
+        fig, ax = plt.subplots(1, 1, figsize=(8, 6))
+        df_output.hist(column="AIC_weight_phylogram", by="simu", ax=ax)
+        plt.tight_layout()
+        plt.savefig(output_path)
+        plt.close("all")
+        return
+
     rb_results = rb_results[rb_results["model"] == "simple_BM_Switchnodes"][["simu", "seed", "is_nuc"]]
     print(f"Joining {len(df_output)} ML results with {len(rb_results)} RevBayes results")
     df_merged = pd.merge(df_output, rb_results, on=["simu", "seed"], how="left")
@@ -57,25 +68,33 @@ def main(chronogram_path: str, phylogram_path: str, rb_results_path: str, simu_t
     df_merged["Delta_AIC"] = df_merged["Delta_AIC"].clip(-40, 40)
 
     # Plot the results
-    # Scatter plot of Delta_AIC vs support for phylogram from RevBayes
-    fig, ax = plt.subplots(1, 1, figsize=(8, 6))
-    # Show in different colors the different simulations in the scatter plot, add legend
-    # group by simulation
-    for i, (simu, df_simu) in enumerate(df_merged.groupby("simu")):
-        color, label = cs_simu_models[gr_simu_models(simu)]
-        ax.scatter(df_simu["Delta_AIC"], df_simu["is_nuc"], label=label, color=color, alpha=0.7)
-    ax.set_xlabel("ΔAIC (Chronogram - Phylogram)", fontsize=14)
-    ax.set_ylabel("Support for Phylogram (bayesian posterior)", fontsize=14)
-    ax.axhline(0.5, color="black", linestyle="--", label="Equal support (bayesian)")
-    ax.axvline(0, color="grey", linestyle="--", label="Equal AIC line")
-    ax.legend()
-    plt.tight_layout()
-    plt.savefig(output_path.replace(".tsv", ".pdf"))
-    plt.close("all")
+    for t, l, f, m in [("", "", lambda x: x, 0.5), ("_logit", " (logit)", lambda x: np.log(x / (1 - x)), 0.0)]:
+        # Scatter plot of Delta_AIC vs support for phylogram from RevBayes
+        fig, ax = plt.subplots(1, 1, figsize=(7, 5))
+        # Show in different colors the different simulations in the scatter plot, add legend
+        # group by simulation
+        for i, (simu, df_simu) in enumerate(df_merged.groupby("simu")):
+            color, label = cs_simu_models[gr_simu_models(simu)]
+            ax.scatter(f(df_simu["AIC_weight_phylogram"]), f(df_simu["is_nuc"]), label=label, color=color, alpha=0.7)
+        # regression line
+        x, y = f(df_merged["AIC_weight_phylogram"]), f(df_merged["is_nuc"])
+        mask = np.isfinite(x) & np.isfinite(y)
+        x, y = x[mask], y[mask]
+        a, b = np.polyfit(x, y, 1)
+        x_lim = np.array([min(0, min(x)), max(x)])
+        r2 = np.corrcoef(x, y)[0, 1] ** 2
+        ax.plot(x_lim, a * x_lim + b, color="black", linestyle="--", label=f"Regression line (R² = {r2:.4f})")
+        ax.set_xlabel(f"AIC weight support for Phylogram{l}", fontsize=14)
+        ax.set_ylabel(f"Bayesian posterior support for Phylogram{l}", fontsize=14)
+        ax.axhline(m, color="grey", linestyle="--", label="Equal support lines")
+        ax.axvline(m, color="grey", linestyle="--")
+        ax.legend()
+        plt.tight_layout()
+        plt.savefig(output_path.replace(".pdf", f"{t}.pdf"))
+        plt.close("all")
 
 
 if __name__ == '__main__':
-    ##  python3 {input.scripts} --chronogram {input.chronogram} --phylogram {input.phylogram} --rb_results {input.rb_results} --simu_tree {input.simu_tree} --output {output.run}'
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--chronogram", help="Input chronogram tree file", required=True)
     parser.add_argument("--phylogram", help="Input phylogram tree file", required=True)

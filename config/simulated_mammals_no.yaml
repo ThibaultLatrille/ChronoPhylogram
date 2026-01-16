@@ -1,4 +1,6 @@
 experiment_name: "simulated_mammals_no"
+rb_list: ["simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ", "relaxed_OU_RJ"]
+rb_switch_list: ["simple_BM_Switchnodes"]
 nb_genes: 1
 min_seed: 0
 max_seed: 98745641

@@ -34,6 +34,6 @@ def brownian_fitting(tree: Tree, trait: str) -> (float, float, float):
     d = (x - anc_z * ones)
     var = float(np.dot(d.T, np.dot(invC, d)) / (n - 1))
 
-    ll = -0.5 * (n * np.log(2 * np.pi * var) + np.log(np.linalg.det(C)) + (1 / var) * np.dot(d.T, np.dot(invC, d)))
-
+    # ll = -0.5 * (n * np.log(2 * np.pi * var) + np.log(np.linalg.det(C)) + (1 / var) * np.dot(d.T, np.dot(invC, d)))
+    ll = -0.5 * (n * np.log(2 * np.pi * var) + np.log(np.linalg.det(C)) + (n - 1))
     return anc_z, var, float(ll)

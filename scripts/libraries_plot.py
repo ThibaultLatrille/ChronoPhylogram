@@ -140,14 +140,17 @@ def vert_boxplot(x_input, y_label, output, yscale="linear", format_label=None, e
             if remove_chrono_phylo(sorted_x[i - 1]) == remove_chrono_phylo(sorted_x[i]):
                 pairs.append((sorted_x[i - 1], sorted_x[i]))
         if len(pairs) > 0:
-            pvalues = []
+            pvalues, pairs_ok = [], []
             for pair in pairs:
-                pvalues.append(sci_stats.wilcoxon(x[pair[0]], x[pair[1]], alternative="two-sided").pvalue)
-            formatted_pvalues = [f'$p={tex_f(pvalue)}$' for pvalue in pvalues]
-            annotator = Annotator(ax, pairs, data=df, x="x", y="y", order=sorted_x)
-            annotator.configure(loc='outside', verbose=0)
-            annotator.set_custom_annotations(formatted_pvalues)
-            annotator.annotate()
+                if x[pair[0]].shape[0] == x[pair[1]].shape[0]:
+                    pvalues.append(sci_stats.wilcoxon(x[pair[0]], x[pair[1]], alternative="two-sided").pvalue)
+                    pairs_ok.append(pair)
+            if len(pvalues) > 0:
+                formatted_pvalues = [f'$p={tex_f(pvalue)}$' for pvalue in pvalues]
+                annotator = Annotator(ax, pairs_ok, data=df, x="x", y="y", order=sorted_x)
+                annotator.configure(loc='outside', verbose=0)
+                annotator.set_custom_annotations(formatted_pvalues)
+                annotator.annotate()
 
     ax.set_ylabel(y_label, fontsize=fontsize_legend)
     labels = [m.replace("_", " ") for m in sorted_x]

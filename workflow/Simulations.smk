@@ -4,8 +4,6 @@ import numpy as np
 FOLDER = os.path.abspath('.')
 
 executable_list = ["rb"]
-rb_list = ["simple_BM_nodes", "simple_OU_RJ", "relaxed_BM_RJ", "relaxed_OU_RJ"]
-rb_switch_list = ["simple_BM_Switchnodes"]
 
 rb_path = "/opt/homebrew/Caskroom/miniforge/base/envs/osx-64/bin/rb"
 if not os.path.exists(rb_path):
@@ -19,6 +17,8 @@ print(f"Found rb at {rb_path}")
 
 configfile: 'config/config.yaml'
 
+rb_list = config["rb_list"]
+rb_switch_list = config["rb_switch_list"]
 EXP = config["experiment_name"]
 SEEDS = [int(i) for i in np.linspace(config["min_seed"],config["max_seed"],config["nb_seeds"])]
 SIMULATOR_PARAMS = {s: " ".join(['--{0} {1}'.format(k,v) for k, v in d.items() if k != "model"]) for s, d in
@@ -242,7 +242,8 @@ rule parse_tree_RevBayes:
 rule plot_RevBayes_ancestral_traits:
     input:
         script=f"{FOLDER}/scripts/plot_ancestral_traits_RevBayes.py",
-        inference_tree=expand(f"{FOLDER}/data_RevBayes/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}/{{rb}}.tree",seed=SEEDS, rb=["simple_BM_nodes"]),
+        inference_tree=expand(f"{FOLDER}/data_RevBayes/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}/{{rb}}.tree",seed=SEEDS,rb=[
+            "simple_BM_nodes"]),
         simu_tree=expand(f"{FOLDER}/data_simulated/{EXP}/{{{{simulator}}}}/replicate_seed{{seed}}.nhx.gz",seed=SEEDS),
     output:
         pdf=f"{FOLDER}/results/{EXP}/plot_RevBayesAncestral_{{gram}}_{{simulator}}.pdf"
@@ -253,7 +254,8 @@ rule plot_RevBayes_ancestral_trait_distance:
     input:
         scripts=f"{FOLDER}/scripts/plot_trait_distance_RevBayes.py",
         distance_tree=f"{FOLDER}/data_simulated/{EXP}/{{gram}}_scaled.tree",
-        annotated_tree=expand(f"{FOLDER}/data_RevBayes/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}/{{rb}}.tree",seed=SEEDS, rb=["simple_BM_nodes"])
+        annotated_tree=expand(f"{FOLDER}/data_RevBayes/{EXP}/{{{{simulator}}}}/inference_{{{{gram}}}}_seed{{seed}}/{{rb}}.tree",seed=SEEDS,rb=[
+            "simple_BM_nodes"])
     output:
         run=f"{FOLDER}/results/{EXP}/plot_RevBayesDistance_{{gram}}_{{simulator}}.pdf"
     shell:
