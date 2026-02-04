@@ -23,8 +23,9 @@ trait <- 1
 
 ### Read in the trees
 T <- readTrees(input_tree)[1]
-ntips     <- T.ntips()
-nbranches <- 2 * ntips - 2
+ntips <- T.ntips()
+nnodes <- T.nnodes()
+nbranches <- nnodes - 1
 
 ### Read in the character data
 data <- readContinuousCharacterData(input_data)

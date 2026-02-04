@@ -21,6 +21,12 @@ def main(distance_tree, output):
     for file in distance_tree:
         simulator = os.path.basename(os.path.dirname(file))
         simulator_dict[simulator].append(tree_to_dict(open_tree(file, format_ete3=1)))
+    print(f"Simulators found: {list(simulator_dict.keys())}")
+    if len(simulator_dict) < 2:
+        fig, axes = plt.subplots(1, 1, figsize=(6, 6))
+        plt.savefig(output)
+        print(f"Not enough simulators to compare. Exiting.")
+        return
     simu_list = list(simulator_dict.keys())
     simu1 = simu_list[0]
     for id_simu, simu2 in enumerate(simu_list[1:]):

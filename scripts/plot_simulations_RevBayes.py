@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 my_dpi = 150
 fontsize = 24
 fontsize_legend = 18
+multi_skip = ["is_OU", "var_multiplier", "num_rate_changes", "num_theta_changes", "t_half", "alpha"]
 
 
 def replace_last(s: str, old: str, new: str) -> str:
@@ -56,7 +57,7 @@ def open_log(path):
 
 
 def posterior(df, col):
-    return np.nanmean(df[col])
+    return np.mean(df[col][np.isfinite(df[col])])
 
 
 def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: dict):
@@ -83,19 +84,18 @@ def get_dicts(simu_models: list, replicates: dict, rb_models: list, parameters: 
                     list_df.append(df)
 
                 key_name = f"{simu_m}_{gram}_{rb_model.replace("simple_", "S").replace("relaxed_", "R")}"
-
-
-
                 row = {"simu": simu_m, "gram": gram, "seed": seed, "model": rb_model}
                 for col in trace_df.columns:
-                    if col not in parameters:
+                    if (col not in parameters) or ("multi" in simu_m and (col in multi_skip)):
                         continue
-                    if "multi" in simu_m and (
-                            col in ["is_OU", "var_multiplier", "num_rate_changes", "num_theta_changes"]):
+                    if "ROU" in key_name and col in ["alpha", "t_half"]:
                         continue
                     post_v = posterior(trace_df, col=col)
                     post_dict[col][key_name].append(post_v)
                     row[col] = post_v
+                    if col == "alpha":
+                        row["t_half_mean"] = np.log(2) / post_v
+                        post_dict["t_half_mean"][key_name].append(row["t_half_mean"])
                 output_rows.append(row)
     # output_rows is a list of dicts (missing values for some parameters)
     df_post = pd.DataFrame(output_rows)
@@ -145,8 +145,12 @@ def main(folder, output):
                   "is_BM": ("Support for BM over OU", "uniform", 0.5, "p_{BM}"),
                   "is_OU": ("Support for OU over BM", "uniform", 0.5, "p_{OU}"),
                   "is_nuc": ("Support for a phylogram", "uniform", 0.5, "\\pi"),
-                  "sigma": ("sigma", "log", None, "\\sigma"), "theta": ("theta", "linear", None, "\\theta"),
-                  "alpha": ("alpha", "log", None, "\\alpha"), "t_half": ("t 1/2", "log", None, "T_{1/2}")}
+                  "sigma": ("sigma", "log", None, "\\sigma"),
+                  "theta": ("theta", "linear", None, "\\theta"),
+                  "alpha": ("alpha", "log", None, "\\alpha"),
+                  "t_half": ("Phylogenetic half-life", "log", None, "T_{1/2}"),
+                  "t_half_mean": ("Phylogenetic half-life", "log", None, "T_{1/2}")
+                  }
     print(f"Importing data from {folder}")
     trace_df, post_dict, output_df = get_dicts(simu_models, replicates, rb_models, parameters)
 
@@ -159,6 +163,7 @@ def main(folder, output):
         else:
             var_name_mean = f"\\overline{{{var_name}}}"
         print(f"Plotting {col}")
+
         vert_boxplot(dict_input, y_label, rename(f".boxplot.{col}.pdf"), yscale=yscale, format_label=format_label,
                      prior=prior, var_name=var_name_mean)
 

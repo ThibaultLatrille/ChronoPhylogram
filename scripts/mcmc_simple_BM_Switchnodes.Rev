@@ -27,7 +27,7 @@ nucLength <- nucT.treeLength()
 T <- readTrees(input_nuctree)[1]
 ntips <- T.ntips()
 nnodes <- T.nnodes()
-nbranches <- 2 * ntips - 2
+nbranches <- nnodes - 1
 
 
 ### Read in the character data

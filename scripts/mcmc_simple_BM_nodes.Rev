@@ -28,7 +28,7 @@ T <- readTrees(input_tree)[1]
 treeLength <- T.treeLength()
 ntips <- T.ntips()
 nnodes <- T.nnodes()
-nbranches <- 2 * ntips - 2
+nbranches <- nnodes - 1
 
 for (i in nbranches:1) {
   branch_length[i] := T.branchLength(i) / treeLength
