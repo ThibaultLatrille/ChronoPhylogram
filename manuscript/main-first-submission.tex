@@ -161,7 +161,7 @@ Instead, to disentangle neutral evolution from selection in the context of phylo
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth, page=1] {figures/artwork_rational}
+    \includegraphics[width=\textwidth] {figure-1}
     \caption{
         Panel~A: Across many species, the evolution of continuous traits can be modelled as a stochastic process evolving along the branches of a phylogenetic tree.
         The branches of such phylogenetic tree can be measured in either time (chronogram) or number of substitutions (phylogram).
@@ -293,16 +293,7 @@ The chronogram is derived from the phylogram by fitting a relaxed molecular cloc
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth, page=1] {figures/artwork_pipeline}\\
-    \vspace{10pt}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\small \textbf{C.\ Simulations with constant generation time}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_cstGT_phylogram_support}
-    \end{minipage}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\small \textbf{D.\ Simulations with fluctuating generation time}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_phylogram_support}
-    \end{minipage}
+    \includegraphics[width=\textwidth] {figure-2}
     \caption{
         \textbf{Testing the support for a phylogram over a chronogram}
         Panel~A:
@@ -365,23 +356,7 @@ In summary, fitting an OU process on a phylogram results in biases not only for 
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{A}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiBM}
-    \end{minipage}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{B}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiBM_NSwitch}
-    \end{minipage}\\
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{C}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_OU}
-    \end{minipage}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{D}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiOU_NSwitch}
-    \end{minipage}
-
+    \includegraphics[width=\textwidth] {figure-3}
     \caption{
         \textbf{Mis-classification of trait evolution on a phylogram.}
         Violin plot of posterior parameter estimates for different models of trait evolution and different simulated regimes of selection.
@@ -520,7 +495,7 @@ Snakemake pipeline, simulator, analysis scripts and \textit{RevBayes} scripts an
 
 \begin{center}
     \captionof{figure}{summary of trait's genetic architecture.}
-    \includegraphics[width=0.8\textwidth, page=1] {figures/artwork_genet_architecture}
+    \includegraphics[width=0.7\textwidth, page=1] {figures/artwork_genet_architecture}
     \label{fig:simulator-summary}
 \end{center}
 

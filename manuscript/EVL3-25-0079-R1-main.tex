@@ -1,4 +1,4 @@
-%! BibTeX Compiler = biber
+%! BibTeX Compiler = BibTeX
 \documentclass{article}
 \usepackage{caption}
 \usepackage{censor}
@@ -6,41 +6,11 @@
 \definecolor{BLUELINK}{HTML}{0645AD}
 \definecolor{DARKBLUELINK}{HTML}{0B0080}
 \definecolor{LIGHTGREY}{gray}{0.9}
-\PassOptionsToPackage{hyphens}{url}
-\usepackage[colorlinks=false]{hyperref}
-% for linking between references, figures, TOC, etc in the pdf document
-\hypersetup{colorlinks,
-linkcolor=DARKBLUELINK,
-anchorcolor=DARKBLUELINK,
-citecolor=DARKBLUELINK,
-filecolor=DARKBLUELINK,
-menucolor=DARKBLUELINK,
-urlcolor=BLUELINK
-} % Color citation links in purple
-\PassOptionsToPackage{unicode}{hyperref}
-\PassOptionsToPackage{naturalnames}{hyperref}
 
 \usepackage{biorxiv}
-\usepackage[
-style=authoryear,
-doi=false,
-isbn=false,
-url=false,
-date=year,
-natbib=true,
-hyperref,
-mincitenames = 1,
-maxcitenames = 2,
-minbibnames = 1,
-maxbibnames = 30,
-uniquename=false,
-uniquelist=false,
-giveninits=true,
-backend=biber]{biblatex}
-\AtEveryBibitem{\clearfield{note}}
-\addbibresource{references_bibtex.bib}
+\usepackage[round, sort&compress]{natbib}
+\bibliographystyle{apalike}
 
-\usepackage{url}
 \usepackage{amssymb,amsfonts,amsmath,amsthm,mathtools}
 \usepackage{lmodern}
 \usepackage{xfrac, nicefrac}
@@ -52,32 +22,20 @@ backend=biber]{biblatex}
 \usepackage{pdfpages}
 \pdfinclusioncopyfonts=1
 \usepackage{lineno}
-\usepackage{tabu}
-\usepackage{hhline}
-\usepackage{multicol,multirow,array}
-\usepackage{etoolbox}
-\usepackage{booktabs}
-\usepackage{makecell}
 \usepackage{marvosym}
-\usepackage{orcidlink}
 
-% -- Defining colors:
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}% Definig a custom style:
-\lstdefinestyle{mystyle}{
-backgroundcolor=\color{backcolour},
-basicstyle=\ttfamily\scriptsize\bfseries,
-breakatwhitespace=false,
-breaklines=true,
-captionpos=t,
-keepspaces=true,
-showspaces=false,
-showstringspaces=false,
-showtabs=false,
-tabsize=2
-}% -- Setting up the custom style:
-\lstset{style=mystyle}
-\captionsetup[table]{hypcap=false}
-\captionsetup[figure]{hypcap=false}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{url}
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+\usepackage[colorlinks=true,
+linkcolor=DARKBLUELINK,
+anchorcolor=DARKBLUELINK,
+citecolor=DARKBLUELINK,
+filecolor=DARKBLUELINK,
+menucolor=DARKBLUELINK,
+urlcolor=BLUELINK
+]{hyperref}
 
 \newcommand{\Multiply}{\cdot}
 \newcommand{\MultiplyMatrix}{\times}
@@ -144,7 +102,7 @@ tabsize=2
 
 \author{
 \large
-\textbf{T. {Latrille}$^{1}$\orcidlink{0000-0002-9643-4668}, T. {Gaboriau}$^{1}$\orcidlink{0000-0001-7530-2204}, N. {Salamin}$^{1}$\orcidlink{0000-0002-3963-4954}}\\
+\textbf{T. {Latrille}$^{1}$, T. {Gaboriau}$^{1}$, N. {Salamin}$^{1}$}\\
 \normalsize
 $^{1}$Department of Computational Biology, University of Lausanne, Quartier Sorge, 1015 Lausanne, Switzerland\\
 \texttt{\href{mailto:thibault.latrille@ens-lyon.org}{thibault.latrille@ens-lyon.org}} \\
@@ -206,7 +164,7 @@ Instead, to disentangle neutral evolution from selection in the context of phylo
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth] {figure-1}
+    \includegraphics[width=\textwidth]{figure-1}
     \caption{
         Panel~A: Across many species, the evolution of continuous traits can be modelled as a stochastic process evolving along the branches of a phylogenetic tree.
         The branches of such a phylogenetic tree can be measured in either time (chronogram) or number of substitutions (phylogram).
@@ -231,7 +189,7 @@ For example, it is known that using phylograms in units of morphological distanc
 From a genomic perspective, phylograms can also be in units of nucleotide divergence, that is, depicting the number of nucleotide substitutions occurring along a branch.
 Because the number of neutral nucleotide substitutions accumulating along a branch is proportional to the number of generations~\citep{kimura_evolutionary_1968, kimura_neutral_1983}, nucleotide divergence would in this case absorb the effect of changing generation time (i.e. longer branches for lineages with shorter generation time).
 Such a phylogram, if obtained from neutrally evolving genomic loci would be more appropriate to model a trait evolving neutrally~\citep{latrille_detecting_2024}.
-More precisely, under the assumption of a constant genetic architecture, the covariance in mean trait value between a pair of species increases linearly with the number of shared generations, and thus with shared nucleotide divergence for neutral sequences (see supplementary material section~\ref{sec:theoretical-rationale} for the theoretical derivation).
+More precisely, under the assumption of a constant genetic architecture, the covariance in mean trait value between a pair of species increases linearly with the number of shared generations, and thus with shared nucleotide divergence for neutral sequences (see Supplementary Material section~S1 for the theoretical derivation).
 Additionally, the rationale to use nucleotide divergence to absorb changes in generation time is also valid for changes in mutation rate (per loci and per generation) under the assumption of a constant genetic architecture of the trait and that changes in mutation rate impact the whole genome~\citep{latrille_detecting_2024}.
 Empirically, such changes in mutation rate along a phylogenetic tree are also observed, although to a lesser extent than changes in generation time~\citep{bergeron_evolution_2023}.
 
@@ -259,7 +217,7 @@ To assess which tree type (phylogram versus chronogram) better supports neutral 
 \subsection*{Simulations along a phylogenetic tree}
 We performed simulations under different selective regimes (neutral, moving optimum, multiple optima).
 Simulations were individual-based and followed a Wright-Fisher model with mutation, selection and drift for a diploid population including speciation along a predefined ultrametric phylogenetic tree.
-We used the same simulation framework as in \citet{latrille_detecting_2024}, with parameters detailed in the supplementary material (section~\ref{sec:simulator}).
+We used the same simulation framework as in \citet{latrille_detecting_2024}, with parameters detailed in the Supplementary Material (section~S2).
 The parameters of simulations were chosen to mimic an empirical dataset of mammals.
 In summary, the trait was encoded by $\NbrLoci$ independent loci, with each locus contributing additively, and mutations were drawn from a Poisson distribution at each generation.
 Parents were selected for reproduction according to their phenotypic value, with a probability proportional to their fitness.
@@ -269,7 +227,7 @@ Finally, for a trait under selection around multiple optima~\citep{uyeda_novel_2
 
 At each internal node of the tree (i.e. speciation event), the population is split into two daughter populations running independently on each of the two branches, and the process is repeated until the tips of the tree are reached.
 As a control, we performed simulations with constant mutation rates, generation times and effective population sizes ($\Ne$).
-Alternatively, we performed simulations with fluctuating mutation rates, generation times and $\Ne$, where we used BM to model the long-term changes along the phylogenetic tree, and we overlaid short-term changes in $\Ne$ (see supplementary material section~\ref{sec:simulator}).
+Alternatively, we performed simulations with fluctuating mutation rates, generation times and $\Ne$, where we used BM to model the long-term changes along the phylogenetic tree, and we overlaid short-term changes in $\Ne$ (see Supplementary Material section~S2).
 
 The phylogram is obtained from the same simulation setting on a set of 30,000 independent neutral loci, and the nucleotide divergence is computed as the number of substitutions along each branch.
 The chronogram is the generating ultrametric time tree used in the simulation.
@@ -304,7 +262,7 @@ Altogether, the input data is the mean trait value for extant species and both t
 The posterior mean of $\PhyloSupport$ (burn-in of 1,000 gen., running of 10,000 gen., 2 chains) indicates support for the phylogram; we consider the phylogram to be favoured when $\PhyloSupport > 0.5$.
 We expect $\PhyloSupport = 1$ for a trait under neutral evolution, and $\PhyloSupport = 0$ for a trait under selection (moving optimum).
 
-From a frequentist perspective, the support of a phylogram over a chronogram can also be assessed by comparing the maximum likelihood of the data given each tree, and computing the Akaike Information Criterion (AIC) weights of each model (see supplementary material section~~\ref{sec:maximum-likelihood-estimation}).
+From a frequentist perspective, the support of a phylogram over a chronogram can also be assessed by comparing the maximum likelihood of the data given each tree, and computing the Akaike Information Criterion (AIC) weights of each model (see Supplementary Material section~S5).
 
 \subsection*{Alternative models of evolution}
 In addition to a single-rate BM, we also fitted BM with multiple rate parameters~\citep{eastman_novel_2011}, using either a phylogram or a chronogram as the underlying tree to the simulated dataset.
@@ -346,7 +304,7 @@ The chronogram is derived from the phylogram by fitting a relaxed molecular cloc
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth] {figure-2}
+    \includegraphics[width=\textwidth]{figure-2}
     \caption{
         \textbf{Testing the support for a phylogram over a chronogram}
         Panel~A:
@@ -374,21 +332,21 @@ The chronogram is derived from the phylogram by fitting a relaxed molecular cloc
 We tested the hypothesis that a phylogram is better suited to model neutral evolution than a chronogram.
 We simulated traits evolving on a phylogenetic tree under different regimes of selection: 1) neutrally evolving, 2) under a moving optimum, and 3) under multiple optima (see Methods).
 We first assessed the accuracy of ancestral trait reconstruction on a phylogram versus a chronogram, under the assumption that changes follow BM.
-For a neutral trait, ancestral trait reconstruction was more accurate on a phylogram (Fig.~\ref{fig:results-distance}A, $r^2=0.95$) than on a chronogram (Fig.~\ref{fig:results-distance}B, $r^2=0.83$; Fisher's $z$-test, $p_{\text{value}}=9.0\times 10^{-11}$).
-In contrast, for a trait evolving under a moving optimum, ancestral trait reconstruction was less accurate on a phylogram (Fig.~\ref{fig:results-distance}C, $r^2=0.79$) than on a chronogram (Fig.~\ref{fig:results-distance}D, $r^2=0.96$; Fisher's $z$-test, $p_{\text{value}}=0$).
+For a neutral trait, ancestral trait reconstruction was more accurate on a phylogram (Fig.~S2A, $r^2=0.95$) than on a chronogram (Fig.~S2B, $r^2=0.83$; Fisher's $z$-test, $p_{\text{value}}=9.0\times 10^{-11}$).
+In contrast, for a trait evolving under a moving optimum, ancestral trait reconstruction was less accurate on a phylogram (Fig.~S2C, $r^2=0.79$) than on a chronogram (Fig.~S2D, $r^2=0.96$; Fisher's $z$-test, $p_{\text{value}}=0$).
 
 We then tested for the BM support of phylogram over a chronogram, and we developed a statistic denoted as $\PhyloSupport$ (Fig.~\ref{fig:results-brownian}A), which ranges from 0 (full support for the chronogram) to 1 (full support for the phylogram).
 For simulations with a constant generation time, the support is similar for both a phylogram and a chronogram regardless of the regime of evolution (Fig.~\ref{fig:results-brownian}B-C), which is expected since the branch lengths are equivalent in both trees.
 Next, we simulated changing generation time, mutation rate (per generation) and effective population size ($\Ne$) along the phylogenetic tree, mimicking a mammalian range of changes.
 In this case, for a simulated neutral trait, the BM was better fitted on a phylogram than on a chronogram, with an average support for phylogram of $\MeanPhyloSupport = 0.95$ across $100$ replicate simulations, and $82$ of the $100$ replicates above the $0.95$ threshold (Fig.~\ref{fig:results-brownian}D, yellow).
 Conversely, for a simulated trait under selection, the fit of BM on a chronogram was better than on a phylogram with an average support for phylogram of $\MeanPhyloSupport = 0.12$ for multiple optima ($67$ out of $100$ replicates below the $0.05$ threshold, Fig.~\ref{fig:results-brownian}D, blue) and $\MeanPhyloSupport = 0.24$ for a moving optimum ($62$ of the $100$ below the $0.05$ threshold, Fig.~\ref{fig:results-brownian}D, red).
-Finally, from a statistical perspective, the equivalent of $\PhyloSupport$ using the maximum likelihood approach (AIC weights, see supplementary material section~\ref{sec:maximum-likelihood-estimation}) is highly correlated with our Bayesian estimate ($r^2=0.99$, Fig.~\ref{fig:aicweights}).
+Finally, from a statistical perspective, the equivalent of $\PhyloSupport$ using the maximum likelihood approach (AIC weights, see Supplementary Material section~S5) is highly correlated with our Bayesian estimate ($r^2=0.99$, Fig.~S3).
 
 On the empirical mammalian dataset from \citet{tsuboi_breakdown_2018}, for body mass the support for the phylogram is $\PhyloSupport = 0.0$, when sex is not taken into account.
 When splitting the dataset into males and females, the support for the phylogram is $\PhyloSupport_{\text{\Female}} = 0.85$ and $\PhyloSupport_{\text{\Male}} = 0.70$.
 For brain mass, the support for the phylogram is $\PhyloSupport = 0.0035$ on the mixed dataset, with $\PhyloSupport_{\text{\Female}} = 0.56$ and $\PhyloSupport_{\text{\Male}} = 0.51$.
-On the \textit{COMBINE} dataset, which does not distinguish between males and females, the support for the phylogram is $\PhyloSupport = 0.0$ for body mass and $\PhyloSupport = 0.0015$ for brain mass (Table~\ref{table:results-empirical}).
-We also computed $\PhyloSupport$ using an approximate likelihood computation (REML), a method that allow for faster computation and scale better for larger trees, and found similar results (Table~\ref{table:results-empirical}).
+On the \textit{COMBINE} dataset, which does not distinguish between males and females, the support for the phylogram is $\PhyloSupport = 0.0$ for body mass and $\PhyloSupport = 0.0015$ for brain mass (Table~S1).
+We also computed $\PhyloSupport$ using an approximate likelihood computation (REML), a method that allow for faster computation and scale better for larger trees, and found similar results (Table~S1).
 
 \subsection*{Fitting alternative models of evolution}
 % Mis-classification of trait evolution on a phylogram.
@@ -400,7 +358,7 @@ Altogether, fitting BM on a phylogram is more accurate for a trait evolving neut
 % Mainly testing BM versus OU
 Moreover, we tested alternatives to the BM with OU models: with a single optimum and with multiple optima (see Methods).
 Following recommendations by \citet{grabowski_cautionary_2023}, we report the phylogenetic half-life ($t_{1/2} = \ln(2)/\alpha$), which represents the time for a trait to evolve halfway toward a new optimum.
-The higher the half-life, or in other words, the smaller the $\alpha$, the more the OU process becomes effectively indistinguishable from BM.cd m
+The higher the half-life, or in other words, the smaller the $\alpha$, the more the OU process becomes effectively indistinguishable from BM.
 For a trait evolving neutrally, the estimated half-life was longer on a phylogram than on a chronogram (Fig.~\ref{fig:results-alternative}C, yellow violins, Wilcoxon paired test with $p_{\text{value}}=4.9\times 10^{-5}$), confirming BM-like dynamics on phylograms as expected for neutral evolution.
 Conversely, for a trait under a moving optimum, the half-life was shorter on a chronogram than on a phylogram (Fig.~\ref{fig:results-alternative}C, blue violins, Wilcoxon paired test with $p_{\text{value}}=1.5\times 10^{-12}$), indicating faster adaptation on the appropriate tree.
 When fitting a multi-OU process on a trait evolving neutrally, the number of optimum shifts ($m$) was reflecting the prior on the phylogram, but not on the chronogram (Fig.~\ref{fig:results-alternative}D, yellow violins).
@@ -410,7 +368,8 @@ Conversely, for a trait under a moving optimum, ($m$) was reflecting the prior o
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth] {figure-3}
+    \includegraphics[width=\textwidth]{figure-3}
+
     \caption{
         \textbf{Mis-classification of trait evolution on a phylogram.}
         Violin plot of posterior parameter estimates for different models of trait evolution and different simulated regimes of selection.
@@ -452,7 +411,7 @@ Altogether, the combined use of a phylogram and a chronogram can help support th
 % When does it apply and why is it important
 We applied this method to different empirical datasets of body and brain masses in mammals, and we showed that the chronogram was favoured over the phylogram, ruling out the neutral model of evolution for these traits~\citep{latrille_detecting_2024}.
 The mammalian dataset is particularly relevant, since changes in generation time are expected to occur along the phylogenetic tree, from 6 months for mice to 50 years for bowhead whales~\citep{demagalhaes_database_2009, nielsen_eye_2016}.
-When analysing each sex separately, the dataset with annotated sex available is smaller (column Taxa in Table~\ref{table:results-empirical}).
+When analysing each sex separately, the dataset with annotated sex available is smaller (column Taxa in Table~S1).
 Only 46 species have annotated sexes, compared to a range of 125--217 species when not specifying sex.
 On this dataset of 46 species, neither the phylogram nor the chronogram is favoured, with undecided support ($0.497 \leq \PhyloSupport \leq 0.848$).
 Unfortunately, this result suggests that for a single trait, unless the signal is strong enough, many species are required to obtain a statistically significant conclusion.
@@ -503,7 +462,7 @@ Altogether, our study supports the use of a chronogram when testing for selectio
 We propose the phylogram-chronogram comparison as a new tool in the comparative methods toolbox, particularly useful when seeking deviation from neutral evolution.
 In such cases, comparing the support for a phylogram versus a chronogram provides an additional diagnostic to assess the regime of evolution acting on a trait.
 We provide a Bayesian model implemented in \textit{RevBayes} to perform this comparison, which estimates whether BM supports a phylogram or a chronogram ($0 \leq \PhyloSupport \leq 1$), given the data at the tip of the tree and both trees with the same topology.
-For empiricists more familiar with frequentist approaches, we also provide a maximum likelihood implementation that yields comparable results through AIC weights (see supplementary material section~\ref{sec:maximum-likelihood-estimation}).
+For empiricists more familiar with frequentist approaches, we also provide a maximum likelihood implementation that yields comparable results through AIC weights (see Supplementary Material section~S5).
 Only if the phylogram has more support than the chronogram ($\PhyloSupport$ close to $1$) should one consider the neutral model of evolution as a plausible explanation for the evolution of the trait, but claims of neutral evolution should still be made cautiously.
 
 %TC:ignore
@@ -532,319 +491,329 @@ The authors declare no conflicts of interest.
 The materials that support the findings of this study are openly available in GitHub at \href{https://github.com/ThibaultLatrille/ChronoPhylogram}{github.com/ThibaultLatrille/ChronoPhylogram}.
 Snakemake pipeline, simulator, analysis scripts and \textit{RevBayes} scripts and documentation are available in the repository to replicate the study.
 
-\printbibliography
+%\bibliography{references_bibtex}
+\begin{thebibliography}{}
 
-\newpage
+\bibitem[Barton et~al., 2017]{barton_infinitesimal_2017}
+Barton, N.~H., Etheridge, A.~M., and V{\'e}ber, A. (2017).
+\newblock The infinitesimal model: {{Definition}}, derivation, and
+  implications.
+\newblock {\em Theoretical Population Biology}, 118:50--73.
 
-\part*{Supplementary materials}
-\renewcommand{\thetable}{S\arabic{table}}
-\renewcommand{\thefigure}{S\arabic{figure}}
-\setcounter{figure}{0}
-\setcounter{table}{0}
-\setcounter{section}{0}
+\bibitem[Beaulieu et~al., 2012]{beaulieu_modeling_2012}
+Beaulieu, J.~M., Jhwueng, D.-C., Boettiger, C., and O'Meara, B.~C. (2012).
+\newblock Modeling stabilizing selection: Expanding the {{Ornstein-Uhlenbeck}}
+  model of adaptive evolution.
+\newblock {\em Evolution}, 66(8):2369--2383.
 
-\renewcommand{\baselinestretch}{1.0}\normalsize
-\tableofcontents
-\renewcommand{\baselinestretch}{1.2}\normalsize
+\bibitem[Bergeron et~al., 2023]{bergeron_evolution_2023}
+Bergeron, L.~A., Besenbacher, S., Zheng, J., Li, P., Bertelsen, M.~F.,
+  Quintard, B., Hoffman, J.~I., Li, Z., St.~Leger, J., Shao, C., Stiller, J.,
+  Gilbert, M. T.~P., Schierup, M.~H., and Zhang, G. (2023).
+\newblock Evolution of the germline mutation rate across vertebrates.
+\newblock {\em Nature}, pages 1--7.
 
-\newpage
+\bibitem[Bertram et~al., 2023]{bertram_cagee_2023}
+Bertram, J., Fulton, B., Tourigny, J.~P., {Pe{\~n}a-Garcia}, Y., Moyle, L.~C.,
+  and Hahn, M.~W. (2023).
+\newblock {{CAGEE}}: {{Computational Analysis}} of {{Gene Expression
+  Evolution}}.
+\newblock {\em Molecular Biology and Evolution}, 40(5):msad106.
 
-\section{Theoretical rationale}\label{sec:theoretical-rationale}
+\bibitem[Butler and King, 2004]{butler_phylogenetic_2004}
+Butler, M.~A. and King, A.~A. (2004).
+\newblock Phylogenetic comparative analysis: A modeling approach for adaptive
+  evolution.
+\newblock {\em The American naturalist}, 164(6):683--695.
 
-In this section, we derive the theoretical expectation for the relationship between phenotypic covariance and nucleotide divergence under neutral evolution, using the infinitesimal model of quantitative genetics~\citep{lande_quantitative_1979, lande_sexual_1980} and notations as from \citet{latrille_detecting_2024}.
+\bibitem[Catal{\'a}n et~al., 2019]{catalan_drift_2019}
+Catal{\'a}n, A., Briscoe, A.~D., and H{\"o}hna, S. (2019).
+\newblock Drift and directional selection are the evolutionary forces driving
+  gene expression divergence in eye and brain tissue of {{Heliconius}}
+  butterflies.
+\newblock {\em Genetics}, 213(2):581--594.
 
-\subsection{Genetic architecture and mutational variance}
+\bibitem[Cooper et~al., 2016]{cooper_cautionary_2016}
+Cooper, N., Thomas, G.~H., Venditti, C., Meade, A., and Freckleton, R.~P.
+  (2016).
+\newblock A cautionary note on the use of {{Ornstein Uhlenbeck}} models in
+  macroevolutionary studies.
+\newblock {\em Biological Journal of the Linnean Society}, 118(1):64--77.
 
-For a given quantitative trait, the genetic architecture is mainly defined by the number of loci encoding the trait ($\NbrLoci$) and the random additive effect of a mutation on the trait ($a$).
-For a diploid individual, the mutational variance ($\VarMutation$) is the rate at which trait variance changes between generations due to mutations.
-As shown in \citet{lande_quantitative_1979, lande_sexual_1980}, $\VarMutation$ is a function of the mutation rate per locus per generation ($\MutationRatePheno$) and the genetic architecture of the trait:
-\begin{align}
-    \VarMutation = 2 \MutationRatePheno \Multiply \GenArchi \label{eq:var-mutation}.
-\end{align}
+\bibitem[De~Magalh{\~a}es and Costa, 2009]{demagalhaes_database_2009}
+De~Magalh{\~a}es, J.~P. and Costa, J. (2009).
+\newblock A database of vertebrate longevity records and their relation to
+  other life-history traits.
+\newblock {\em Journal of Evolutionary Biology}, 22(8):1770--1774.
 
-Under the infinitesimal model, mutations supply new genetic variants while random genetic drift depletes standing variation~\citep{turelli_commentary_2017, barton_infinitesimal_2017, sella_thinking_2019}.
-For a neutral trait at mutation-drift equilibrium~\citep{lynch_mutation_1998}, the additive genetic variance ($\VarGenetic$) is a function of the mutational variance ($\VarMutation$) and the effective population size ($\Ne$):
-\begin{align}
-    \VarGenetic & = 2 \Ne \Multiply \VarMutation, \\
-    & = 4 \Ne \Multiply \MutationRatePheno \Multiply \GenArchi \text{ from eq.~\ref{eq:var-mutation}}. \label{eq:var-genetic}
-\end{align}
+\bibitem[Dimayacyac et~al., 2023]{dimayacyac_evaluating_2023}
+Dimayacyac, J.~R., Wu, S., Jiang, D., and Pennell, M. (2023).
+\newblock Evaluating the {{Performance}} of {{Widely Used Phylogenetic Models}}
+  for {{Gene Expression Evolution}}.
+\newblock {\em Genome Biology and Evolution}, page evad211.
 
-\subsection{Covariance between species}
+\bibitem[Eastman et~al., 2011]{eastman_novel_2011}
+Eastman, J.~M., Alfaro, M.~E., Joyce, P., Hipp, A.~L., and Harmon, L.~J.
+  (2011).
+\newblock A {{Novel Comparative Method}} for {{Identifying Shifts}} in the
+  {{Rate}} of {{Character Evolution}} on {{Trees}}.
+\newblock {\em Evolution}, 65(12):3578--3589.
 
-For a given species $\Spi$, we denote by $\MeanTrait_{\Spi}$ the mean value of the trait across the individuals.
-If the trait is neutral and encoded by many loci as assumed by the infinitesimal model, $\MeanTrait_{\Spi}$ evolves as a Brownian process~\citep{felsenstein_phylogenies_1985, hansen_translating_1996}.
+\bibitem[Felsenstein, 1985]{felsenstein_phylogenies_1985}
+Felsenstein, J. (1985).
+\newblock Phylogenies and the {{Comparative Method}}.
+\newblock {\em The American Naturalist}, 125(1):1--15.
 
-Given a phylogenetic tree, for a pair of species $\Spi$ and $\Spj$ from this tree, we denote as $\NbrGen$ the number of generations between the root of the tree and the most recent common ancestor of species $\Spi$ and $\Spj$.
-Crucially, the number of generations depends on both the elapsed time ($\Time_{\Spi, \Spj}$) and the generation time ($\GenerationTime$, the average time between two consecutive generations):
-\begin{align}
-    \NbrGen = \frac{\Time_{\Spi, \Spj}}{\GenerationTime}. \label{eq:gen-time}
-\end{align}
+\bibitem[Felsenstein, 1988]{felsenstein_phylogenies_1988a}
+Felsenstein, J. (1988).
+\newblock Phylogenies and quantitative characters.
+\newblock {\em Annual Review of Ecology and Systematics}, 19(1):445--471.
 
-The covariance between $\MeanTrait_{\Spi}$ and $\MeanTrait_{\Spj}$ depends on the additive genetic variance and the number of shared generations, as given by \citet{hansen_translating_1996}:
-\begin{align}
-    \VarPhy & = \frac{\VarGenetic}{\Ne} \Multiply \NbrGen, \\
-    & = 4 \NbrGen \Multiply \MutationRatePheno \Multiply \GenArchi \text{ from eq.~\ref{eq:var-genetic}}. \label{eq:covar}
-\end{align}
+\bibitem[Foley et~al., 2023]{foley_genomic_2023}
+Foley, N.~M., Mason, V.~C., Harris, A.~J., Bredemeyer, K.~R., Damas, J., Lewin,
+  H.~A., Eizirik, E., Gatesy, J., Karlsson, E.~K., {Lindblad-Toh}, K.,
+  {Zoonomia Consortium}, Springer, M.~S., and Murphy, W.~J. (2023).
+\newblock A genomic timescale for placental mammal evolution.
+\newblock {\em Science}, 380(6643):eabl8189.
 
-Substituting eq.~\ref{eq:gen-time} into eq.~\ref{eq:covar}, we can express the covariance in terms of time:
-\begin{align}
-    \VarPhy & = 4 \Multiply \frac{\Time_{\Spi, \Spj}}{\GenerationTime} \Multiply \MutationRatePheno \Multiply \GenArchi. \label{eq:covar-time}
-\end{align}
-Equation~\ref{eq:covar-time} shows that trait covariance depends not only on elapsed time but also inversely on generation time: lineages with shorter generation times accumulate more generations per unit time and thus greater phenotypic divergence.
-This dependence on generation time is problematic when using chronograms, as generation time can vary substantially across lineages~\citep{demagalhaes_database_2009}.
+\bibitem[Genereux et~al., 2020]{genereux_comparative_2020}
+Genereux, D.~P., Serres, A., Armstrong, J., Johnson, J., Marinescu, V.~D.,
+  Mur{\'e}n, E., Juan, D., Bejerano, G., Casewell, N.~R., Chemnick, L.~G.,
+  Damas, J., Di~Palma, F., Diekhans, M., Fiddes, I.~T., Garber, M., Gladyshev,
+  V.~N., Goodman, L., Haerty, W., Houck, M.~L., Hubley, R., Kivioja, T.,
+  Koepfli, K.-P., Kuderna, L. F.~K., Lander, E.~S., Meadows, J. R.~S., Murphy,
+  W.~J., Nash, W., Noh, H.~J., Nweeia, M., Pfenning, A.~R., Pollard, K.~S.,
+  Ray, D.~A., Shapiro, B., Smit, A. F.~A., Springer, M.~S., Steiner, C.~C.,
+  Swofford, R., Taipale, J., Teeling, E.~C., {Turner-Maier}, J., Alfoldi, J.,
+  Birren, B., Ryder, O.~A., Lewin, H.~A., Paten, B., {Marques-Bonet}, T.,
+  {Lindblad-Toh}, K., Karlsson, E.~K., and {Zoonomia Consortium} (2020).
+\newblock A comparative genomics multitool for scientific discovery and
+  conservation.
+\newblock {\em Nature}, 587(7833):240--245.
 
-\subsection{Neutral substitution rate}
+\bibitem[Grabowski et~al., 2023]{grabowski_cautionary_2023}
+Grabowski, M., Pienaar, J., Voje, K.~L., Andersson, S., {Fuentes-Gonz{\'a}lez},
+  J., Kopperud, B.~T., Moen, D.~S., Tsuboi, M., Uyeda, J., and Hansen, T.~F.
+  (2023).
+\newblock A {{Cautionary Note}} on ``{{A Cautionary Note}} on the {{Use}} of
+  {{Ornstein Uhlenbeck Models}} in {{Macroevolutionary Studies}}''.
+\newblock {\em Systematic Biology}, 72(4):955--963.
 
-For any genomic region under neutral evolution, some mutations will eventually reach fixation due to random genetic drift, resulting in a nucleotide substitution at the species level.
-The probability of fixation ($\pfix$) of a neutral mutation in a diploid population is $1/2\Ne$~\citep{kimura_probability_1962}.
-We can derive the substitution rate ($\SubRate$, per nucleotide site per generation) as the number of newly arisen mutations ($2\Ne \Multiply \MutationRateNuc$, where $\MutationRateNuc$ is the mutation rate per nucleotide site per generation) multiplied by the probability of fixation~\citep{kimura_evolutionary_1968}:
-\begin{align}
-    \SubRate & = 2 \Ne \Multiply \MutationRateNuc \Multiply \pfix, \\
-    & = 2 \Ne \Multiply \MutationRateNuc \Multiply \dfrac{1}{2\Ne}, \\
-    & = \MutationRateNuc. \label{eq:substitution-rate}
-\end{align}
-This fundamental result shows that for neutral mutations, the substitution rate per generation equals the mutation rate per generation, independent of population size~\citep{kimura_evolutionary_1968, mccandlish_modeling_2014}.
+\bibitem[Hansen, 1997]{hansen_stabilizing_1997}
+Hansen, T.~F. (1997).
+\newblock Stabilizing selection and the comparative analysis of adaptation.
+\newblock {\em Evolution}, 51(5):1341--1351.
 
-\subsection{Nucleotide divergence absorbs generation time}
+\bibitem[Hansen, 2024]{hansen_three_2024}
+Hansen, T.~F. (2024).
+\newblock Three modes of evolution?{{Remarks}} on rates of evolution and time
+  scaling.
+\newblock {\em Journal of Evolutionary Biology}, page voae071.
 
-We denote $\NucDiv$ as the nucleotide divergence between the root of the tree and the most recent common ancestor of species $\Spi$ and $\Spj$.
-In other words, $\NucDiv$ is the expected number of substitutions per nucleotide site during $\NbrGen$ generations.
-Assuming that no multiple substitutions occurred at the same site (i.e., low saturation), $\NucDiv$ is:
-\begin{align}
-    \NucDiv & = \NbrGen \Multiply \SubRate, \\
-    & = \NbrGen \Multiply \MutationRateNuc \text{ from eq.~\ref{eq:substitution-rate}}. \label{eq:distance}
-\end{align}
+\bibitem[Hansen and Martins, 1996]{hansen_translating_1996}
+Hansen, T.~F. and Martins, E.~P. (1996).
+\newblock Translating between microevolutionary process and macroevolutionary
+  patterns: The correlation structure of interspecific data.
+\newblock {\em Evolution}, 50(4):1404--1417.
 
-From eq.~\ref{eq:distance}, we can express the number of generations as:
-\begin{align}
-    \NbrGen = \frac{\NucDiv}{\MutationRateNuc}. \label{eq:gen-from-div}
-\end{align}
+\bibitem[Hansen et~al., 2008]{hansen_comparative_2008}
+Hansen, T.~F., Pienaar, J., and Orzack, S.~H. (2008).
+\newblock A comparative method for studying adaptation to a randomly evolving
+  environment.
+\newblock {\em Evolution}, 62(8):1965--1977.
 
-\subsection{Trait covariance scales with nucleotide divergence}
+\bibitem[Harmon, 2018]{harmon_phylogenetic_2018}
+Harmon, L. (2018).
+\newblock Phylogenetic comparative methods: Learning from trees.
 
-Substituting eq.~\ref{eq:gen-from-div} into eq.~\ref{eq:covar}, we obtain:
-\begin{align}
-    \VarPhy & = 4 \Multiply \frac{\NucDiv}{\MutationRateNuc} \Multiply \MutationRatePheno \Multiply \GenArchi, \\
-    & = \NucDiv \Multiply \frac{\MutationRatePheno}{\MutationRateNuc} \Multiply 4\GenArchi . \label{eq:covar-div}
-\end{align}
+\bibitem[H{\"o}hna et~al., 2016]{hohna_revbayes_2016}
+H{\"o}hna, S., Landis, M.~J., Heath, T.~A., Boussau, B., Lartillot, N., Moore,
+  B.~R., Huelsenbeck, J.~P., and Ronquist, F. (2016).
+\newblock {{RevBayes}}: {{Bayesian Phylogenetic Inference Using Graphical
+  Models}} and an {{Interactive Model-Specification Language}}.
+\newblock {\em Systematic Biology}, 65(4):726--736.
 
-Equation~\ref{eq:covar-div} shows that the covariance in mean trait value between a pair of species ($\VarPhy$) increases linearly with nucleotide divergence ($\NucDiv$), with a proportionality constant that depends on the genetic architecture of the trait and the ratio of phenotypic to nucleotide mutation rates.
-This derivation shows first that by expressing trait covariance in terms of nucleotide divergence rather than time (compare eq.~\ref{eq:covar-time} with eq.~\ref{eq:covar-div}), the generation time ($\GenerationTime$) is removed from the equation.
-Lineages with different generation times will have proportionally different nucleotide divergences, automatically accounting for the variation in the number of generations.
-Second, the effective population size ($\Ne$) appears in both the additive genetic variance (eq.~\ref{eq:var-genetic}) and implicitly in the substitution rate derivation, but cancels when considering neutral trait and nucleotide divergence.
+\bibitem[Holstad et~al., 2024]{holstad_evolvability_2024}
+Holstad, A., Voje, K.~L., Opedal, {\O}.~H., Bolstad, G.~H., Bourg, S., Hansen,
+  T.~F., and P{\'e}labon, C. (2024).
+\newblock Evolvability predicts macroevolution under fluctuating selection.
+\newblock {\em Science}, 384(6696):688--693.
 
-Concerning changes in mutation rates, the proportionality constant in eq.~\ref{eq:covar-div} depends on the ratio of phenotypic to nucleotide mutation rates ($\MutationRatePheno / \MutationRateNuc$).
-If changes in mutation rate affect the entire genome proportionally (including both neutral loci and trait-encoding loci), this ratio remains constant and mutation rate (per generation) variation across lineages is also absorbed.
-Importantly, in vertebrates the mutation rate per generation is varying less than the mutation rate per unit of time~\citep{bergeron_evolution_2023}.
-Finally, the derivation assumes that the genetic architecture ($\GenArchi$) remains constant across the phylogeny.
-Changes in the number of loci or the distribution of mutational effects would violate this assumption.
+\bibitem[Ingram and Mahler, 2013]{ingram_surface_2013}
+Ingram, T. and Mahler, D. (2013).
+\newblock {{SURFACE}}: Detecting convergent evolution from comparative data by
+  fitting {{Ornstein-Uhlenbeck}} models with stepwise {{Akaike Information
+  Criterion}}.
+\newblock {\em Methods in Ecology and Evolution}, 4(5):416--425.
 
-\newpage
-\section{Simulation of continuous trait}\label{sec:simulator}
+\bibitem[Jiang et~al., 2023]{jiang_decoupling_2023}
+Jiang, D., Cope, A.~L., Zhang, J., and Pennell, M. (2023).
+\newblock On the {{Decoupling}} of {{Evolutionary Changes}} in {{mRNA}} and
+  {{Protein Levels}}.
+\newblock {\em Molecular Biology and Evolution}, 40(8):msad169.
 
-\subsection{Genotype-phenotype map}\label{subsec:genotype-phenotype-map}
+\bibitem[Khabbazian et~al., 2016]{khabbazian_fast_2016}
+Khabbazian, M., Kriebel, R., Rohe, K., and An{\'e}, C. (2016).
+\newblock Fast and accurate detection of evolutionary shifts in
+  {{Ornstein}}--{{Uhlenbeck}} models.
+\newblock {\em Methods in Ecology and Evolution}, 7(7):811--824.
 
-\begin{itemize}
-    \item $\NbrLoci$ is the number of loci encoding the trait.
-    \item $a_l \sim \mathcal{N}(0,a^2)$ is the effect of a mutation on the trait at locus $l \in \{1, \hdots, \NbrLoci\}$.
-    \item $\Ne$ is the effective number of individuals.
-    \item $g_{\Indiv,l} \in \{0, 1, 2\}$ is the genotypic value at locus $l$ for individual $\Indiv \in \{1, \hdots, \Ne\}$.
-    \item $G_{\Indiv} = \sum_{l=1}^{\NbrLoci} a_l \times g_{\Indiv,l}$ is the genotypic value for individual $\Indiv$.
-    \item $\xi_{\Indiv} \sim \mathcal{N}(0, \VarEnv)$ is the effect of environment on the trait for individual $\Indiv$.
-    \item $\Trait_{\Indiv} = G_{\Indiv}+ \xi_i$ is the phenotype for individual $\Indiv$.
-\end{itemize}
+\bibitem[Khaitovich et~al., 2006]{khaitovich_evolution_2006}
+Khaitovich, P., Enard, W., Lachmann, M., and P{\"a}{\"a}bo, S. (2006).
+\newblock Evolution of primate gene expression.
+\newblock {\em Nature Reviews Genetics}, 7(9):693--702.
 
-\begin{center}
-    \captionof{figure}{summary of trait's genetic architecture.}
-    \includegraphics[width=0.7\textwidth, page=1] {figures/artwork_genet_architecture}
-    \label{fig:simulator-summary}
-\end{center}
+\bibitem[Kimura, 1968]{kimura_evolutionary_1968}
+Kimura, M. (1968).
+\newblock Evolutionary rate at the molecular level.
+\newblock {\em Nature}, 217(5129):624--626.
 
-\subsection{Simulation along a tree}\label{subsec:simulation-along-a-tree}
-% vG: 13.8, vP: 69.0, vE: 55.2, nbr_loci: 5,000, a: 1.0, mut_rate: 1.38e-05, pop_size: 50, h2: 0.2
-% pS = 0.0027577478571428568
-% Tree length (dS) = 2.340579
-% Tree length (My) = 1259.4490200000002
-% Root age (My) = 98.9489413888889
-% Root age (dS) = 0.18388820079995308
-% nbr_sites_var = 27.577478571428568
-% u = 1.3788739285714283e-05
-% nbr_generations = 13336.114128321291
-Each individual phenotypic value was the sum of genotypic value and an environmental effect.
-The environmental effect was normally distributed with variance $\VarEnv$.
-We assumed that the genotypic value was encoded by $\NbrLoci=5,000$ loci, with each locus contributing an additive effect that was normally distributed with standard deviation $a=1$.
-Narrow-sense heritability is defined as $\Heritability = \VarGenetic / (\VarGenetic + \VarEnv)$, where $\VarGenetic$ is the additive genetic variance.
-We assumed a trait with a narrow-sense heritability of $\Heritability=0.2$ at the root of the tree and computed the theoretical $\VarEnv$ accordingly, using the formula $\VarEnv = \VarGenetic \Multiply (1 - \Heritability) / \Heritability$, with $\VarGenetic$ calculated as in eq.~\ref{eq:var-genetic} from the genetic architecture of the trait, the mutation rate per locus per generation ($\MutationRatePheno$) and the effective population size ($\Ne$) at the root of the tree.
-We held the $\VarEnv$ constant across the tree, which means that in practice the heritability of the trait can vary across lineages as $\VarGenetic$ changes (due to changes in $\Ne$ and $\MutationRatePheno$).
+\bibitem[Kimura, 1983]{kimura_neutral_1983}
+Kimura, M. (1983).
+\newblock {\em The {{Neutral Theory}} of {{Molecular Evolution}}}.
+\newblock Cambridge University Press.
 
-Assuming a diploid panmictic population of size $\Ne=50$ at the root of the tree, and with non-overlapping generations, we simulated explicitly each generation along an ultrametric phylogenetic tree.
-For each offspring, the number of mutations was drawn from a Poisson distribution with mean $2 \Multiply \MutationRatePheno \Multiply \NbrLoci $, with the mutation rate per locus per generation $\MutationRatePheno$.
+\bibitem[Lande, 1976]{lande_natural_1976}
+Lande, R. (1976).
+\newblock Natural selection and random genetic drift in phenotypic evolution.
+\newblock {\em Evolution}, 30(2):314--334.
 
-From the empirical mammalian dataset (see Methods), we computed an average nucleotide divergence from the root to leaves of $0.18$.
-We scaled parameters in our simulations to fit plausible values for mammals.
-We thus used a nucleotide mutation rate of $\MutationRateNuc=0.00276 / 4 \Ne = 1.38 \times 10^{-5}$ per site per generation and a total of $0.18 / 1.38 \times 10^{-5} = 13,500$ generations from root to leaves, and the number of generations along each branch was proportional to the branch length.
-We set $\MutationRatePheno=\MutationRateNuc$ without loss in generality since the genetic architecture ($\NbrLoci$ and $a$) is assumed constant in the simulator.
+\bibitem[Lande, 1980]{lande_genetic_1980}
+Lande, R. (1980).
+\newblock The genetic covariance between characters maintained by pleiotropic
+  mutations.
+\newblock {\em Genetics}, 94(1):203--215.
 
-\newpage
-The changes in $\MutationRatePheno$ and $\Ne$ along the lineages were both modelled by a Brownian motion (BM) on the log scale (log-$\MutationRatePheno$ and log-$\Ne$), leading to geometric Brownian motion on the linear scale ($\MutationRatePheno$ and $\Ne$).
-These processes are parametrized as $\brownian \left(0, \sigma_{\MutationRatePheno}=0.0043\right)$ and $\brownian \left(0, \sigma_{\Ne}=0.0043\right)$, which, if counted across $13,500$ generations, leads to a standard deviation of $0.0043 \Multiply \sqrt {13,500} = 0.5$.
-In other words, the deviation in log-$\Ne$ and log-$\MutationRatePheno$  between the extant species and the root is $0.5$.
+\bibitem[Latrille et~al., 2024]{latrille_detecting_2024}
+Latrille, T., Bastian, M., Gaboriau, T., and Salamin, N. (2024).
+\newblock Detecting diversifying selection for a trait from within and
+  between-species genotypes and phenotypes.
+\newblock {\em Journal of Evolutionary Biology}, 37(12):1538--1550.
 
-An Ornstein-Uhlenbeck process was overlaid to the instant value of log-$\Ne$ provided by the geometric BM to account for short-term changes between generations ($\text{OU} \left(0, \sigma_{\Ne}=0.1, \theta_{\Ne}=0.9\right)$).
-The geometric Brownian motion accounted for long-term fluctuations (low rate of changes $\sigma_{\Ne}$ but unbounded), while the Ornstein-Uhlenbeck introduced short-term fluctuations (high rate of changes $\sigma_{\Ne}$ but bounded and mean-reverting).
-The simulation started from an initial sequence at equilibrium at the root of the tree and, at each node, the process was split until it finally reached the leaves of the tree.
-From a speciation process perspective, this was equivalent to an allopatric speciation over one generation.
+\bibitem[Litsios and Salamin, 2012]{litsios_effects_2012}
+Litsios, G. and Salamin, N. (2012).
+\newblock Effects of {{Phylogenetic Signal}} on {{Ancestral State
+  Reconstruction}}.
+\newblock {\em Systematic Biology}, 61(3):533--538.
 
-At each generation, parents were randomly sampled with a weight proportional to their fitness ($W$).
-Selection was modelled as a one-dimensional Fisher's geometric landscape, with the fitness of an individual being a monotonically decreasing function of the distance between the individual and the optimal phenotype~\citep{tenaillon_utility_2014,blanquart_epistasis_2016}.
-More specifically, the fitness of an individual was given by $W = \e^{(\Trait - \lambda)^2/ \alpha}$, where $\Trait$ was the trait value of the individual, $\lambda=0.0$ was the optimal trait value, and $\alpha=0.02$ was the strength of selection.
-Mutations were considered as a displacement of the phenotype in the multidimensional space.
-Beneficial mutations moved the phenotype closer to the optimum, while deleterious mutations moved it further away.
+\bibitem[Lynch, 1990]{lynch_rate_1990}
+Lynch, M. (1990).
+\newblock The {{Rate}} of {{Morphological Evolution}} in {{Mammals}} from the
+  {{Standpoint}} of the {{Neutral Expectation}}.
+\newblock {\em The American Naturalist}, 136(6):727--741.
 
-Moving optimum selection was implemented by allowing the optimum phenotype to move along the phylogenetic tree as a geometric BM~\citep{hansen_stabilizing_1997} ($\lambda \sim \brownian \left(0, \sigma_{\lambda}=1.0\right)$).
-Multiple optima were implemented by allowing the optimum phenotype to shift along a branch with a probability of $10^{-5}$, the shift in optimum being then drawn from a exponential distribution with rate parameter $0.1$, meaning an average of $10$ in the optimum shift per switch.
-Neutral evolution was implemented by flattening the fitness landscape ($W=1$), which meant that each individual had the same probability of being sampled at each generation.
+\bibitem[Lynch and Hill, 1986]{lynch_phenotypic_1986}
+Lynch, M. and Hill, W.~G. (1986).
+\newblock Phenotypic evolution by neutral mutation.
+\newblock {\em Evolution}, 40(5):915--935.
 
-\newpage
-\section{Ancestral trait reconstruction}\label{sec:ancestral-trait-reconstruction}
-\begin{center}
-    \begin{minipage}{0.4\linewidth}
-        \flushleft {\tiny  \textbf{A}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_NeutralPhylo}
-    \end{minipage}
-    \begin{minipage}{0.4\linewidth}
-        \flushleft {\tiny  \textbf{B}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_NeutralChrono}
-    \end{minipage}\\
-    \begin{minipage}{0.4\linewidth}
-        \flushleft {\tiny  \textbf{C}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_SelectionPhylo}
-    \end{minipage}
-    \begin{minipage}{0.4\linewidth}
-        \flushleft {\tiny  \textbf{D}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_dist_SelectionChrono}
-    \end{minipage}
-    \captionof{figure}{
-        \textbf{Phenotypic distance as a function of branch length.}
-        Phenotypic distance ($|\Delta z|$) is computed as the absolute difference of the posterior mean trait value between the ancestral node and the descendent node.
-        Across all simulated dataset (100 replicates), we computed the mean phenotypic distance (blue dots) and standard deviation (blue horizontal lines) for each branch.
-        Simulations under a neutral regime (yellow, top row, panels A and B) and under a moving optimum regime (bottom row, panels C and D).
-        Reconstruction of ancestral trait on a phylogram (blue, left column, panels A and C) and a chronogram (right column, panels B and D).
-        \label{fig:results-distance}
-    }
-\end{center}
+\bibitem[Mitov et~al., 2020]{mitov_fast_2020}
+Mitov, V., Bartoszek, K., Asimomitis, G., and Stadler, T. (2020).
+\newblock Fast likelihood calculation for multivariate {{Gaussian}}
+  phylogenetic models with shifts.
+\newblock {\em Theoretical Population Biology}, 131:66--78.
 
-\newpage
-\section{Empirical dataset}\label{sec:empirical-dataset}
+\bibitem[Nielsen et~al., 2016]{nielsen_eye_2016}
+Nielsen, J., Hedeholm, R.~B., Heinemeier, J., Bushnell, P.~G., Christiansen,
+  J.~S., Olsen, J., Ramsey, C.~B., Brill, R.~W., Simon, M., Steffensen, K.~F.,
+  and Steffensen, J.~F. (2016).
+\newblock Eye lens radiocarbon reveals centuries of longevity in the
+  {{Greenland}} shark ({{Somniosus}} microcephalus).
+\newblock {\em Science}, 353(6300):702--704.
 
-\begin{center}
-\begin{adjustbox}{width = 0.75\textwidth}
-\begin{tabular}{||l|l|l|l|r|r||}
-\hline \textbf{Dataset} & \textbf{Trait} & \textbf{Sex} & \textbf{Likelihood} & \textbf{Taxa} & \textbf{Phylogram support ($\bm{\pi}$)} \\
-\hline \hline
-\textit{Mammal} & Body mass & Mixed & Full & 125 & 0.0 \\ \hline
-\textit{Mammal} & Body mass & Mixed & REML & 125 & 0.002 \\ \hline
-\textit{Mammal} & Body mass & \Female & Full & 46 & 0.848 \\ \hline
-\textit{Mammal} & Body mass & \Female & REML & 46 & 0.846 \\ \hline
-\textit{Mammal} & Body mass & \Male & Full & 46 & 0.697 \\ \hline
-\textit{Mammal} & Body mass & \Male & REML & 46 & 0.684 \\ \hline
-\textit{Mammal} & Brain mass & Mixed & Full & 125 & 0.0035 \\ \hline
-\textit{Mammal} & Brain mass & Mixed & REML & 125 & 0.0035 \\ \hline
-\textit{Mammal} & Brain mass & \Female & Full & 46 & 0.56 \\ \hline
-\textit{Mammal} & Brain mass & \Female & REML & 46 & 0.539 \\ \hline
-\textit{Mammal} & Brain mass & \Male & Full & 46 & 0.515 \\ \hline
-\textit{Mammal} & Brain mass & \Male & REML & 46 & 0.497 \\ \hline
-\textit{COMBINE} & Body mass & Mixed & Full & 217 & 0.0 \\ \hline
-\textit{COMBINE} & Body mass & Mixed & REML & 217 & 0.0 \\ \hline
-\textit{COMBINE} & Brain mass & Mixed & Full & 174 & 0.0015 \\ \hline
-\textit{COMBINE} & Brain mass & Mixed & REML & 174 & 0.00649 \\ \hline
-\end{tabular}
-\end{adjustbox}
-\captionof{table}{
-\textbf{Summary of empirical datasets.}
-Support for the phylogram over the chronogram ($\pi$) for different datasets and traits.
-Brain and body mass is either extracted from \citet[\textit{\textit{Mammal}}]{tsuboi_breakdown_2018} or from the \textit{COMBINE} database~\citep{soria_combine_2021}.
-For the \citet[\textit{\textit{Mammal}}]{tsuboi_breakdown_2018} dataset, the individuals can also be split into males (\Male) and females (\Female).
-Likelihood is either computed with a full likelihood or with a restricted maximum likelihood (REML).
-The number of species is the number of species with data available for the trait.
-\label{table:results-empirical}
-}
-\end{center}
+\bibitem[Ohta, 1972]{ohta_population_1972}
+Ohta, T. (1972).
+\newblock Population size and rate of evolution.
+\newblock {\em Journal of Molecular Evolution}, 1(4):305--314.
 
-\newpage
-\section{Maximum Likelihood estimation}\label{sec:maximum-likelihood-estimation}
+\bibitem[Paradis et~al., 2004]{paradis_ape_2004}
+Paradis, E., Claude, J., and Strimmer, K. (2004).
+\newblock {{APE}}: {{Analyses}} of {{Phylogenetics}} and {{Evolution}} in {{R}}
+  language.
+\newblock {\em Bioinformatics}, 20(2):289--290.
 
-\subsubsection*{Maximum likelihood estimate}
-At the phylogenetic scale, for $\NbrTaxa$ species in the tree, $\DistanceMatrix$ ($\NbrTaxa \times \NbrTaxa$) is the symmetric distance matrix computed from the branch lengths and the topology of the phylogenetic tree.
-The diagonal elements $\Distance_{\Spi,\Spi}$ represents the total distance (sum of branch length) from the root of the tree to each species ($\Spi$).
-The off-diagonal elements of the distance matrix between a pair of species ($\Distance_{\Spi,\Spj} = \NucDiv$) are the distances between the root and the most recent common ancestor (MRCA) of species $\Spi$ and $\Spj$, computed as the sum of branch lengths from the root to the MRCA.
+\bibitem[Pennell et~al., 2014]{pennell_geiger_2014}
+Pennell, M.~W., Eastman, J.~M., Slater, G.~J., Brown, J.~W., Uyeda, J.~C.,
+  FitzJohn, R.~G., Alfaro, M.~E., and Harmon, L.~J. (2014).
+\newblock Geiger v2.0: An expanded suite of methods for fitting
+  macroevolutionary models to phylogenetic trees.
+\newblock {\em Bioinformatics}, 30(15):2216--2218.
 
-The mean trait value at the root of the tree ($\EstRootTrait$) can be estimated from the $\NbrTaxa \times 1$ vector of mean trait values $\VecTrait$ at the tips of the tree using maximum likelihood~\citep{omeara_testing_2006}:
-% invC = np.linalg.inv(C)
-% ones = np.ones(n)
-% v = np.dot(ones.T, invC)
-% anc_z = float(np.dot(v, x)) / float(np.dot(v, ones))
-\begin{gather}
-    \EstRootTrait = \left( \VecOne\tr \MultiplyMatrix \DistanceMatrix\inv \MultiplyMatrix \VecOne \right)\inv \Multiply \left( \VecOne\tr \MultiplyMatrix \DistanceMatrix\inv \MultiplyMatrix \VecTrait \right), \label{eq:estimated-root-trait}
-\end{gather}
-where $\VecOne$ is an $\NbrTaxa \times 1$ column vector of ones.
+\bibitem[Price et~al., 2022]{price_detecting_2022}
+Price, P.~D., Palmer~Droguett, D.~H., Taylor, J.~A., Kim, D.~W., Place, E.~S.,
+  Rogers, T.~F., Mank, J.~E., Cooney, C.~R., and Wright, A.~E. (2022).
+\newblock Detecting signatures of selection on gene expression.
+\newblock {\em Nature Ecology \& Evolution}, pages 1--11.
 
-The maximum likelihood estimate of the Brownian rate ($\RateBrownian$) can then be computed as~\citep{omeara_testing_2006}:
-% d = (x - anc_z * ones)
-% var = float(np.dot(d.T, np.dot(invC, d)) / (n - 1))
-\begin{gather}
-    \EstRateBrownian = \frac{1}{\NbrTaxa - 1} \Multiply  \left( \VecTrait - \EstRootTrait \Multiply \VecOne \right)\tr \MultiplyMatrix \DistanceMatrix\inv \MultiplyMatrix \left( \VecTrait - \EstRootTrait \Multiply \VecOne \right). \label{eq:estimated-brownian-rate}
-\end{gather}
-Then, from the estimated paramaters $\EstRootTrait$ and $\EstRateBrownian$ the likelihood ($\mathcal{L}$) of the data ($\VecTrait$) given the tree ($\DistanceMatrix$) and the parameters can be computed as~\citep{omeara_testing_2006, harmon_phylogenetic_2018}:
-\begin{gather}
-    \mathcal{L} \left(\VecTrait \ | \ \DistanceMatrix, \EstRootTrait, \EstRateBrownian \right) = \frac{\e^{-1/2 (\VecTrait-\EstRootTrait \Multiply \VecOne)\tr \MultiplyMatrix (\EstRateBrownian \Multiply \DistanceMatrix)\inv \MultiplyMatrix (\VecTrait-\EstRootTrait \Multiply \VecOne)}}
-{\sqrt{(2 \pi)^\NbrTaxa \Multiply \det (\RateBrownian \Multiply \DistanceMatrix) }} \label{eq:likelihood}
-\end{gather}
-Finally, the log-likelihood of the data ($\ln \mathcal{L}$) is:
-%  ll = -0.5 * (n * np.log(2 * np.pi * var) + np.log(np.linalg.det(C)) + (1 / var) * np.dot(d.T, np.dot(invC, d)))
-\begin{align}
-    \ln \mathcal{L} \left(\VecTrait \ | \ \DistanceMatrix, \EstRootTrait, \EstRateBrownian \right) &= \ln \left( \frac{\e^{-1/2 (\VecTrait-\EstRootTrait \Multiply \VecOne)\tr \MultiplyMatrix (\EstRateBrownian \Multiply \DistanceMatrix)\inv \MultiplyMatrix (\VecTrait-\EstRootTrait \Multiply \VecOne)}}
-{\sqrt{(2 \pi)^\NbrTaxa \Multiply \det (\RateBrownian \Multiply \DistanceMatrix) }} \right)\text{ from eq.~\ref{eq:likelihood}}, \\
-    &= -\frac{1}{2} \left[ (\VecTrait-\EstRootTrait \Multiply \VecOne)\tr \MultiplyMatrix (\EstRateBrownian \Multiply \DistanceMatrix)\inv \MultiplyMatrix (\VecTrait-\EstRootTrait \Multiply \VecOne) \right] - \ln \left( \sqrt{ (2 \pi)^\NbrTaxa \Multiply \det (\RateBrownian \Multiply \DistanceMatrix) } \right) , \\
-    &= -\frac{1}{2} \left[\frac{1}{\EstRateBrownian } \Multiply (\VecTrait-\EstRootTrait \Multiply \VecOne)\tr \MultiplyMatrix  \DistanceMatrix\inv \MultiplyMatrix (\VecTrait-\EstRootTrait \Multiply \VecOne) + \ln \left( (2 \pi)^\NbrTaxa \Multiply \det (\RateBrownian \Multiply \DistanceMatrix)  \right) \right], \\
-    &= -\frac{1}{2} \left[\NbrTaxa - 1  + \ln \left( (2 \pi)^\NbrTaxa \Multiply (\RateBrownian)^\NbrTaxa \Multiply \det ( \DistanceMatrix)  \right) \right]\text{ from eq.~\ref{eq:estimated-brownian-rate}}, \\
-    &= -\frac{1}{2} \Multiply \left [\NbrTaxa \Multiply \ln \left[2\pi \Multiply \EstRateBrownian\right] + \ln \left[\det \left(\DistanceMatrix\right) \right] + \NbrTaxa - 1 \right]. \label{eq:log-likelihood}
-\end{align}
+\bibitem[Sella and Barton, 2019]{sella_thinking_2019}
+Sella, G. and Barton, N.~H. (2019).
+\newblock Thinking about the evolution of complex traits in the era of
+  genome-wide association studies.
+\newblock {\em Annual Review of Genomics and Human Genetics}, 20(1):461--493.
 
-\subsubsection*{AIC weights for model comparison}
-To compare the fit of BM on the phylogram versus the chronogram, we compute the log-likelihood for each tree type using equations~\ref{eq:estimated-root-trait}--\ref{eq:log-likelihood}.
-The Akaike Information Criterion (AIC) for each model is:
-\begin{gather}
-    \text{AIC} = 2k - 2 \ln \mathcal{L},
-\end{gather}
-where $k=2$ is the number of parameters (root trait value and Brownian rate).
-The relative likelihood of each model is computed as:
-\begin{gather}
-    w_{\text{phylo}} = \frac{\e^{-\Delta_{\text{phylo}}/2}}{\e^{-\Delta_{\text{phylo}}/2} + \e^{-\Delta_{\text{chrono}}/2}},
-\end{gather}
-where $\Delta_{\text{phylo}} = \text{AIC}_{\text{phylo}} - \min(\text{AIC}_{\text{phylo}}, \text{AIC}_{\text{chrono}})$ and similarly for $\Delta_{\text{chrono}}$.
-The AIC weight $w_{\text{phylo}}$ is analogous to the posterior mean $\PhyloSupport$ in the Bayesian framework.
+\bibitem[Signor and Nuzhdin, 2018]{signor_evolution_2018}
+Signor, S.~A. and Nuzhdin, S.~V. (2018).
+\newblock The {{Evolution}} of {{Gene Expression}} in cis and trans.
+\newblock {\em Trends in Genetics}, 34(7):532--544.
 
-\newpage
-\begin{center}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{A}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_ML_vs_Bayes}
-    \end{minipage}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{B}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_ML_vs_Bayes_logit}
-    \end{minipage}
-    \captionof{figure}{
-        \textbf{Comparison of Bayesian and frequentist approaches.}
-        Posterior mean of $\PhyloSupport$ (Bayesian approach) versus AIC weight for the phylogram (frequentist approach) across 100 replicate simulations.
-        Points are coloured by the regime of evolution: neutral (yellow), moving optimum (blue), and multiple optima (red).
-        The strong correlation between the two metrics indicates that both approaches yield consistent conclusions about the relative support for phylogram versus chronogram.
-        Panel~A: direct comparison.
-        Panel~B: comparison on the logit scale, to better visualize extreme values close to 0 and 1. By definition, $\logit(x) = \ln (x/(1-x))$.
-        \label{fig:aicweights}
-    }
-\end{center}
+\bibitem[Silvestro et~al., 2015]{silvestro_measurement_2015}
+Silvestro, D., Kostikova, A., Litsios, G., Pearman, P.~B., and Salamin, N.
+  (2015).
+\newblock Measurement errors should always be incorporated in phylogenetic
+  comparative analysis.
+\newblock {\em Methods in Ecology and Evolution}, 6(3):340--346.
+
+\bibitem[Silvestro et~al., 2019]{silvestro_early_2019}
+Silvestro, D., Tejedor, M.~F., {Serrano-Serrano}, M.~L., Loiseau, O., Rossier,
+  V., Rolland, J., Zizka, A., H{\"o}hna, S., Antonelli, A., and Salamin, N.
+  (2019).
+\newblock Early {{Arrival}} and {{Climatically-Linked Geographic Expansion}} of
+  {{New World Monkeys}} from {{Tiny African Ancestors}}.
+\newblock {\em Systematic Biology}, 68(1):78--92.
+
+\bibitem[Soria et~al., 2021]{soria_combine_2021}
+Soria, C.~D., Pacifici, M., Di~Marco, M., Stephen, S.~M., and Rondinini, C.
+  (2021).
+\newblock {{COMBINE}}: A coalesced mammal database of intrinsic and extrinsic
+  traits.
+\newblock {\em Ecology}, 102(6):e03344.
+
+\bibitem[Tsuboi et~al., 2018]{tsuboi_breakdown_2018}
+Tsuboi, M., {van der Bijl}, W., Kopperud, B.~T., Erritz{\o}e, J., Voje, K.~L.,
+  Kotrschal, A., Yopak, K.~E., Collin, S.~P., Iwaniuk, A.~N., and Kolm, N.
+  (2018).
+\newblock Breakdown of brain--body allometry and the encephalization of birds
+  and mammals.
+\newblock {\em Nature Ecology \& Evolution}, 2(9):1492--1500.
+
+\bibitem[Turelli, 1984]{turelli_heritable_1984}
+Turelli, M. (1984).
+\newblock Heritable genetic variation via mutation-selection balance:
+  {{Lerch}}'s zeta meets the abdominal bristle.
+\newblock {\em Theoretical Population Biology}, 25(2):138--193.
+
+\bibitem[Turelli, 1988]{turelli_phenotypic_1988}
+Turelli, M. (1988).
+\newblock {{PHENOTYPIC EVOLUTION}}, {{CONSTANT COVARIANCES}}, {{AND THE
+  MAINTENANCE OF ADDITIVE VARIANCE}}.
+\newblock {\em Evolution}, 42(6):1342--1347.
+
+\bibitem[Uyeda and Harmon, 2014]{uyeda_novel_2014}
+Uyeda, J.~C. and Harmon, L.~J. (2014).
+\newblock A {{Novel Bayesian Method}} for {{Inferring}} and {{Interpreting}}
+  the {{Dynamics}} of {{Adaptive Landscapes}} from {{Phylogenetic Comparative
+  Data}}.
+\newblock {\em Systematic Biology}, 63(6):902--918.
+
+\bibitem[Wilson et~al., 2022]{wilson_chronogram_2022}
+Wilson, J.~D., Mongiardino~Koch, N., and Ram{\'i}rez, M.~J. (2022).
+\newblock Chronogram or phylogram for ancestral state estimation? {{Model-fit}}
+  statistics indicate the branch lengths underlying a binary character's
+  evolution.
+\newblock {\em Methods in Ecology and Evolution}, 13(8):1679--1689.
+
+\end{thebibliography}
+
 
 %TC:endignore
 \end{document}
