@@ -1,7 +1,7 @@
 %! BibTeX Compiler = biber
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL main-first-submission.tex   Wed Jan 28 13:22:33 2026
-%DIF ADD main.tex                    Fri Jan 30 15:30:47 2026
+%DIF DEL main-first-submission.tex   Wed Feb  4 16:30:12 2026
+%DIF ADD main-R1.tex                 Wed Feb  4 16:51:22 2026
 \documentclass{article}
 \usepackage{caption}
 \usepackage{censor}
@@ -309,7 +309,7 @@ Instead, to disentangle neutral evolution from selection in the context of phylo
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth, page=1] {figures/figure-1}
+    \includegraphics[width=\textwidth] {figure-1}
     \caption{
         Panel~A: Across many species, the evolution of continuous traits can be modelled as a stochastic process evolving along the branches of a phylogenetic tree.
         The branches of such \DIFaddbeginFL \DIFaddFL{a }\DIFaddendFL phylogenetic tree can be measured in either time (chronogram) or number of substitutions (phylogram).
@@ -455,16 +455,7 @@ The chronogram is derived from the phylogram by fitting a relaxed molecular cloc
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth, page=1] {figures/artwork_pipeline}\\
-    \vspace{10pt}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\small \textbf{C.\ Simulations with constant generation time}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_cstGT_phylogram_support}
-    \end{minipage}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\small \textbf{D.\ Simulations with fluctuating generation time}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_phylogram_support}
-    \end{minipage}
+    \includegraphics[width=\textwidth] {figure-2}
     \caption{
         \textbf{Testing the support for a phylogram over a chronogram}
         Panel~A:
@@ -532,23 +523,7 @@ Conversely, for a trait under a moving optimum, ($m$) was reflecting the prior o
 %TC:ignore
 \begin{figure*}[!htb]
     \centering
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{A}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiBM}
-    \end{minipage}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{B}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiBM_NSwitch}
-    \end{minipage}\\
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{C}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_OU_tHalf_varGT}
-    \end{minipage}
-    \begin{minipage}{0.49\linewidth}
-        \flushleft {\tiny  \textbf{D}}
-        \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_MultiOU_NSwitch}
-    \end{minipage}
-
+    \includegraphics[width=\textwidth] {figure-3}
     \caption{
         \textbf{Mis-classification of trait evolution on a phylogram.}
         Violin plot of posterior parameter estimates for different models of trait evolution and different simulated regimes of selection.
@@ -826,8 +801,13 @@ Changes in the number of loci or the distribution of mutational effects would vi
 Each individual phenotypic value was the sum of genotypic value and an environmental effect.
 The environmental effect was normally distributed with variance $\VarEnv$.
 We assumed that the genotypic value was encoded by $\NbrLoci=5,000$ loci, with each locus contributing an additive effect that was normally distributed with standard deviation $a=1$.
-We assumed a trait with a narrow-sense heritability of $\Heritability=0.2$ and computed the theoretical $\VarEnv$ accordingly.
-\DIFaddbegin \DIFadd{Narrow-sense heritability is defined as $\Heritability = \VarGenetic / (\VarGenetic + \VarEnv)$, where $\VarGenetic$ is the additive genetic variance. We assumed a trait with a narrow-sense heritability of $\Heritability=0.2$ at the root of the tree and computed the theoretical $\VarEnv$ accordingly, using the formula $\VarEnv = \VarGenetic \Multiply (1 - \Heritability) / \Heritability$, with $\VarGenetic$ calculated as in eq.~\ref{eq:var-genetic} from the genetic architecture of the trait, the mutation rate per locus per generation ($\MutationRatePheno$) and the effective population size ($\Ne$) at the root of the tree. We held the $\VarEnv$ constant across the tree, which means that in practice the heritability of the trait can vary across lineages as $\VarGenetic$ changes (due to changes in $\Ne$ and $\MutationRatePheno$).}\DIFaddend Assuming a diploid panmictic population of size $\Ne=50$ at the root of the tree, and with non-overlapping generations, we simulated explicitly each generation along an ultrametric phylogenetic tree.
+\DIFaddbegin \DIFadd{Narrow-sense heritability is defined as $\Heritability = \VarGenetic / (\VarGenetic + \VarEnv)$, where $\VarGenetic$ is the additive genetic variance.
+}\DIFaddend We assumed a trait with a narrow-sense heritability of $\Heritability=0.2$ \DIFaddbegin \DIFadd{at the root of the tree }\DIFaddend and computed the theoretical $\VarEnv$ accordingly\DIFdelbegin \DIFdel{.
+}\DIFdelend \DIFaddbegin \DIFadd{, using the formula $\VarEnv = \VarGenetic \Multiply (1 - \Heritability) / \Heritability$, with $\VarGenetic$ calculated as in eq.~\ref{eq:var-genetic} from the genetic architecture of the trait, the mutation rate per locus per generation ($\MutationRatePheno$) and the effective population size ($\Ne$) at the root of the tree.
+We held the $\VarEnv$ constant across the tree, which means that in practice the heritability of the trait can vary across lineages as $\VarGenetic$ changes (due to changes in $\Ne$ and $\MutationRatePheno$).
+}
+
+\DIFaddend Assuming a diploid panmictic population of size $\Ne=50$ at the root of the tree, and with non-overlapping generations, we simulated explicitly each generation along an ultrametric phylogenetic tree.
 For each offspring, the number of mutations was drawn from a Poisson distribution with mean $2 \Multiply \MutationRatePheno \Multiply \NbrLoci $, with the mutation rate per locus per generation $\MutationRatePheno$.
 \DIFaddbegin 
 
@@ -836,7 +816,8 @@ We scaled parameters in our simulations to fit plausible values for mammals.
 We thus used a nucleotide mutation rate of $\MutationRateNuc=0.00276 / 4 \Ne = 1.38 \times 10^{-5}$ per site per generation and a total of $0.18 / 1.38 \times 10^{-5} = 13,500$ generations from root to leaves, and the number of generations along each branch was proportional to the branch length.
 We set $\MutationRatePheno=\MutationRateNuc$ without loss in generality since the genetic architecture ($\NbrLoci$ and $a$) is assumed constant in the simulator.
 
-The changes in $\MutationRatePheno$ and $\Ne$ along the lineages were both modelled by a Brownian motion (BM) on the log scale (log-$\MutationRatePheno$ and log-$\Ne$), leading to geometric Brownian motion on the linear scale ($\MutationRatePheno$ and $\Ne$).
+\DIFaddbegin \newpage
+\DIFaddend The changes in $\MutationRatePheno$ and $\Ne$ along the lineages were both modelled by a Brownian motion (BM) on the log scale (log-$\MutationRatePheno$ and log-$\Ne$), leading to geometric Brownian motion on the linear scale ($\MutationRatePheno$ and $\Ne$).
 These processes are parametrized as $\brownian \left(0, \sigma_{\MutationRatePheno}=0.0043\right)$ and $\brownian \left(0, \sigma_{\Ne}=0.0043\right)$, which, if counted across $13,500$ generations, leads to a standard deviation of $0.0043 \Multiply \sqrt {13,500} = 0.5$.
 In other words, the deviation in log-$\Ne$ and log-$\MutationRatePheno$  between the extant species and the root is $0.5$.
 \DIFaddbegin 

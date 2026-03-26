@@ -139,8 +139,8 @@ tabsize=2
 \linenumbers
 \frenchspacing
 
-\title{Phylogram instead of chronogram when assessing the neutral evolution of a trait}
-\rhead{\scshape Phylogram over chronogram for neutral evolution.}
+\title{Phylograms better fit neutrally evolving traits than chronograms}
+\rhead{\scshape Phylograms better fit neutrally evolving traits.}
 
 \author{
 \large
@@ -188,20 +188,20 @@ Methodologically, this alternative model of evolution raises issues since an OU 
 Adding biological realism, the OU process can be relaxed to allow for multiple optima along the phylogenetic tree, which is interpreted as a few abrupt changes in the environment along the phylogeny~\citep{ingram_surface_2013, uyeda_novel_2014, khabbazian_fast_2016, mitov_fast_2020, grabowski_cautionary_2023}.
 Finally, the optimum can also be allowed to change continuously along the tree, which results in the trait itself reflecting the movement of the optimum along the lineages due to the constant adaptive evolution of the trait toward the optimum~\citep{hansen_translating_1996, hansen_three_2024}.
 One special case of a continuously changing optimum is again the BM, where changes in the optimum are a consequence of the randomly changing environment~\citep{hansen_comparative_2008}, named fluctuating selection~\citep{holstad_evolvability_2024} or also diversifying selection due to the diversity of generated phenotypes at the clade level~\citep{latrille_detecting_2024}.
-This modelling raises an issue in disentangling selection from neutral evolution: the fact that BM is the best-supported model in a set does not necessarily imply that a trait is evolving neutrally.
+This modelling raises an issue in disentangling stabilizing selection on a moving optimum from neutral evolution: the fact that BM is the best-supported model in a set does not necessarily imply that a trait is evolving neutrally.
 Indeed, Brownian evolution can also result from non-neutral evolutionary processes, such as fluctuating natural selection.
 More generally, due to the central limit theorem, the additive effects of many different neutral and non-neutral random factors might result in evolution that appears Brownian.
 
 % Deriving the neutral expectation from standing variation
-To disentangle neutral evolution from selection, another approach is to contrast the observed rate of evolution to the neutral expectation~\citep{lande_genetic_1980}.
+To disentangle neutral evolution from stabilizing selection on a moving optimum, another approach is to contrast the observed rate of evolution to the neutral expectation~\citep{lande_genetic_1980}.
 The neutral expectation can be obtained if the underlying genetic architecture of the trait is known and the trait is encoded by many loci of additive effects~\citep{barton_infinitesimal_2017, sella_thinking_2019}.
 Additionally, we can also derive the expected changes in mean trait value along a lineage given the trait variance at the population scale~\citep{turelli_heritable_1984, turelli_phenotypic_1988, lynch_rate_1990, felsenstein_phylogenies_1988a}.
-When generalized to many species at the phylogenetic scale, contrasting between and within-species variations allows us to disentangle neutral evolution from selection.
+When generalized to many species at the phylogenetic scale, contrasting between and within-species variations allows us to disentangle neutral evolution from stabilizing selection on a moving optimum.
 Specifically, \citet{latrille_detecting_2024} showed that the ratio of between-species to within-species trait variation should scale linearly with nucleotide divergence for a neutral trait, providing a neutrality test that requires both types of variation data.
 However, such within-species variation data are not always available, motivating the current study, which focuses solely on between-species variation and tree branch length units.
 More generally, comparing the rate of evolution at different timescales allows inferring the regime of evolution~\citep{hansen_three_2024, holstad_evolvability_2024}.
 However, trait variation at different timescales is not always available, and the genetic architecture of the trait is often unknown.
-Instead, to disentangle neutral evolution from selection in the context of phylogenetic comparative methods, we hereby focus on the underlying tree and the unit of its branch lengths (Fig.~\ref{fig:methods}A).
+Instead, to disentangle neutral evolution from stabilizing selection on a moving optimum in the context of phylogenetic comparative methods, we hereby focus on the underlying tree and the unit of its branch lengths (Fig.~\ref{fig:methods}A).
 
 %TC:ignore
 \begin{figure*}[!htb]
@@ -212,7 +212,7 @@ Instead, to disentangle neutral evolution from selection in the context of phylo
         The branches of such a phylogenetic tree can be measured in either time (chronogram) or number of substitutions (phylogram).
         Panel~B: Theoretically, changes of a trait under a moving optimum should be better predicted by a chronogram than by a phylogram, since the optimum is expected to change with time rather than with the number of generations.
         Conversely, changes of a neutral trait should be better predicted by a phylogram than by a chronogram, since neutral trait changes are proportional to the number of generations (and thus nucleotide divergence), not time.
-        Comparing the fit of a BM process on both trees can help disentangle selection from neutral evolution.
+        Comparing the fit of a BM process on both trees can help disentangle neutral evolution from stabilizing selection on a moving optimum.
     }
     \label{fig:methods}
 \end{figure*}
@@ -246,7 +246,7 @@ As a result, for a trait under selection, mean trait changes should be better ex
 In this study, we test this hypothesis, namely whether using a phylogram (in units of nucleotide divergence for neutral loci) instead of a chronogram (in units proportional to time) can allow to assess the evolutionary regime of a trait, by evaluating the fit of BM on both trees.
 More precisely, we seek to test whether the changes of a neutral trait are better predicted by a phylogram.
 Conversely, we also seek to test whether changes of a trait under a moving optimum are better predicted by a chronogram.
-Using genomic information, we seek to provide additional approaches to model trait evolution, particularly to disentangle selection and neutral evolution.
+Using genomic information, we seek to provide additional approaches to model trait evolution, particularly to disentangle neutral evolution from stabilizing selection on a moving optimum.
 
 \section*{Methods}
 To assess whether a phylogram is better suited to model neutral evolution, we first performed simulations of a trait evolving along a phylogenetic tree under different regimes of selection (neutral, moving optimum, multiple optima).
@@ -304,7 +304,7 @@ Altogether, the input data is the mean trait value for extant species and both t
 The posterior mean of $\PhyloSupport$ (burn-in of 1,000 gen., running of 10,000 gen., 2 chains) indicates support for the phylogram; we consider the phylogram to be favoured when $\PhyloSupport > 0.5$.
 We expect $\PhyloSupport = 1$ for a trait under neutral evolution, and $\PhyloSupport = 0$ for a trait under selection (moving optimum).
 
-From a frequentist perspective, the support of a phylogram over a chronogram can also be assessed by comparing the maximum likelihood of the data given each tree, and computing the Akaike Information Criterion (AIC) weights of each model (see supplementary material section~~\ref{sec:maximum-likelihood-estimation}).
+From an information-theoretic perspective, the support of a phylogram over a chronogram can also be assessed by comparing the maximum likelihood of the data given each tree, and computing the Akaike Information Criterion (AIC) weights of each model (see supplementary material section~~\ref{sec:maximum-likelihood-estimation}).
 
 \subsection*{Alternative models of evolution}
 In addition to a single-rate BM, we also fitted BM with multiple rate parameters~\citep{eastman_novel_2011}, using either a phylogram or a chronogram as the underlying tree to the simulated dataset.
@@ -437,9 +437,9 @@ However, the BM is not only the null model of neutral evolution, but can also mo
 More fundamentally, the central limit theorem implies that trait evolution can appear Brownian whenever the trait is influenced by a large number of independent random factors acting additively~\citep{felsenstein_phylogenies_1985}.
 These factors may include fluctuating genetic architecture, mutational pressures, changing population size, randomly changing environment, genetic drift, and natural selection.
 Some of these influences may vary in a manner more directly connected to generation time, while others may track real time, making it difficult to predict a priori which tree type should provide the better fit.
-Therefore, a good fit of BM alone cannot distinguish between neutral evolution and selection, and the comparison between phylogram and chronogram provides a crucial additional diagnostic.
+Therefore, a good fit of BM alone cannot distinguish between neutral evolution and stabilizing selection on a moving optimum, and the comparison between phylogram and chronogram provides a crucial additional diagnostic.
 
-Distinguishing these scenarios is not trivial, but we here showed that the underlying backbone tree to model trait evolution can help disentangle neutral evolution from selection.
+Distinguishing these scenarios is not trivial, but we here showed that the underlying backbone tree to model trait evolution can help disentangle neutral evolution from stabilizing selection on a moving optimum.
 The standard in phylogenetic comparative methods is a chronogram, where the branch lengths are measured in time~\citep{felsenstein_phylogenies_1985, harmon_phylogenetic_2018}, while phylograms, where the branch lengths are measured in number of substitutions instead, have been generally overlooked.
 For a simulated trait under selection we assessed that the BM has indeed a better fit on a chronogram than on a phylogram.
 However, we argue that to model a trait evolving neutrally, the backbone tree should not be a chronogram but instead a phylogram.
@@ -455,7 +455,7 @@ The mammalian dataset is particularly relevant, since changes in generation time
 When analysing each sex separately, the dataset with annotated sex available is smaller (column Taxa in Table~\ref{table:results-empirical}).
 Only 46 species have annotated sexes, compared to a range of 125--217 species when not specifying sex.
 On this dataset of 46 species, neither the phylogram nor the chronogram is favoured, with undecided support ($0.497 \leq \PhyloSupport \leq 0.848$).
-Unfortunately, this result suggests that for a single trait, unless the signal is strong enough, many species are required to obtain a statistically significant conclusion.
+This undecided result could reflect insufficient statistical power due to the small number of species, but other explanations are also possible: the true evolutionary process may not conform well to BM on either timescale, or it may involve a combination of selective and neutral dynamics that does not clearly favour one tree type over the other.
 
 More generally, our method is also relevant when changes in mutation rate (per generation) and effective population size ($\Ne$) are expected.
 First, normalizing by nucleotide divergence also accounts theoretically for variations in effective population size ($\Ne$) since the substitution rate of neutral mutations is equal to the mutation rate, such that $\Ne$ has no effect on the rate of neutral evolution~\citep{kimura_evolutionary_1968, ohta_population_1972}.
@@ -467,7 +467,7 @@ However, if the mutation rate would only change for a subset of the genome that 
 Finally, because chronograms are usually derived from phylograms by calibrating the tree with molecular clocks, using phylograms directly has the additional advantage of removing model assumptions required to calibrate node ages~\citep{litsios_effects_2012}.
 
 % When does it fall appart, our second result
-These examples show that while phylograms are useful to model neutral evolution, they are not a silver bullet to disentangle the effect of drift and selection.
+These examples show that while phylograms are useful to model neutral evolution, they are not a silver bullet to disentangle the effect of drift and stabilizing selection on a moving optimum.
 In our simulations, we generally found that using a phylogram tends to favour the OU process over BM.
 This suggests that trees in units of nucleotide divergence may not always provide a reliable framework for modelling trait evolution, especially when selection is involved.
 We recommend continuing to use chronograms for modelling selection acting on a trait, as they generally provide more accurate and reliable results.
@@ -480,7 +480,7 @@ We thus argue that the use of a phylogram, measured in units of substitutions, c
 % Altogether, what we have done and haven't tested and done yet
 Caution is indeed warranted, as there are several limitations to our approach.
 First, we simulated only a subset of different regimes of selection.
-Notably, we did not simulate a static OU process (with a constant optimum), which would presumably favour an OU model; such simulations are outside the scope of this study since our focus is on distinguishing neutral evolution from selection with a moving optimum.
+Notably, we did not simulate a static OU process (with a constant optimum), which would presumably favour an OU model; such simulations are outside the scope of this study since our focus is on distinguishing neutral evolution from selection around a moving optimum.
 As emphasized by~\citet{grabowski_cautionary_2023}, the main value of OU models lies in multi-optimum variants that can detect shifts between selective regimes.
 But more complex scenarios could be included, for example with primary and secondary moving optima~\citep{hansen_three_2024}.
 
@@ -490,7 +490,7 @@ Second, while the tested alternative models of evolution (multi-rates BM, OU, mu
 Finally, the mammalian dataset (brain and body) may not be representative of all traits or species and even though our analysis showcases the utility of phylograms, more empirical studies are needed to replicate the findings.
 
 % Gene expression level and empirical studies.
-Gene expression levels (both mRNA and protein levels) represent one class of traits where distinguishing neutral evolution from selection is particularly important.
+Gene expression levels (both mRNA and protein levels) represent one class of traits where distinguishing neutral evolution from different regimes of selection is particularly important.
 While the polygenic nature of expression traits can vary, testing whether their evolution is better explained by phylograms or chronograms can help determine whether changes are driven by accumulation of neutral substitutions or by selection responding to environmental changes.
 Indeed, the regime of selection acting on gene expression level is the focus of intense debate~\citep{signor_evolution_2018, price_detecting_2022, bertram_cagee_2023, dimayacyac_evaluating_2023}.
 Typically, datasets on which BM is favoured over other models is interpreted as mRNA expression level evolving neutrally~\citep{khaitovich_evolution_2006, catalan_drift_2019, dimayacyac_evaluating_2023}.
@@ -500,10 +500,10 @@ More generally, from an empirical perspective, the use of nucleotide changes at 
 
 % Conclusion
 Altogether, our study supports the use of a chronogram when testing for selection acting on a trait.
-We propose the phylogram-chronogram comparison as a new tool in the comparative methods toolbox, particularly useful when seeking deviation from neutral evolution.
+We propose the phylogram-chronogram comparison as a new tool in the comparative methods toolbox, particularly useful when assessing whether a trait is evolving neutrally or under selection around a moving optimum.
 In such cases, comparing the support for a phylogram versus a chronogram provides an additional diagnostic to assess the regime of evolution acting on a trait.
 We provide a Bayesian model implemented in \textit{RevBayes} to perform this comparison, which estimates whether BM supports a phylogram or a chronogram ($0 \leq \PhyloSupport \leq 1$), given the data at the tip of the tree and both trees with the same topology.
-For empiricists more familiar with frequentist approaches, we also provide a maximum likelihood implementation that yields comparable results through AIC weights (see supplementary material section~\ref{sec:maximum-likelihood-estimation}).
+For empiricists more familiar with maximum likelihood approaches, we also provide an implementation that yields comparable results through AIC weights (see supplementary material section~\ref{sec:maximum-likelihood-estimation}).
 Only if the phylogram has more support than the chronogram ($\PhyloSupport$ close to $1$) should one consider the neutral model of evolution as a plausible explanation for the evolution of the trait, but claims of neutral evolution should still be made cautiously.
 
 %TC:ignore
@@ -836,8 +836,8 @@ The AIC weight $w_{\text{phylo}}$ is analogous to the posterior mean $\PhyloSupp
         \includegraphics[width=\linewidth, page=1]{figures/simulation_varGT_ML_vs_Bayes_logit}
     \end{minipage}
     \captionof{figure}{
-        \textbf{Comparison of Bayesian and frequentist approaches.}
-        Posterior mean of $\PhyloSupport$ (Bayesian approach) versus AIC weight for the phylogram (frequentist approach) across 100 replicate simulations.
+        \textbf{Comparison of Bayesian and maximum likelihood approaches.}
+        Posterior mean of $\PhyloSupport$ (Bayesian approach) versus AIC weight for the phylogram (maximum likelihood approach) across 100 replicate simulations.
         Points are coloured by the regime of evolution: neutral (yellow), moving optimum (blue), and multiple optima (red).
         The strong correlation between the two metrics indicates that both approaches yield consistent conclusions about the relative support for phylogram versus chronogram.
         Panel~A: direct comparison.
